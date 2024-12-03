@@ -1,7 +1,7 @@
 package com.example.project.service;
 
 public class MemberService {
-    private Long bnt;
+    private int bno;
     private String name;
-    private String email3;
+    private String email1;
 }
