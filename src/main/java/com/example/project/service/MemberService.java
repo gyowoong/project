@@ -4,4 +4,5 @@ public class MemberService {
     private int bno;
     private String name;
     private String email1;
+    private String email2;
 }
