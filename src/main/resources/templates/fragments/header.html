@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
   <header class="header" th:fragment="header">
+    
     <div class="container">
       <div class="row">
         <div class="col-lg-2">
           <div class="header__logo">
-            <h2 class="color_white">3조</h2>
+            <a th:href="@{/movie/main}"><h2 class="color_white">3조</h2></a>
           </div>
         </div>
         <div class="col-lg-8">
@@ -19,7 +20,7 @@
                   </ul>
                 </li>
                 <li>
-                  <a href="./blog.html">예매</a>
+                  <a th:href="@{/movie/reservation}">예매</a>
                   <ul class="dropdown">
                     <li><a href="">좌석선택</a></li>
                     <li><a href="">상영스케줄</a></li>
@@ -36,7 +37,7 @@
                     <li><a href="./blog-details.html">Blog Details</a></li>
                   </ul>
                 </li>
-                <li><a href="#">고객센터</a></li>
+                <li><a th:href="@{/movie/center}">고객센터</a></li>
               </ul>
             </nav>
           </div>
@@ -46,7 +47,7 @@
             <a href="#" class="search-switch"
               ><span class="icon_search"></span
             ></a>
-            <a href="./login.html"><span class="icon_profile"></span></a>
+            <a th:href="@{/member/login}"><span class="icon_profile"></span></a>
           </div>
         </div>
       </div>

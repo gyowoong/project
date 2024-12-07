@@ -31,12 +31,14 @@
 /* Template default CSS
 /*----------------------------------------*/
 
+
 .color_bg_red {
   color: red;
 }
 .color_white {
   color: white;
 }
+
 
 html,
 body {
@@ -1737,6 +1739,17 @@ ol {
   position: relative;
   padding-left: 145px;
 }
+.login__formm {
+  position: relative;
+  padding-left: 145px;
+}
+.login__formx,
+.login__formy,
+.login__formz
+ {
+  position: relative;
+  padding-left: 145px;
+}
 
 .login__form:after {
   position: absolute;
@@ -1748,12 +1761,66 @@ ol {
   content: "";
 }
 
+.login__formm:after {
+  position: absolute;
+  left: -14px;
+  top: -40px;
+  height: 330px;
+  width: 1px;
+  background: rgba(255, 255, 255, 0.2);
+  content: "";
+}
+.login__formx:after {
+  position: absolute;
+  left: -60%;
+  top: -40px;
+  height: 330px;
+  width: 1px;
+  background: rgba(255, 255, 255, 0.2);
+  content: "";
+}
+
+.login__formy:after {
+  position: absolute;
+  right: -14px;
+  top: -40px;
+  height: 330px;
+  width: 1px;
+  background: rgba(255, 255, 255, 0.2);
+  content: "";
+}
+.login__formz:after {
+  position: absolute;
+  right: -14px;
+  top: -40px;
+  height: 330px;
+  width: 1px;
+  background: rgba(255, 255, 255, 0.2);
+  content: "";
+}
+
+
 .login__form h3 {
   color: #ffffff;
   font-weight: 700;
   font-family: "Oswald", sans-serif;
   margin-bottom: 30px;
 }
+.login__formm h3 {
+  color: #ffffff;
+  padding-left: 10%;
+}
+.login__formx h3 {
+  color: #ffffff;
+  display: flex;
+  justify-content: right;
+}
+.login__formy h3 {
+  color: #ffffff;
+  display: flex;
+  justify-content: right;
+}
+
 
 .login__form form .input__item {
   position: relative;
@@ -1808,10 +1875,26 @@ ol {
   left: 15px;
   top: 13px;
 }
+.login__form form .input__item svg {
+  color: #b7b7b7;
+  font-size: 20px;
+  position: absolute;
+  left: 15px;
+  top: 13px;
+}
 
 .login__form form button {
   border-radius: 0;
   margin-top: 10px;
+}
+
+.login__form .forget_id {
+  font-size: 15px;
+  color: #ffffff;
+  display: inline-block;
+  position: absolute;
+  right: 60px;
+  bottom: 22px;
 }
 
 .login__form .forget_pass {
@@ -1820,7 +1903,7 @@ ol {
   display: inline-block;
   position: absolute;
   right: 60px;
-  bottom: 12px;
+  bottom: -12px;
 }
 
 .login__register {
@@ -1980,6 +2063,7 @@ ol {
 }
 
 .footer__nav ul li {
+  color: white;
   list-style: none;
   display: inline-block;
   position: relative;
@@ -1996,6 +2080,31 @@ ol {
   display: block;
   font-weight: 700;
 }
+.footer__nav p { 
+  list-style: none;
+  display: inline-block;
+  position: relative;
+  margin-right: 40px;
+}
+
+.footer__nav p a {
+  color: white;
+  list-style: none;
+  display: inline-block;
+  position: relative;
+  margin-right: 40px;
+}
+
+.footer__nav p a:last-child {
+  margin-right: 0;
+}
+.footer__nav p a{
+  font-size: 15px;
+  color: #b7b7b7;
+  display: block;
+  font-weight: 700;
+}
+
 
 .footer__copyright__text {
   color: #b7b7b7;
@@ -2006,6 +2115,7 @@ ol {
 .footer__copyright__text a {
   color: #e53637;
 }
+
 
 /*--------------------------------- Responsive Media Quaries -----------------------------*/
 
