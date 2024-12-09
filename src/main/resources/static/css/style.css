@@ -31,14 +31,12 @@
 /* Template default CSS
 /*----------------------------------------*/
 
-
 .color_bg_red {
   color: red;
 }
 .color_white {
   color: white;
 }
-
 
 html,
 body {
@@ -630,9 +628,13 @@ ol {
   Product
 -----------------------*/
 
-.product {
+/* .product {
   padding-bottom: 60px;
   padding-top: 80px;
+} */
+.product {
+  padding-bottom: 30px;
+  /* padding-top: 80px; */
 }
 
 .product-page {
@@ -656,9 +658,9 @@ ol {
   margin-bottom: 50px;
 }
 
-.product__item {
+/* .product__item {
   margin-bottom: 30px;
-}
+} */
 
 .product__item__pic {
   height: 325px;
@@ -702,12 +704,13 @@ ol {
   bottom: 10px;
 }
 
-.product__item__text {
+/* .product__item__text {
   padding-top: 20px;
-}
+} */
 
 .product__item__text ul {
-  margin-bottom: 10px;
+  /* margin-bottom: 10px; */
+  font-family: "Oswald", sans-serif;
 }
 
 .product__item__text ul li {
@@ -725,6 +728,10 @@ ol {
   color: #ffffff;
   font-weight: 700;
   line-height: 26px;
+}
+
+.product__item__text ul {
+  color: #ffffff;
 }
 
 .product__sidebar .section-title h5 {
@@ -1745,8 +1752,7 @@ ol {
 }
 .login__formx,
 .login__formy,
-.login__formz
- {
+.login__formz {
   position: relative;
   padding-left: 145px;
 }
@@ -1799,7 +1805,6 @@ ol {
   content: "";
 }
 
-
 .login__form h3 {
   color: #ffffff;
   font-weight: 700;
@@ -1820,7 +1825,6 @@ ol {
   display: flex;
   justify-content: right;
 }
-
 
 .login__form form .input__item {
   position: relative;
@@ -2080,7 +2084,7 @@ ol {
   display: block;
   font-weight: 700;
 }
-.footer__nav p { 
+.footer__nav p {
   list-style: none;
   display: inline-block;
   position: relative;
@@ -2098,13 +2102,12 @@ ol {
 .footer__nav p a:last-child {
   margin-right: 0;
 }
-.footer__nav p a{
+.footer__nav p a {
   font-size: 15px;
   color: #b7b7b7;
   display: block;
   font-weight: 700;
 }
-
 
 .footer__copyright__text {
   color: #b7b7b7;
@@ -2115,7 +2118,6 @@ ol {
 .footer__copyright__text a {
   color: #e53637;
 }
-
 
 /*--------------------------------- Responsive Media Quaries -----------------------------*/
 
@@ -2461,4 +2463,6 @@ ol {
   .anime__review__item__text {
     padding: 18px 20px 20px;
   }
+
+  /* Custom */
 }
