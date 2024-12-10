@@ -1,5 +1,8 @@
+const page = document.querySelector("[name='page']").value;
 const url =
-  "https://api.themoviedb.org/3/movie/now_playing?language=ko-KR&page=1&region=KR";
+  "https://api.themoviedb.org/3/movie/now_playing?language=ko-KR&page=" +
+  page +
+  "&region=KR";
 const options = {
   method: "GET",
   headers: {
@@ -13,10 +16,13 @@ fetch(url, options)
   .then((res) => res.json())
   .then((json) => {
     console.log(json);
-    json = json.results;
+
+    // 영화 리스트
+    results = json.results;
+
     let str = "";
-    json.forEach((result) => {
-      str += `<div class="col-lg-3 col-md-6 col-sm-6 product">`;
+    results.forEach((result) => {
+      str += `<div class="col-lg-3 col-md-4 col-sm-6 product">`;
       str += `<div class="product__item mb-2">`;
       str += `<a href=""><img src=${
         "https://image.tmdb.org/t/p/original" + result.poster_path
@@ -27,5 +33,35 @@ fetch(url, options)
       str += `</div></div>`;
     });
     document.querySelector(".trending__product-row").innerHTML = str;
+
+    // 페이지
+    const totalPage = json.total_pages;
+    const size = 20;
+    let tempEnd = Math.ceil(page / 10.0) * 10;
+    const start = tempEnd - 9;
+    const prev = start > 1;
+    const end = totalPage > tempEnd ? tempEnd : totalPage;
+    const next = totalPage > tempEnd;
+
+    str = "";
+    str += `<li class="page-item `;
+    str += `${prev ? "" : "disabled"}`;
+    str += `"><a class="page-link text-light bg-transparent" href="movieList?page=`;
+    str += `${page - 10}`;
+    str += `">Previous</a></li>`;
+    for (let i = start; i < end + 1; i++) {
+      str += `<li th:class="page-item" aria-current="page">`;
+      str += `<a class="page-link text-light ${
+        i == page ? "bg-danger border-light active" : "bg-transparent"
+      }`;
+      str += ` " href="movieList?page=${i}">${i}</a></li>`;
+    }
+    str += `<li class="page-item `;
+    str += `${next ? "" : "disabled"}`;
+    str += `"><a class="page-link text-light bg-transparent" href="movieList?page=`;
+    str += `${parseInt(page) + 10}`;
+    str += `">Next</a></li>`;
+
+    document.querySelector(".pagination").innerHTML = str;
   })
   .catch((err) => console.error(err));
