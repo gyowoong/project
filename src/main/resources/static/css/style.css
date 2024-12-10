@@ -628,9 +628,13 @@ ol {
   Product
 -----------------------*/
 
-.product {
+/* .product {
   padding-bottom: 60px;
   padding-top: 80px;
+} */
+.product {
+  padding-bottom: 30px;
+  /* padding-top: 80px; */
 }
 
 .product-page {
@@ -654,9 +658,9 @@ ol {
   margin-bottom: 50px;
 }
 
-.product__item {
+/* .product__item {
   margin-bottom: 30px;
-}
+} */
 
 .product__item__pic {
   height: 325px;
@@ -700,12 +704,13 @@ ol {
   bottom: 10px;
 }
 
-.product__item__text {
+/* .product__item__text {
   padding-top: 20px;
-}
+} */
 
 .product__item__text ul {
-  margin-bottom: 10px;
+  /* margin-bottom: 10px; */
+  font-family: "Oswald", sans-serif;
 }
 
 .product__item__text ul li {
@@ -723,6 +728,10 @@ ol {
   color: #ffffff;
   font-weight: 700;
   line-height: 26px;
+}
+
+.product__item__text ul {
+  color: #ffffff;
 }
 
 .product__sidebar .section-title h5 {
@@ -2461,4 +2470,6 @@ ol {
   .anime__review__item__text {
     padding: 18px 20px 20px;
   }
+
+  /* Custom */
 }

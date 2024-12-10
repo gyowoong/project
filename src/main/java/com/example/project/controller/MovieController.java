@@ -14,23 +14,31 @@ public class MovieController {
     @GetMapping("/main")
     public void getHome() {
         log.info("home 폼 요청");
-        
+
     }
+
     @GetMapping("/reservation")
     public void getReservation() {
         log.info("home 폼 요청");
-        
+
     }
+
     @GetMapping("/center")
     public void getCenter() {
         log.info("home 폼 요청");
-        
+
     }
+
     @GetMapping("/read")
     public void getRead() {
         log.info("home 폼 요청");
-        
+
     }
-   
+
+    @GetMapping("/movieList")
+    public void getMovieList() {
+        log.info("home 폼 요청");
+
+    }
 
 }
