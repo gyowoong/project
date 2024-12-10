@@ -1879,6 +1879,13 @@ ol {
   left: 15px;
   top: 13px;
 }
+.login__form form .input__item i {
+  color: #b7b7b7;
+  font-size: 20px;
+  position: absolute;
+  left: 15px;
+  top: 13px;
+}
 .login__form form .input__item svg {
   color: #b7b7b7;
   font-size: 20px;
