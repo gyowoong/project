@@ -32,10 +32,11 @@ public class MovieController {
 
     }
 
-    @GetMapping("/read")
-    public void getRead() {
-        log.info("home 폼 요청");
-
+    @GetMapping("/movieDetail")
+    public void getMovieDetail(@RequestParam Long id, Long page, Model model) {
+        log.info("movieDetail 폼 요청 {}", id);
+        model.addAttribute("id", id);
+        model.addAttribute("page", page);
     }
 
     @GetMapping("/movieList")
