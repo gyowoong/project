@@ -39,10 +39,12 @@ public class MovieController {
         model.addAttribute("page", page);
     }
 
-    @GetMapping("/movieList")
-    public void getMovieList(Long page, Model model) {
+    @GetMapping({ "/now_playing", "/upcoming", "/popular" })
+    public void getMovieList(Long genre, Long page, String movieList, Model model) {
         log.info("movieList 폼 요청 {}", page);
+        model.addAttribute("genre", genre);
         model.addAttribute("page", page);
+        model.addAttribute("movieList", movieList);
     }
 
 }
