@@ -658,13 +658,14 @@ ol {
   margin-bottom: 50px;
 }
 
-/* .product__item {
-  margin-bottom: 30px;
-} */
+.product__item {
+  /* margin-bottom: 30px; */
+  text-align: center;
+}
 
 .product__item__pic {
   height: 325px;
-  position: relative;
+  /* position: relative; */
   border-radius: 5px;
 }
 
