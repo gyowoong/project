@@ -2,7 +2,8 @@ const page = document.querySelector("[name='page']").value;
 const movieList = document.querySelector("[name='movieList']").value;
 const genre = document.querySelector("[name='genre']").value;
 let url = "";
-if (genre == null) {
+
+if (genre == "") {
   url =
     "https://api.themoviedb.org/3/movie/" +
     movieList +
@@ -39,7 +40,7 @@ fetch(url, options)
       str += `<a href="movieDetail?id=${result.id}&page=${page}"><img src=${
         "https://image.tmdb.org/t/p/w500" + result.poster_path
       } alt="" class="product__item__pic set-bg"></a></div>`;
-      str += `<div class="product__item__text">`;
+      str += `<div class="product__item__text mx-4">`;
       str += `<h5><a href="movieDetail?id=${result.id}&page=${page}">${result.title}</a></h5>`;
       str += `<ul><li>예매율</li> 31.8%</ul><ul><li>개봉일</li> ${result.release_date}</ul>`;
       str += `</div></div>`;
@@ -49,7 +50,7 @@ fetch(url, options)
     // 페이지
     const totalPage = json.total_pages;
     const size = 20;
-    let tempEnd = Math.ceil(page / 10.0) * 10;
+    const tempEnd = Math.ceil(page / 10.0) * 10;
     const start = tempEnd - 9;
     const prev = start > 1;
     const end = totalPage > tempEnd ? tempEnd : totalPage;
@@ -63,10 +64,9 @@ fetch(url, options)
     str += `">Previous</a></li>`;
     for (let i = start; i < end + 1; i++) {
       str += `<li th:class="page-item" aria-current="page">`;
-      str += `<a class="page-link text-light ${
-        i == page ? "bg-danger border-light active" : "bg-transparent"
-      }`;
-      str += ` " href="${movieList}?genre=${genre}&page=${i}">${i}</a></li>`;
+      str += `<a class="page-link text-light `;
+      str += `${i == page ? "bg-danger border-light active" : "bg-transparent"}" `;
+      str += `href="${movieList}?genre=${genre}&page=${i}">${i}</a></li>`;
     }
     str += `<li class="page-item `;
     str += `${next ? "" : "disabled"}`;
@@ -78,6 +78,7 @@ fetch(url, options)
   })
   .catch((err) => console.error(err));
 
+// 메뉴 탭 active 설정
 if (movieList == "now_playing") {
   document.querySelector(".nowPlaying").className += " bg-danger active";
 } else if (movieList == "upcoming") {
@@ -86,6 +87,7 @@ if (movieList == "now_playing") {
   document.querySelector(".popular").className += " bg-danger active";
 }
 
+// 장르 메뉴
 const genreUrl = "https://api.themoviedb.org/3/genre/movie/list?language=ko";
 
 fetch(genreUrl, options)
