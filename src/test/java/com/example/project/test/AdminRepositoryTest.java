@@ -61,4 +61,6 @@ public class AdminRepositoryTest {
             System.out.println(u.getGender());
         });;
     }
+
+    
 }

@@ -22,10 +22,19 @@
                         <th>장르</th>
                         <th>등급</th>
                         <th>개봉일</th>
-                        <th>포스트</th>
                         <th></th>
                       </tr>
                     </thead>
+                    <tbody>
+                      <tr th:each="dto : ${movie}">
+                        <td th:text="${dto.title}"></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td th:text="${dto.releaseDate}"></td>
+                      </tr>
+                    </tbody>
                   </table>
                 </div>
               </div>

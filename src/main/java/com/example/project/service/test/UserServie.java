@@ -2,13 +2,16 @@ package com.example.project.service.test;
 
 import java.util.List;
 
+import com.example.project.dto.MovieDto;
 import com.example.project.dto.test.UserDto;
+import com.example.project.entity.Movie;
 import com.example.project.entity.test.UserEntity;
 
 public interface UserServie {
 
 
     List<UserEntity> allList(UserDto userDto);
+    List<Movie> mList(MovieDto MovieDto);
 
     default UserEntity dtoToEntity(UserDto dto){
         return UserEntity.builder()

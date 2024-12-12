@@ -8,7 +8,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.example.project.dto.MovieDto;
 import com.example.project.dto.test.UserDto;
+import com.example.project.entity.Movie;
 import com.example.project.entity.test.UserEntity;
 import com.example.project.service.test.UserServie;
 
@@ -38,8 +40,10 @@ public class AdminController {
     }
    
     @GetMapping("/create")
-    public void getCreate() {
+    public void getCreate(MovieDto movieDto, Model model ) {
+
         log.info("home 폼 요청");
-        
+        List<Movie> list = userServie.mList(movieDto);
+        model.addAttribute("movie", list);
     }
 }
