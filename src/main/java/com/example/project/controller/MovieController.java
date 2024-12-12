@@ -37,19 +37,21 @@ public class MovieController {
 
     }
 
-    @GetMapping("/movieDetail")
-    public void getMovieDetail(@RequestParam Long id, Long page, Model model) {
-        log.info("movieDetail 폼 요청 {}", id);
-        model.addAttribute("id", id);
+    @GetMapping("/movieList")
+    public void getMovieList(Long genre, Long page, String movieList, Model model) {
+        log.info("movieList 폼 요청 {}", page);
+        model.addAttribute("movieList", movieList);
+        model.addAttribute("genre", genre);
         model.addAttribute("page", page);
     }
 
-    @GetMapping({ "/now_playing", "/upcoming", "/popular" })
-    public void getMovieList(Long genre, Long page, String movieList, Model model) {
-        log.info("movieList 폼 요청 {}", page);
+    @GetMapping("/movieDetail")
+    public void getMovieDetail(Long id, String movieList, Long genre, Long page, Model model) {
+        log.info("movieDetail 폼 요청 {}", id);
+        model.addAttribute("id", id);
+        model.addAttribute("movieList", movieList);
         model.addAttribute("genre", genre);
         model.addAttribute("page", page);
-        model.addAttribute("movieList", movieList);
     }
 
 }
