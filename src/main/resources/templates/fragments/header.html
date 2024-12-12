@@ -69,5 +69,30 @@
       </div>
       <div id="mobile-menu-wrap"></div>
     </div>
+    <form class="" role="search" action="" id="searchForm">
+      <input type="hidden" name="page" th:value="${page != null ? page:1}" />
+      <input
+        type="hidden"
+        name="movieList"
+        th:value="${movieList != null ? movieList:'now_playing'}"
+      />
+      <input type="hidden" name="genre" th:value="${genre}" />
+      <div class="d-flex justify-content-center">
+        <select name="type" id="type" class="form-select me-2">
+          <option value="a" th:selected="${type == 'a'}">전체</option>
+          <option value="m" th:selected="${type == 'm'}">영화</option>
+          <option value="p" th:selected="${type == 'p'}">인물</option>
+        </select>
+        <input
+          class="form-control me-2 w-25"
+          type="search"
+          placeholder="Search"
+          aria-label="Search"
+          name="keyword"
+          th:value="${keyword}"
+        />
+        <button class="btn btn-outline-success" type="submit">Search</button>
+      </div>
+    </form>
   </header>
 </html>
