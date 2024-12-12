@@ -91,7 +91,7 @@ fetch(url, options)
 
     let str = "";
     results.forEach((result) => {
-      str += `<div class="col-lg-3 col-md-4 col-sm-6 product">`;
+      str += `<div class="col-lg-3 col-md-4 col-sm-6 mb-3 product">`;
       str += `<div class="product__item mb-2">`;
       str += `<a href="movieDetail?id=${
         result.id
