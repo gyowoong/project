@@ -1,54 +1,69 @@
 package com.example.project.entity;
 
+import java.time.LocalDate;
+import java.util.List;
+
+import com.example.project.entity.constant.MemberRole;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
-@Table(name = "회원")
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
 @Builder
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name = "MEMBER")
 public class Member {
+
     @Id
-    @Column(name = "회원_아이디")
+    @SequenceGenerator(name = "movie_member_seq_gen", sequenceName = "movie_member_seq", allocationSize = 1, initialValue = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "movie_member_seq_gen")
+    private Long mid;
+
+    @Column(nullable = false, unique = true)
     private String memberId;
 
-    @Column(name = "비밀번호", nullable = false)
+    @Column(nullable = false)
     private String password;
 
-    @Column(name = "이름", nullable = false)
+    @Column(nullable = false)
     private String name;
 
-    @Column(name = "전화번호", nullable = false)
     private String phone;
 
-    @Column(name = "성별")
+    @Column(nullable = false)
     private String gender;
 
-    @Column(name = "나이")
-    private int age;
+    @Column(nullable = false)
+    private String birth;
 
-    @Column(name = "이메일")
+    @Column(nullable = false)
     private String email;
 
-    @Column(name = "리스트")
-    private String list;
-
-    @Column(name = "포인트")
-    private int points;
-
-    @Column(name = "애매내역")
-    private String reservationHistory;
-
-    @Column(name = "주소")
     private String address;
+
+    private int point;
+
+    @Enumerated(EnumType.STRING)
+    private MemberRole role;
+
 }

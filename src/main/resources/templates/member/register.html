@@ -7,7 +7,11 @@
           <div class="col-lg-6">
             <div class="login__form">
               <h3>회원가입</h3>
-              <form action="#">
+              <form
+                th:action="@{/member/register}"
+                method="post"
+                th:object="${memberDto}"
+              >
                 <div class="input__item">
                   <input type="text" placeholder="아이디" />
                   <span class="icon_profile"></span>
