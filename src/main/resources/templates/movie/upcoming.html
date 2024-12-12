@@ -13,52 +13,53 @@
     <section class="product spad">
       <div class="container">
         <div class="row">
-          <div class="trending__product">
-            <div class="header-title d-flex m-3">
-              <!-- 장르 -->
-              <div class="btn-group mr-3">
-                <button
-                  type="button"
-                  class="btn btn-outline-danger dropdown-toggle"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  장르
-                </button>
-                <ul class="dropdown-menu"></ul>
+          <div class="">
+            <div class="trending__product">
+              <div class="header-title d-flex m-3">
+                <!-- 장르 -->
+                <div class="btn-group mr-3">
+                  <button
+                    type="button"
+                    class="btn btn-outline-danger dropdown-toggle"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    장르
+                  </button>
+                  <ul class="dropdown-menu"></ul>
+                </div>
+                <h3 class="text-white">상영 예정작</h3>
               </div>
-              <h3 class="text-white movieListTitle">현재 상영작</h3>
-            </div>
-            <!-- 메뉴 -->
-            <ul class="nav nav-pills nav-fill mb-4 tab-list">
-              <li class="nav-item">
-                <a
-                  href="/movie/movieList?movieList=now_playing&genre=&page=1"
-                  class="nav-link text-white nowPlaying"
-                  >현재 상영작</a
-                >
-              </li>
-              <li class="nav-item">
-                <a
-                  href="/movie/movieList?movieList=upcoming&genre=&page=1"
-                  class="nav-link text-white upcoming"
-                  >상영 예정작</a
-                >
-              </li>
-              <li class="nav-item">
-                <a
-                  href="/movie/movieList?movieList=popular&genre=&page=1"
-                  class="nav-link text-white popular"
-                  >전체 영화 목록</a
-                >
-              </li>
-              <li class="nav-item">
-                <a class="nav-link text-white" href="#">MY</a>
-              </li>
-            </ul>
-            <!-- 영화 리스트 -->
-            <div class="row trending__product-row">
-              <!-- <div class="col-lg-4 col-md-6 col-sm-6">
+              <!-- 메뉴 -->
+              <ul class="nav nav-pills nav-fill mb-4 tab-list">
+                <li class="nav-item">
+                  <a
+                    href="/movie/now_playing?genre=&page=1"
+                    class="nav-link text-white nowPlaying"
+                    >현재 상영작</a
+                  >
+                </li>
+                <li class="nav-item">
+                  <a
+                    href="/movie/upcoming?genre=&page=1"
+                    class="nav-link text-white upcoming"
+                    >상영 예정작</a
+                  >
+                </li>
+                <li class="nav-item">
+                  <a
+                    href="/movie/popular?genre=&page=1"
+                    class="nav-link text-white popular"
+                    >전체 영화 목록</a
+                  >
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link text-white" href="#">MY</a>
+                </li>
+              </ul>
+              <!-- 영화 리스트 -->
+              <div class="row trending__product-row">
+                <!-- <div class="col-lg-4 col-md-6 col-sm-6">
                   <div class="product__item">
                     <div
                       class="product__item__pic set-bg"
@@ -85,11 +86,11 @@
                     </div>
                   </div>
                 </div> -->
-            </div>
-            <!-- 페이지 -->
-            <nav aria-label="...">
-              <ul class="pagination justify-content-center">
-                <!-- <li class="page-item disabled">
+              </div>
+              <!-- 페이지 -->
+              <nav aria-label="...">
+                <ul class="pagination justify-content-center">
+                  <!-- <li class="page-item disabled">
                     <a class="page-link">Previous</a>
                   </li>
                   <li th:class="page-item" aria-current="page">
@@ -102,8 +103,9 @@
                   <li class="page-item">
                     <a class="page-link">Next</a>
                   </li> -->
-              </ul>
-            </nav>
+                </ul>
+              </nav>
+            </div>
           </div>
         </div>
       </div>
@@ -114,7 +116,7 @@
       <input
         type="hidden"
         name="movieList"
-        th:value="${movieList != null ? movieList:'now_playing'}"
+        th:value="${movieList != null ? movieList:'upcoming'}"
       />
       <input type="hidden" name="genre" th:value="${genre}" />
     </form>

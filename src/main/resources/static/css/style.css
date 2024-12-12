@@ -628,19 +628,9 @@ ol {
   Product
 -----------------------*/
 
-<<<<<<< HEAD
 .product {
   padding-bottom: 60px;
   padding-top: 80px;
-=======
-/* .product {
-  padding-bottom: 60px;
-  padding-top: 80px;
-} */
-.product {
-  padding-bottom: 30px;
-  /* padding-top: 80px; */
->>>>>>> main
 }
 
 .product-page {
@@ -665,6 +655,7 @@ ol {
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 .product__item {
   margin-bottom: 30px;
 }
@@ -673,10 +664,16 @@ ol {
   margin-bottom: 30px;
 } */
 >>>>>>> main
+=======
+.product__item {
+  /* margin-bottom: 30px; */
+  text-align: center;
+}
+>>>>>>> origin/main
 
 .product__item__pic {
   height: 325px;
-  position: relative;
+  /* position: relative; */
   border-radius: 5px;
 }
 
