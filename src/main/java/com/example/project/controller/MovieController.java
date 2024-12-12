@@ -19,6 +19,11 @@ public class MovieController {
         log.info("home 폼 요청");
 
     }
+    @GetMapping("/read")
+    public void getRead() {
+        log.info("home 폼 요청");
+
+    }
 
     @GetMapping("/reservation")
     public void getReservation() {
