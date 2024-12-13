@@ -4,6 +4,16 @@ const genre = document.querySelector("[name='genre']").value;
 const type = document.querySelector("[name='type']").value;
 const keyword = document.querySelector("[name='keyword']").value;
 let url = "";
+console.log(type);
+
+const options = {
+  method: "GET",
+  headers: {
+    accept: "application/json",
+    Authorization:
+      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhN2UwMzVjMzUyODU4ZDRmMTRiMDIxM2Y5NDE1ODI3YyIsIm5iZiI6MTczMzI5NzU5Ny4zMDU5OTk4LCJzdWIiOiI2NzUwMDViZDM1NWRiYzBiMTVkN2E1NWYiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.ov8q6kG-1OXY0deIpXpF_2FqmMM9Z8YPEeqoIyZu8dg",
+  },
+};
 
 // 무비 목록 제목
 switch (movieList) {
@@ -72,71 +82,68 @@ document.querySelector("#searchForm").addEventListener("submit", (e) => {
   e.target.submit();
 });
 
-const options = {
-  method: "GET",
-  headers: {
-    accept: "application/json",
-    Authorization:
-      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhN2UwMzVjMzUyODU4ZDRmMTRiMDIxM2Y5NDE1ODI3YyIsIm5iZiI6MTczMzI5NzU5Ny4zMDU5OTk4LCJzdWIiOiI2NzUwMDViZDM1NWRiYzBiMTVkN2E1NWYiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.ov8q6kG-1OXY0deIpXpF_2FqmMM9Z8YPEeqoIyZu8dg",
-  },
-};
+function movieListFunction() {
+  fetch(url, options)
+    .then((res) => res.json())
+    .then((json) => {
+      console.log(json);
 
-fetch(url, options)
-  .then((res) => res.json())
-  .then((json) => {
-    console.log(json);
+      // 영화 리스트
+      results = json.results;
 
-    // 영화 리스트
-    results = json.results;
+      let str = `<h3 class="text-white">영화 ${json.total_results}</h3>`;
+      results.forEach((result) => {
+        str += `<div class="col-lg-3 col-md-4 col-sm-6 product">`;
+        str += `<div class="product__item mb-2">`;
+        str += `<a href="movieDetail?id=${
+          result.id
+        }&movieList=${movieList}&genre=${genre}&page=${page}"><img src=${
+          "https://image.tmdb.org/t/p/w500" + result.poster_path
+        } alt="" class="product__item__pic set-bg"></a></div>`;
+        str += `<div class="product__item__text mx-4">`;
+        str += `<h5><a href="movieDetail?id=${result.id}&movieList=${movieList}&genre=${genre}&page=${page}">${result.title}</a></h5>`;
+        str += `<ul><li>예매율</li> 31.8%</ul><ul><li>개봉일</li> ${result.release_date}</ul>`;
+        str += `</div></div>`;
+      });
+      document.querySelector(".trending__product-row").innerHTML = str;
+      paging(json.total_pages);
+    })
+    .catch((err) => console.error(err));
+}
+movieListFunction();
 
-    let str = "";
-    results.forEach((result) => {
-      str += `<div class="col-lg-3 col-md-4 col-sm-6 mb-3 product">`;
-      str += `<div class="product__item mb-2">`;
-      str += `<a href="movieDetail?id=${
-        result.id
-      }&movieList=${movieList}&genre=${genre}&page=${page}"><img src=${
-        "https://image.tmdb.org/t/p/w500" + result.poster_path
-      } alt="" class="product__item__pic set-bg"></a></div>`;
-      str += `<div class="product__item__text mx-4">`;
-      str += `<h5><a href="movieDetail?id=${result.id}&movieList=${movieList}&genre=${genre}&page=${page}">${result.title}</a></h5>`;
-      str += `<ul><li>예매율</li> 31.8%</ul><ul><li>개봉일</li> ${result.release_date}</ul>`;
-      str += `</div></div>`;
-    });
-    document.querySelector(".trending__product-row").innerHTML = str;
+function paging(total) {
+  // 페이지
+  const totalPage = total;
+  const size = 20;
+  const tempEnd = Math.ceil(page / 10.0) * 10;
+  const start = tempEnd - 9;
+  const prev = start > 1;
+  const end = totalPage > tempEnd ? tempEnd : totalPage;
+  const next = totalPage > tempEnd;
 
-    // 페이지
-    const totalPage = json.total_pages;
-    const size = 20;
-    const tempEnd = Math.ceil(page / 10.0) * 10;
-    const start = tempEnd - 9;
-    const prev = start > 1;
-    const end = totalPage > tempEnd ? tempEnd : totalPage;
-    const next = totalPage > tempEnd;
+  str = "";
+  str += `<li class="page-item `;
+  str += `${prev ? "" : "disabled"}`;
+  str += `"><a class="page-link text-light bg-transparent" href="movieList?movieList=${movieList}&genre=${genre}&type=${type}&keyword=${keyword}&page=`;
+  str += `${page - 10}`;
+  str += `">Previous</a></li>`;
+  for (let i = start; i < end + 1; i++) {
+    str += `<li th:class="page-item" aria-current="page">`;
+    str += `<a class="page-link text-light `;
+    str += `${
+      i == page ? "bg-danger border-light active" : "bg-transparent"
+    }" `;
+    str += `href="movieList?movieList=${movieList}&genre=${genre}&type=${type}&keyword=${keyword}&page=${i}">${i}</a></li>`;
+  }
+  str += `<li class="page-item `;
+  str += `${next ? "" : "disabled"}`;
+  str += `"><a class="page-link text-light bg-transparent" href="movieList?movieList=${movieList}&genre=${genre}&type=${type}&keyword=${keyword}&page=`;
+  str += `${parseInt(page) + 10}`;
+  str += `">Next</a></li>`;
 
-    str = "";
-    str += `<li class="page-item `;
-    str += `${prev ? "" : "disabled"}`;
-    str += `"><a class="page-link text-light bg-transparent" href="movieList?movieList=${movieList}&genre=${genre}&type=${type}&keyword=${keyword}&page=`;
-    str += `${page - 10}`;
-    str += `">Previous</a></li>`;
-    for (let i = start; i < end + 1; i++) {
-      str += `<li th:class="page-item" aria-current="page">`;
-      str += `<a class="page-link text-light `;
-      str += `${
-        i == page ? "bg-danger border-light active" : "bg-transparent"
-      }" `;
-      str += `href="movieList?movieList=${movieList}&genre=${genre}&type=${type}&keyword=${keyword}&page=${i}">${i}</a></li>`;
-    }
-    str += `<li class="page-item `;
-    str += `${next ? "" : "disabled"}`;
-    str += `"><a class="page-link text-light bg-transparent" href="movieList?movieList=${movieList}&genre=${genre}&type=${type}&keyword=${keyword}&page=`;
-    str += `${parseInt(page) + 10}`;
-    str += `">Next</a></li>`;
-
-    document.querySelector(".pagination").innerHTML = str;
-  })
-  .catch((err) => console.error(err));
+  document.querySelector(".pagination").innerHTML = str;
+}
 
 // 메뉴 탭 active 설정
 if (movieList == "now_playing") {
@@ -147,7 +154,7 @@ if (movieList == "now_playing") {
   document.querySelector(".popular").className += " bg-danger active";
 }
 
-if (type == "a") {
+function personListFunction() {
   url =
     "https://api.themoviedb.org/3/search/person?query=" +
     keyword +
@@ -159,24 +166,95 @@ if (type == "a") {
       console.log(json);
       results = json.results;
 
-      // let str = "";
-      // results.forEach((result) => {
-      //   str += `<div class="col-lg-3 col-md-4 col-sm-6 product">`;
-      //   str += `<div class="product__item mb-2">`;
-      //   str += `<a href="movieDetail?id=${
-      //     result.id
-      //   }&movieList=${movieList}&genre=${genre}&page=${page}"><img src=${
-      //     "https://image.tmdb.org/t/p/w500" + result.poster_path
-      //   } alt="" class="product__item__pic set-bg"></a></div>`;
-      //   str += `<div class="product__item__text mx-4">`;
-      //   str += `<h5><a href="movieDetail?id=${result.id}&movieList=${movieList}&genre=${genre}&page=${page}">${result.title}</a></h5>`;
-      //   str += `<ul><li>예매율</li> 31.8%</ul><ul><li>개봉일</li> ${result.release_date}</ul>`;
-      //   str += `</div></div>`;
-      // });
-      // document.querySelector(".trending__product-row").innerHTML = str;
+      let str = `<h3 class="text-white">인물 ${json.total_results}</h3>`;
+      results.forEach((result) => {
+        str += `<div class="col-lg-3 col-md-4 col-sm-6 product">`;
+        str += `<div class="product__item mb-2">`;
+        str += `<a href="movieDetail?id=${
+          result.id
+        }&movieList=${movieList}&genre=${genre}&page=${page}"><img src=${
+          "https://image.tmdb.org/t/p/w500" + result.profile_path
+        } alt="" class="product__item__pic set-bg"></a></div>`;
+        str += `<div class="product__item__text mx-4">`;
+        str += `<h5><a href="movieDetail?id=${result.id}&movieList=${movieList}&genre=${genre}&page=${page}">${result.name}</a></h5>`;
+        str += `<ul><li>예매율</li> 31.8%</ul><ul><li>개봉일</li> ${result.release_date}</ul>`;
+        str += `</div></div>`;
+      });
+      document.querySelector(".trending__people-row").innerHTML = str;
+      paging(json.total_pages);
     })
     .catch((err) => console.error(err));
 }
+
+// if (type == "a") {
+//   url =
+//     "https://api.themoviedb.org/3/search/movie?query=" +
+//     keyword +
+//     "&language=ko-KR&page=" +
+//     page;
+//   fetch(url, options)
+//     .then((res) => res.json())
+//     .then((json) => {
+//       console.log(json);
+//       results = json.results;
+
+//       let str = `<h3 class="text-white">영화 ${json.total_results}</h3>`;
+//       str += results.length > 4 ? `<h3 class="text-white">더보기</h3>` : "";
+//       console.log(results.length);
+//       let i = 0;
+//       while (i <= 3 && i < results.length) {
+//         console.log(i);
+//         str += `<div class="col-lg-3 col-md-4 col-sm-6 product">`;
+//         str += `<div class="product__item mb-2">`;
+//         str += `<a href="movieDetail?id=${
+//           results[i].id
+//         }&movieList=${movieList}&genre=${genre}&page=${page}"><img src=${
+//           "https://image.tmdb.org/t/p/w500" + results[i].poster_path
+//         } alt="" class="product__item__pic set-bg"></a></div>`;
+//         str += `<div class="product__item__text mx-4">`;
+//         str += `<h5><a href="movieDetail?id=${results[i].id}&movieList=${movieList}&genre=${genre}&page=${page}">${results[i].title}</a></h5>`;
+//         str += `<ul><li>예매율</li> 31.8%</ul><ul><li>개봉일</li> ${results[i].release_date}</ul>`;
+//         str += `</div></div>`;
+//         i++;
+//       }
+//       document.querySelector(".trending__product-row").innerHTML = str;
+//     })
+//     .catch((err) => console.error(err));
+
+//   url =
+//     "https://api.themoviedb.org/3/search/person?query=" +
+//     keyword +
+//     "&language=ko-KR&page=" +
+//     page;
+//   fetch(url, options)
+//     .then((res) => res.json())
+//     .then((json) => {
+//       console.log(json);
+//       results = json.results;
+
+//       let str = `<h3 class="text-white">인물 ${json.total_results}</h3>`;
+//       str += results.length > 4 ? `<h3 class="text-white">더보기</h3>` : "";
+//       console.log(results.length);
+//       let i = 0;
+//       while (i <= 3 && i < results.length) {
+//         console.log(i);
+//         str += `<div class="col-lg-3 col-md-4 col-sm-6 product">`;
+//         str += `<div class="product__item mb-2">`;
+//         str += `<a href="movieDetail?id=${
+//           results[i].id
+//         }&movieList=${movieList}&genre=${genre}&page=${page}"><img src=${
+//           "https://image.tmdb.org/t/p/w500" + results[i].profile_path
+//         } alt="" class="product__item__pic set-bg"></a></div>`;
+//         str += `<div class="product__item__text mx-4">`;
+//         str += `<h5><a href="movieDetail?id=${results[i].id}&movieList=${movieList}&genre=${genre}&page=${page}">${results[i].name}</a></h5>`;
+//         str += `<ul><li>예매율</li> 31.8%</ul><ul><li>개봉일</li> ${results[i].release_date}</ul>`;
+//         str += `</div></div>`;
+//         i++;
+//       }
+//       document.querySelector(".trending__people-row").innerHTML = str;
+//     })
+//     .catch((err) => console.error(err));
+// }
 
 // 장르 메뉴
 const genreUrl = "https://api.themoviedb.org/3/genre/movie/list?language=ko";
