@@ -1,0 +1,20 @@
+th {
+  text-align: center;
+}
+.fw-bold.clicked {
+  background-color: #e9ecef;
+}
+
+.fw-semibold {
+  color: black;
+}
+
+.fw-semibold.clicked {
+  color: red;
+}
+
+.theater-scroll {
+  text-align: left !important;
+  font-weight: bold;
+  color: black;
+}
