@@ -1,6 +1,8 @@
 const page = document.querySelector("[name='page']").value;
 const movieList = document.querySelector("[name='movieList']").value;
 const genre = document.querySelector("[name='genre']").value;
+const type = document.querySelector("[name='type']").value;
+const keyword = document.querySelector("[name='keyword']").value;
 let url = "";
 
 // 무비 목록 제목
@@ -20,7 +22,33 @@ switch (movieList) {
 }
 
 // 데이터 가져오기
-if (genre == "") {
+if (keyword != "") {
+  let t = "";
+  switch (type) {
+    case "a":
+      t = "movie";
+      break;
+    case "m":
+      t = "movie";
+      break;
+    case "p":
+      t = "person";
+      break;
+    default:
+      t = "movie";
+      break;
+  }
+
+  url =
+    "https://api.themoviedb.org/3/search/" +
+    t +
+    "?query=" +
+    keyword +
+    "&language=ko-KR&page=" +
+    page;
+
+  document.querySelector(".movieListTitle").innerHTML = "검색: " + keyword;
+} else if (genre == "") {
   // 장르 값 없을 경우
   url =
     "https://api.themoviedb.org/3/movie/" +
@@ -35,6 +63,15 @@ if (genre == "") {
     "&language=ko-KR&page=" +
     page;
 }
+
+document.querySelector("#searchForm").addEventListener("submit", (e) => {
+  e.preventDefault();
+  document.querySelector("[name='page']").value = "1";
+  document.querySelector("[name='movieList']").value = "popular";
+  document.querySelector("[name='genre']").value;
+  e.target.submit();
+});
+
 const options = {
   method: "GET",
   headers: {
@@ -54,7 +91,7 @@ fetch(url, options)
 
     let str = "";
     results.forEach((result) => {
-      str += `<div class="col-lg-3 col-md-4 col-sm-6 product">`;
+      str += `<div class="col-lg-3 col-md-4 col-sm-6 mb-3 product">`;
       str += `<div class="product__item mb-2">`;
       str += `<a href="movieDetail?id=${
         result.id
@@ -80,7 +117,7 @@ fetch(url, options)
     str = "";
     str += `<li class="page-item `;
     str += `${prev ? "" : "disabled"}`;
-    str += `"><a class="page-link text-light bg-transparent" href="movieList?movieList=${movieList}&genre=${genre}&page=`;
+    str += `"><a class="page-link text-light bg-transparent" href="movieList?movieList=${movieList}&genre=${genre}&type=${type}&keyword=${keyword}&page=`;
     str += `${page - 10}`;
     str += `">Previous</a></li>`;
     for (let i = start; i < end + 1; i++) {
@@ -89,11 +126,11 @@ fetch(url, options)
       str += `${
         i == page ? "bg-danger border-light active" : "bg-transparent"
       }" `;
-      str += `href="movieList?movieList=${movieList}&genre=${genre}&page=${i}">${i}</a></li>`;
+      str += `href="movieList?movieList=${movieList}&genre=${genre}&type=${type}&keyword=${keyword}&page=${i}">${i}</a></li>`;
     }
     str += `<li class="page-item `;
     str += `${next ? "" : "disabled"}`;
-    str += `"><a class="page-link text-light bg-transparent" href="movieList?movieList=${movieList}&genre=${genre}&page=`;
+    str += `"><a class="page-link text-light bg-transparent" href="movieList?movieList=${movieList}&genre=${genre}&type=${type}&keyword=${keyword}&page=`;
     str += `${parseInt(page) + 10}`;
     str += `">Next</a></li>`;
 
@@ -108,6 +145,37 @@ if (movieList == "now_playing") {
   document.querySelector(".upcoming").className += " bg-danger active";
 } else {
   document.querySelector(".popular").className += " bg-danger active";
+}
+
+if (type == "a") {
+  url =
+    "https://api.themoviedb.org/3/search/person?query=" +
+    keyword +
+    "&language=ko-KR&page=" +
+    page;
+  fetch(url, options)
+    .then((res) => res.json())
+    .then((json) => {
+      console.log(json);
+      results = json.results;
+
+      // let str = "";
+      // results.forEach((result) => {
+      //   str += `<div class="col-lg-3 col-md-4 col-sm-6 product">`;
+      //   str += `<div class="product__item mb-2">`;
+      //   str += `<a href="movieDetail?id=${
+      //     result.id
+      //   }&movieList=${movieList}&genre=${genre}&page=${page}"><img src=${
+      //     "https://image.tmdb.org/t/p/w500" + result.poster_path
+      //   } alt="" class="product__item__pic set-bg"></a></div>`;
+      //   str += `<div class="product__item__text mx-4">`;
+      //   str += `<h5><a href="movieDetail?id=${result.id}&movieList=${movieList}&genre=${genre}&page=${page}">${result.title}</a></h5>`;
+      //   str += `<ul><li>예매율</li> 31.8%</ul><ul><li>개봉일</li> ${result.release_date}</ul>`;
+      //   str += `</div></div>`;
+      // });
+      // document.querySelector(".trending__product-row").innerHTML = str;
+    })
+    .catch((err) => console.error(err));
 }
 
 // 장르 메뉴

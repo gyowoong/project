@@ -4,9 +4,15 @@
   "settings": {
     "width": 5000,
     "height": 5000,
+<<<<<<< HEAD
     "scrollTop": -758.9168,
     "scrollLeft": -1693.9232,
     "zoomLevel": 0.79,
+=======
+    "scrollTop": -952.8975,
+    "scrollLeft": -1884.918,
+    "zoomLevel": 0.76,
+>>>>>>> ca0c1ffc095da7becef6089f6a226bb29fdf15d5
     "show": 431,
     "database": 4,
     "databaseName": "",
@@ -161,7 +167,12 @@
           "ZRh3S9WU0sAxqOa8Koa4G",
           "jNmkjKjNl9QP94v8VjmEw",
           "Yn6VMtoY-mOqvsw_ZtuH7",
+<<<<<<< HEAD
           "ePT_4zxFAydvBxxiETB2S"
+=======
+          "ePT_4zxFAydvBxxiETB2S",
+          "aVHMhfu9ws2uNcBdQ-ZeS"
+>>>>>>> ca0c1ffc095da7becef6089f6a226bb29fdf15d5
         ],
         "seqColumnIds": [
           "8QSvGWNel41RenRX-1hEH",
@@ -186,7 +197,11 @@
           "color": "#4CAF50"
         },
         "meta": {
+<<<<<<< HEAD
           "updateAt": 1733984601443,
+=======
+          "updateAt": 1733984643338,
+>>>>>>> ca0c1ffc095da7becef6089f6a226bb29fdf15d5
           "createAt": 1733294079539
         }
       },
@@ -2514,8 +2529,13 @@
           "columnIds": [
             "8QSvGWNel41RenRX-1hEH"
           ],
+<<<<<<< HEAD
           "x": 2081.7318999999998,
           "y": 717.1698,
+=======
+          "x": 2112.1485666666667,
+          "y": 741.1698,
+>>>>>>> ca0c1ffc095da7becef6089f6a226bb29fdf15d5
           "direction": 8
         },
         "end": {
@@ -2542,9 +2562,15 @@
           "columnIds": [
             "8QSvGWNel41RenRX-1hEH"
           ],
+<<<<<<< HEAD
           "x": 1807.9819,
           "y": 649.1698,
           "direction": 1
+=======
+          "x": 1868.8152333333335,
+          "y": 741.1698,
+          "direction": 8
+>>>>>>> ca0c1ffc095da7becef6089f6a226bb29fdf15d5
         },
         "end": {
           "tableId": "2zZLm5Nu-1XjZEcroorLv",
@@ -2626,8 +2652,13 @@
           "columnIds": [
             "8QSvGWNel41RenRX-1hEH"
           ],
+<<<<<<< HEAD
           "x": 1899.2319,
           "y": 717.1698,
+=======
+          "x": 1990.4819000000002,
+          "y": 741.1698,
+>>>>>>> ca0c1ffc095da7becef6089f6a226bb29fdf15d5
           "direction": 8
         },
         "end": {
@@ -2767,7 +2798,11 @@
             "8QSvGWNel41RenRX-1hEH"
           ],
           "x": 2172.9818999999998,
+<<<<<<< HEAD
           "y": 581.1698,
+=======
+          "y": 593.1698,
+>>>>>>> ca0c1ffc095da7becef6089f6a226bb29fdf15d5
           "direction": 2
         },
         "end": {
@@ -2795,7 +2830,11 @@
             "8QSvGWNel41RenRX-1hEH"
           ],
           "x": 1807.9819,
+<<<<<<< HEAD
           "y": 513.1698,
+=======
+          "y": 593.1698,
+>>>>>>> ca0c1ffc095da7becef6089f6a226bb29fdf15d5
           "direction": 1
         },
         "end": {
@@ -3253,7 +3292,11 @@
     "lpjWoDy0OJ-TpMZ7ZVm8p": [
       "tableColumnEntities",
       1733295019119,
+<<<<<<< HEAD
       1733984599187,
+=======
+      1733984643335,
+>>>>>>> ca0c1ffc095da7becef6089f6a226bb29fdf15d5
       {
         "name": 1733295024931
       }

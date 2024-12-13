@@ -5,7 +5,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+<<<<<<< HEAD
 import org.springframework.security.config.http.SessionCreationPolicy;
+=======
+>>>>>>> ca0c1ffc095da7becef6089f6a226bb29fdf15d5
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -41,9 +44,18 @@ public class SecurityConfig {
         // http.csrf(csrf -> csrf.disable());
         return http.build();
     }
+<<<<<<< HEAD
     
      @Bean 
     PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
+=======
+
+    @Bean
+    PasswordEncoder passwordEncoder() {
+        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+    }
+
+>>>>>>> ca0c1ffc095da7becef6089f6a226bb29fdf15d5
 }
