@@ -24,10 +24,11 @@ public class People {
     @Id
     private Long id;
 
+    private String birthday;
     private Long gender;
     private String knownForDepartment;
     private String name;
-    private String originalName;
+    private String placeOfBirth;
     private Double popularity;
     private String profilePath;
 

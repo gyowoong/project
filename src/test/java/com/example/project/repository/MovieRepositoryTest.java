@@ -19,6 +19,8 @@ import org.springframework.web.client.RestTemplate;
 import com.example.project.entity.Genre;
 import com.example.project.entity.Movie;
 import com.example.project.entity.MovieGenre;
+import com.example.project.entity.MoviePeople;
+import com.example.project.entity.People;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -35,6 +37,12 @@ public class MovieRepositoryTest {
 
     @Autowired
     private MovieGenreRepository movieGenreRepository;
+
+    @Autowired
+    private PeopleRepository peopleRepository;
+
+    @Autowired
+    private MoviePeopleRepository moviePeopleRepository;
 
     @Test
     public void insertMovieTest() {
@@ -206,6 +214,68 @@ public class MovieRepositoryTest {
     public void getGenre() {
         List<String> genre = movieRepository.getGenre(558449L);
         System.out.println(genre);
+    }
+
+    // Movie 테이블에 있는 영화의 id와 그 영화에 출연하는 배우 id, 역할 MoviePeople 테이블에 저장
+    // 및 People 테이블에 그 배우들 저장(id, 이름만 저장)
+    @Test
+    public void insertMoviePeopleTest() {
+        // movie 테이블 영화 리스트
+        List<Movie> movies = movieRepository.findAll();
+
+        RestTemplate rt = new RestTemplate();
+        for (Movie movie : movies) {
+            // 영화 인물 정보
+            ResponseEntity<String> entity = rt
+                    .getForEntity(
+                            "https://api.themoviedb.org/3/movie/" + movie.getId() + "/credits?language=ko-KR"
+                                    + "&api_key="
+                                    + "a7e035c352858d4f14b0213f9415827c",
+                            String.class);
+
+            JSONParser jsonParser = new JSONParser();
+            try {
+                // 파싱
+                JSONObject jsonObject = (JSONObject) jsonParser.parse(entity.getBody().toString());
+
+                JSONArray cast = (JSONArray) jsonObject.get("cast");
+
+                for (Object p : cast) {
+                    // 인물 정보 파싱
+                    JSONObject person = (JSONObject) jsonParser.parse(p.toString());
+                    // id 값
+                    Long id = (Long) person.get("id");
+                    String character = (String) person.get("character");
+                    String name = (String) person.get("name");
+
+                    // 영화에 출연한 배우 id people 테이블에 저장
+                    People people = People.builder()
+                            .id(id)
+                            .name(name)
+                            .build();
+                    peopleRepository.save(people);
+
+                    // 영화 id, 배우 id, 배우 역할 moviepeople 테이블에 저장
+                    MoviePeople moviePeople = MoviePeople.builder()
+                            .movie(movieRepository.findById(movie.getId()).get())
+                            .people(people)
+                            .character(character)
+                            .build();
+                    moviePeopleRepository.save(moviePeople);
+                }
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    // 영화 id 통해 배우 이름 얻기
+    @Transactional
+    @Test
+    public void getpeople() {
+        List<String> people = movieRepository.getpeople(645985L);
+        System.out.println(people);
     }
 
 }

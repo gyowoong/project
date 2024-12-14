@@ -34,4 +34,6 @@ public class MoviePeople {
     @JoinColumn(name = "people_id")
     private People people;
 
+    private String character;
+
 }
