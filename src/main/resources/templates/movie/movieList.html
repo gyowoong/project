@@ -27,7 +27,7 @@
         overflow: hidden;
         white-space: nowrap;
       }
-      .sub-head{
+      .sub-head {
         margin-bottom: 10px;
         margin-left: 20px;
       }
@@ -87,51 +87,66 @@
             </ul>
             <!-- 영화 리스트 -->
             <div class="row trending__product-row">
-              <!-- <div class="col-lg-4 col-md-6 col-sm-6">
-                  <div class="product__item">
-                    <div
+              <div class="d-flex sub-head">
+                <h3 class="text-white">영화 건</h3>
+              </div>
+              <div
+                class="col-lg-3 col-md-4 col-sm-6 product"
+                th:each="dto : ${result.dtoList}"
+              >
+                <div class="product__item mb-2">
+                  <a href=""
+                    ><img
+                      th:src="'https://image.tmdb.org/t/p/w500/' + ${dto.posterPath}"
+                      alt=""
                       class="product__item__pic set-bg"
-                      data-setbg="img/trending/trend-1.jpg"
-                    >
-                    <div>
-                      <img src="" alt="" class="product__item__pic set-bg">
-
-                    </div>
-                      <div class="ep">NO.01</div>
-                      <div class="comment">
-                        <i class="fa fa-comments"></i> 11
-                      </div>
-                      <div class="view"><i class="fa fa-eye"></i> 9141</div>
-                    </div>
-                    <div class="product__item__text">
-                      <ul>
-                        <li>예매율</li>
-                        <li>개봉일</li>
-                      </ul>
-                      <h5>
-                        <a th:href="@{/movie/read}">영화 메인 타이틀</a>
-                      </h5>
-                    </div>
-                  </div>
-                </div> -->
+                  /></a>
+                </div>
+                <div class="product__item__text mx-4">
+                  <h5>
+                    <a href="" th:text="${dto.title}">타이틀</a>
+                  </h5>
+                  <ul>
+                    <li>예매율</li>
+                    31.8%
+                  </ul>
+                  <ul>
+                    <li>개봉일</li>
+                    [[${dto.releaseDate}]]
+                  </ul>
+                </div>
+              </div>
+              <div class="mt-4"></div>
             </div>
             <div class="row trending__people-row"></div>
             <!-- 페이지 -->
             <nav aria-label="...">
               <ul class="pagination justify-content-center">
-                <!-- <li class="page-item disabled">
-                    <a class="page-link">Previous</a>
-                  </li>
-                  <li th:class="page-item" aria-current="page">
-                    <a
-                      class="page-link"
-                      text="2"
-                      th:href="@{movieList(page=2)}"
-                    ></a>
-                  </li>
-                  <li class="page-item">
-                    <a class="page-link">Next</a>
-                  </li> -->
+                <li th:class="'page-item ' + ${result.prev ? '':'disabled'}">
+                  <a
+                    class="page-link text-light bg-transparent"
+                    th:href="@{movieList(page=${result.start-1},size=${result.size},type=${requestDto.type},keyword=${requestDto.keyword})}"
+                    >Previous</a
+                  >
+                </li>
+                <li
+                  th:class="page-item"
+                  aria-current="page"
+                  th:each="page : ${result.pageList}"
+                >
+                  <a
+                    th:class="'page-link text-light ' + ${result.page == page ? 'bg-danger border-light active' : 'bg-transparent'}"
+                    th:href="@{movieList(page=${page},size=${result.size},type=${requestDto.type},keyword=${requestDto.keyword})}"
+                    th:text="${page}"
+                  ></a>
+                </li>
+                <li th:class="'page-item ' + ${result.next ? '':'disabled'}">
+                  <a
+                    class="page-link text-light bg-transparent"
+                    th:href="@{movieList(page=${result.end+1},size=${result.size},type=${requestDto.type},keyword=${requestDto.keyword})}"
+                    >Next</a
+                  >
+                </li>
               </ul>
             </nav>
           </div>
@@ -139,7 +154,7 @@
       </div>
     </section>
     <!-- Product Section End -->
-    <form action="" method="post" id="actionForm">
+    <form action="" method="post">
       <!-- <input type="hidden" name="page" th:value="${page != null ? page:1}" />
       <input
         type="hidden"
@@ -147,9 +162,11 @@
         th:value="${movieList != null ? movieList:'now_playing'}"
       />
       <input type="hidden" name="genre" th:value="${genre}" /> -->
+      <input type="hidden" name="movieList" th:value="${movieList}" />
     </form>
   </div>
   <th:block layout:fragment="js">
-    <script th:src="@{/js/movie.js}"></script>
+    <!-- <script th:src="@{/js/movie.js}"></script> -->
+    <script th:src="@{/js/movietest.js}"></script>
   </th:block>
 </html>

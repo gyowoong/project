@@ -27,9 +27,10 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public PageResultDTO<MovieDto, Movie> getList(PageRequestDTO requestDto) {
         // 페이지 나누기 개념 추가
-        Pageable pageable = requestDto.getPageable(Sort.by("id").descending());
+        Pageable pageable = requestDto.getPageable(Sort.by(requestDto.getSort()).descending());
         Page<Movie> result = movieRepository
-                .findAll(movieRepository.makePredicate(requestDto.getType(), requestDto.getKeyword()), pageable);
+                .findAll(movieRepository.makePredicate(requestDto.getType(),
+                        requestDto.getKeyword()), pageable);
 
         Function<Movie, MovieDto> fn = (entity -> entityToDto(entity));
 

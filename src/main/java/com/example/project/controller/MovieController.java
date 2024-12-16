@@ -29,12 +29,8 @@ public class MovieController {
     private final MovieService movieService;
 
     @GetMapping("/main")
-    public void getHome(@ModelAttribute("requestDto") PageRequestDTO requestDto, List<String> genreList, Model model) {
+    public void getHome() {
         log.info("home 폼 요청");
-        log.info("도서 전체 목록 요청 {}", requestDto);
-        PageResultDTO<MovieDto, Movie> result = movieService.getList(requestDto);
-
-        model.addAttribute("result", result);
 
     }
 
@@ -56,15 +52,35 @@ public class MovieController {
 
     }
 
+    // @GetMapping("/movieList")
+    // public void getMovieList(Long genre, Long page, String movieList, String
+    // type, String keyword, Model model) {
+    // log.info("movieList 폼 요청 {}", page);
+    // model.addAttribute("movieList", movieList);
+    // model.addAttribute("genre", genre);
+    // model.addAttribute("type", type);
+    // model.addAttribute("keyword", keyword);
+    // model.addAttribute("page", page);
+    // }
     @GetMapping("/movieList")
-    public void getMovieList(Long genre, Long page, String movieList, String type, String keyword, Model model) {
-        log.info("movieList 폼 요청 {}", page);
-        model.addAttribute("movieList", movieList);
-        model.addAttribute("genre", genre);
-        model.addAttribute("type", type);
-        model.addAttribute("keyword", keyword);
-        model.addAttribute("page", page);
+    public void getMovieList(@ModelAttribute("requestDto") PageRequestDTO requestDto,
+            Model model) {
+        log.info("도서 전체 목록 요청 {}", requestDto);
+        PageResultDTO<MovieDto, Movie> result = movieService.getList(requestDto);
+
+        model.addAttribute("result", result);
     }
+    // @GetMapping("/movieList")
+    // public void getMovieList(@ModelAttribute("requestDto") PageRequestDTO
+    // requestDto,
+    // Model model) {
+    // log.info("도서 전체 목록 요청 {}", requestDto);
+    // PageResultDTO<MovieDto, Object[]> result = movieService.getList(requestDto);
+    // log.info("결과 ", result);
+
+    // model.addAttribute("result", result);
+
+    // }
 
     @GetMapping("/movieDetail")
     public void getMovieDetail(Long id, String movieList, Long genre, String type, String keyword, Long page,

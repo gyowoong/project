@@ -46,12 +46,12 @@ public class MovieRepositoryTest {
 
     @Test
     public void insertMovieTest() {
-        IntStream.rangeClosed(1, 2).forEach(i -> {
+        IntStream.rangeClosed(1, 500).forEach(i -> {
             RestTemplate rt = new RestTemplate();
             // discover 결과값
             ResponseEntity<String> entity = rt
                     .getForEntity(
-                            "https://api.themoviedb.org/3/movie/now_playing?language=ko-KR&region=KR&page="
+                            "https://api.themoviedb.org/3/movie/popular?language=ko-KR&region=KR&page="
                                     + i
                                     + "&api_key="
                                     + "a7e035c352858d4f14b0213f9415827c",

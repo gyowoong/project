@@ -24,9 +24,17 @@ public class PageRequestDTO {
     private String type;
     private String keyword;
 
+    // 정렬
+    private String sort;
+
+    // 장르
+    private Long genre;
+
     public PageRequestDTO() {
         this.page = 1;
         this.size = 10;
+        this.sort = "popularity";
+        this.genre = null;
     }
 
     public Pageable getPageable(Sort sort) {

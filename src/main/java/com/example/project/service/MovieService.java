@@ -1,11 +1,15 @@
 package com.example.project.service;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import com.example.project.dto.MovieDto;
+import com.example.project.dto.MovieGenreDto;
 import com.example.project.dto.PageRequestDTO;
 import com.example.project.dto.PageResultDTO;
 import com.example.project.entity.Movie;
+import com.example.project.entity.MovieGenre;
 
 public interface MovieService {
 
@@ -34,6 +38,39 @@ public interface MovieService {
                 .voteCount(movie.getVoteCount())
                 .build();
     }
+
+    // public default MovieDto entityToDto(Movie movie, Set<MovieGenre> movieGenres)
+    // {
+    // MovieDto movieDto = MovieDto.builder()
+    // .id(movie.getId())
+    // .backdrop_path(movie.getBackdrop_path())
+    // .budget(movie.getBudget())
+    // .homepage(movie.getHomepage())
+    // .originalLanguage(movie.getOriginalLanguage())
+    // .originalTitle(movie.getOriginalTitle())
+    // .overview(movie.getOverview())
+    // .popularity(movie.getPopularity())
+    // .posterPath(movie.getPosterPath())
+    // .releaseDate(movie.getReleaseDate())
+    // .revenue(movie.getRevenue())
+    // .runtime(movie.getRuntime())
+    // .status(movie.getStatus())
+    // .tagline(movie.getTagline())
+    // .title(movie.getTitle())
+    // .voteAverage(movie.getVoteAverage())
+    // .voteCount(movie.getVoteCount())
+    // .build();
+
+    // Set<MovieGenreDto> movieGenreDtos = movieGenres.stream().map(movieGenre -> {
+    // return MovieGenreDto.builder()
+    // .id(movieGenre.getId())
+    // .build();
+    // }).collect(Collectors.toSet());
+
+    // movieDto.setMovieGenresDtos(movieGenreDtos);
+
+    // return movieDto;
+    // }
 
     public default Movie dtoToEntity(MovieDto movieDto) {
         return Movie.builder()
