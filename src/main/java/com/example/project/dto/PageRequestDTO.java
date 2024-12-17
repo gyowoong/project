@@ -30,11 +30,15 @@ public class PageRequestDTO {
     // 장르
     private Long genre;
 
+    // 분류
+    private String movieList;
+
     public PageRequestDTO() {
         this.page = 1;
-        this.size = 10;
+        this.size = 5;
         this.sort = "popularity";
-        this.genre = null;
+        this.genre = 14L;
+        this.movieList = "nowPlaying";
     }
 
     public Pageable getPageable(Sort sort) {

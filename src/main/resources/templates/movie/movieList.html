@@ -54,7 +54,22 @@
                 >
                   장르
                 </button>
-                <ul class="dropdown-menu"></ul>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a
+                      class="dropdown-item"
+                      th:href="@{movieList(page=1,size=10,type=${requestDto.type},movieList=${requestDto.nowPlaying},keyword=${requestDto.keyword},genre=,sort=${requestDto.sort})}"
+                      >전체</a
+                    >
+                  </li>
+                  <li th:each="dto : ${genreDtos}">
+                    <a
+                      class="dropdown-item"
+                      th:href="@{movieList(page=1,size=10,type=${requestDto.type},movieList=${requestDto.nowPlaying},keyword=${requestDto.keyword},genre=${dto.id},sort=${requestDto.sort})}"
+                      >[[${dto.name}]]</a
+                    >
+                  </li>
+                </ul>
               </div>
               <h3 class="text-white header-title-text">현재 상영작</h3>
             </div>
@@ -125,7 +140,7 @@
                 <li th:class="'page-item ' + ${result.prev ? '':'disabled'}">
                   <a
                     class="page-link text-light bg-transparent"
-                    th:href="@{movieList(page=${result.start-1},size=${result.size},type=${requestDto.type},keyword=${requestDto.keyword})}"
+                    th:href="@{movieList(page=${result.start-1},size=${result.size},movieList=${requestDto.nowPlaying},type=${requestDto.type},keyword=${requestDto.keyword},genre=${requestDto.genre},sort=${requestDto.sort})}"
                     >Previous</a
                   >
                 </li>
@@ -136,14 +151,14 @@
                 >
                   <a
                     th:class="'page-link text-light ' + ${result.page == page ? 'bg-danger border-light active' : 'bg-transparent'}"
-                    th:href="@{movieList(page=${page},size=${result.size},type=${requestDto.type},keyword=${requestDto.keyword})}"
+                    th:href="@{movieList(page=${page},size=${result.size},movieList=${requestDto.nowPlaying},type=${requestDto.type},keyword=${requestDto.keyword},genre=${requestDto.genre},sort=${requestDto.sort})}"
                     th:text="${page}"
                   ></a>
                 </li>
                 <li th:class="'page-item ' + ${result.next ? '':'disabled'}">
                   <a
                     class="page-link text-light bg-transparent"
-                    th:href="@{movieList(page=${result.end+1},size=${result.size},type=${requestDto.type},keyword=${requestDto.keyword})}"
+                    th:href="@{movieList(page=${result.end+1},size=${result.size},movieList=${requestDto.nowPlaying},type=${requestDto.type},keyword=${requestDto.keyword},genre=${requestDto.genre},sort=${requestDto.sort})}"
                     >Next</a
                   >
                 </li>
