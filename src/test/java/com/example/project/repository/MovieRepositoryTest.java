@@ -46,12 +46,12 @@ public class MovieRepositoryTest {
 
     @Test
     public void insertMovieTest() {
-        IntStream.rangeClosed(1, 2).forEach(i -> {
+        IntStream.rangeClosed(1, 500).forEach(i -> {
             RestTemplate rt = new RestTemplate();
             // discover 결과값
             ResponseEntity<String> entity = rt
                     .getForEntity(
-                            "https://api.themoviedb.org/3/movie/now_playing?language=ko-KR&region=KR&page="
+                            "https://api.themoviedb.org/3/movie/popular?language=ko-KR&region=KR&page="
                                     + i
                                     + "&api_key="
                                     + "a7e035c352858d4f14b0213f9415827c",
@@ -209,73 +209,97 @@ public class MovieRepositoryTest {
         });
     }
 
-    @Transactional
-    @Test
-    public void getGenre() {
-        List<String> genre = movieRepository.getGenre(558449L);
-        System.out.println(genre);
-    }
+    // @Transactional
+    // @Test
+    // public void getGenre() {
+    // List<String> genre = movieRepository.getGenre(558449L);
+    // System.out.println(genre);
+    // }
 
-    // Movie 테이블에 있는 영화의 id와 그 영화에 출연하는 배우 id, 역할 MoviePeople 테이블에 저장
-    // 및 People 테이블에 그 배우들 저장(id, 이름만 저장)
-    @Test
-    public void insertMoviePeopleTest() {
-        // movie 테이블 영화 리스트
-        List<Movie> movies = movieRepository.findAll();
+    // // Movie 테이블에 있는 영화의 id와 그 영화에 출연하는 배우 id, 역할 MoviePeople 테이블에 저장
+    // // 및 People 테이블에 그 배우들 저장(id, 이름만 저장)
+    // @Test
+    // public void insertMoviePeopleTest() {
+    // // movie 테이블 영화 리스트
+    // List<Movie> movies = movieRepository.findAll();
 
-        RestTemplate rt = new RestTemplate();
-        for (Movie movie : movies) {
-            // 영화 인물 정보
-            ResponseEntity<String> entity = rt
-                    .getForEntity(
-                            "https://api.themoviedb.org/3/movie/" + movie.getId() + "/credits?language=ko-KR"
-                                    + "&api_key="
-                                    + "a7e035c352858d4f14b0213f9415827c",
-                            String.class);
+    // RestTemplate rt = new RestTemplate();
+    // for (Movie movie : movies) {
+    // // 영화 인물 정보
+    // ResponseEntity<String> entity = rt
+    // .getForEntity(
+    // "https://api.themoviedb.org/3/movie/" + movie.getId() +
+    // "/credits?language=ko-KR"
+    // + "&api_key="
+    // + "a7e035c352858d4f14b0213f9415827c",
+    // String.class);
 
-            JSONParser jsonParser = new JSONParser();
-            try {
-                // 파싱
-                JSONObject jsonObject = (JSONObject) jsonParser.parse(entity.getBody().toString());
+    // JSONParser jsonParser = new JSONParser();
+    // try {
+    // // 파싱
+    // JSONObject jsonObject = (JSONObject)
+    // jsonParser.parse(entity.getBody().toString());
 
-                JSONArray cast = (JSONArray) jsonObject.get("cast");
+    // JSONArray cast = (JSONArray) jsonObject.get("cast");
 
-                for (Object p : cast) {
-                    // 인물 정보 파싱
-                    JSONObject person = (JSONObject) jsonParser.parse(p.toString());
-                    // id 값
-                    Long id = (Long) person.get("id");
-                    String character = (String) person.get("character");
-                    String name = (String) person.get("name");
+    // for (Object p : cast) {
+    // // 인물 정보 파싱
+    // JSONObject person = (JSONObject) jsonParser.parse(p.toString());
+    // // id 값
+    // Long id = (Long) person.get("id");
+    // String character = (String) person.get("character");
+    // String name = (String) person.get("name");
 
-                    // 영화에 출연한 배우 id people 테이블에 저장
-                    People people = People.builder()
-                            .id(id)
-                            .name(name)
-                            .build();
-                    peopleRepository.save(people);
+    // // 영화에 출연한 배우 id people 테이블에 저장
+    // People people = People.builder()
+    // .id(id)
+    // .name(name)
+    // .build();
+    // peopleRepository.save(people);
 
-                    // 영화 id, 배우 id, 배우 역할 moviepeople 테이블에 저장
-                    MoviePeople moviePeople = MoviePeople.builder()
-                            .movie(movieRepository.findById(movie.getId()).get())
-                            .people(people)
-                            .character(character)
-                            .build();
-                    moviePeopleRepository.save(moviePeople);
-                }
+    // // 영화 id, 배우 id, 배우 역할 moviepeople 테이블에 저장
+    // MoviePeople moviePeople = MoviePeople.builder()
+    // .movie(movieRepository.findById(movie.getId()).get())
+    // .people(people)
+    // .character(character)
+    // .build();
+    // moviePeopleRepository.save(moviePeople);
+    // }
 
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-        }
-    }
+    // } catch (ParseException e) {
+    // e.printStackTrace();
+    // }
+    // }
+    // }
 
     // 영화 id 통해 배우 이름 얻기
+    // @Transactional
+    // @Test
+    // public void getpeople() {
+    // List<String> people = movieRepository.getpeople(645985L);
+    // System.out.println(people);
+    // }
+
     @Transactional
     @Test
-    public void getpeople() {
-        List<String> people = movieRepository.getpeople(645985L);
-        System.out.println(people);
+    public void getGenresTest() {
+        // List<Object[]> genres = movieRepository.getGenres(99L);
+        // for (Object[] objects : genres) {
+        // String title = (String) objects[0];
+        // String releaseDate = (String) objects[1];
+        // System.out.println(title);
+        // System.out.println(releaseDate);
+        // }
+    }
+
+    @Transactional
+    @Test
+    public void getGenres() {
+        List<Genre> genres = genreRepository.findAll();
+        for (Genre genre : genres) {
+            System.out.println(genre.getId());
+            System.out.println(genre.getName());
+        }
     }
 
 }
