@@ -15,21 +15,27 @@
             <nav class="header__menu mobile-menu">
               <ul>
                 <li class="active">
-                  <a th:href="@{/movie/movieList}">영화</a>
+                  <a
+                    th:href="@{/movie/movieList?movieList=nowPlaying&page=1&size=5&type&keyword&genre&sort=popularity}"
+                    >영화</a
+                  >
 
                   <ul class="dropdown">
                     <li>
-                      <a th:href="@{/movie/movieList?movieList=now_playing}"
+                      <a
+                        th:href="@{/movie/movieList?movieList=nowPlaying&page=1&size=5&type&keyword&genre&sort=popularity}"
                         >현재 상영작</a
                       >
                     </li>
                     <li>
-                      <a th:href="@{/movie/movieList?movieList=upcoming}"
+                      <a
+                        th:href="@{/movie/movieList?movieList=upcoming&page=1&size=5&type&keyword&genre&sort=popularity}"
                         >상영 예정작</a
                       >
                     </li>
                     <li>
-                      <a th:href="@{/movie/movieList?movieList=popular}"
+                      <a
+                        th:href="@{/movie/movieList?movieList=popular&page=1&size=5&type&keyword&genre&sort=popularity}"
                         >전체 영화 목록</a
                       >
                     </li>
