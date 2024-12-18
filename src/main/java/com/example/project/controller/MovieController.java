@@ -53,12 +53,6 @@ public class MovieController {
 
     }
 
-    @GetMapping("/center")
-    public void getCenter() {
-        log.info("home 폼 요청");
-
-    }
-
     @GetMapping("/movieList")
     public void getMovieList(@ModelAttribute("requestDto") PageRequestDTO requestDto,
             Model model) {

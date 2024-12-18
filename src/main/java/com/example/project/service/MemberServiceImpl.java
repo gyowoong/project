@@ -2,6 +2,7 @@ package com.example.project.service;
 
 import java.util.Optional;
 
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -21,29 +22,19 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public void registerMember(MemberDto memberDto) {
-        if (memberRepository.existsByMemberId(memberDto.getMemberId())) {
-            throw new IllegalArgumentException("중복된 아이디입니다.");
-        }
-
-        try {
-            Member member = Member.builder()
-                    .memberId(memberDto.getMemberId())
-                    .password(passwordEncoder.encode(memberDto.getPassword()))
-                    .name(memberDto.getName())
-                    .email(memberDto.getEmail())
-                    .gender(memberDto.getGender())
-                    .birth(memberDto.getBirth())
-                    .phone(memberDto.getPhone()) // 추가된 전화번호
-                    .address(memberDto.getAddress())
-                    .point(0)
-                    .role(MemberRole.MEMBER)
-                    .build();
-
-            memberRepository.save(member);
-        } catch (Exception e) {
-            e.printStackTrace(); // 에러를 출력하여 디버깅
-            throw new RuntimeException("회원가입 중 오류가 발생했습니다.");
-        }
+        Member member = Member.builder()
+                .memberId(memberDto.getMemberId())
+                .password(passwordEncoder.encode(memberDto.getPassword()))
+                .name(memberDto.getName())
+                .email(memberDto.getEmail())
+                .birth(memberDto.getBirth())
+                .gender(memberDto.getGender())
+                .phone(memberDto.getPhone())
+                .address(memberDto.getAddress())
+                .role(MemberRole.MEMBER)
+                .point(0)
+                .build();
+        memberRepository.save(member);
     }
 
     @Override
@@ -57,4 +48,44 @@ public class MemberServiceImpl implements MemberService {
         return false;
     }
 
+    public MemberDto getMemberById(String memberId) {
+        return memberRepository.findByMemberId(memberId)
+                .map(member -> MemberDto.builder()
+                        .memberId(member.getMemberId())
+                        .name(member.getName())
+                        .email(member.getEmail())
+                        .phone(member.getPhone())
+                        .point(member.getPoint())
+                        .address(member.getAddress())
+                        .build())
+                .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
+    }
+
+    @Override
+    public boolean verifyPassword(String memberId, String rawPassword) {
+        return memberRepository.findByMemberId(memberId)
+                .map(member -> passwordEncoder.matches(rawPassword, member.getPassword()))
+                .orElse(false);
+    }
+
+    @Override
+    public void updateMember(MemberDto memberDto) {
+        Member member = memberRepository.findByMemberId(memberDto.getMemberId())
+                .orElseThrow(() -> new RuntimeException("회원 정보를 찾을 수 없습니다."));
+
+        member.setEmail(memberDto.getEmail());
+        member.setPhone(memberDto.getPhone());
+        member.setAddress(memberDto.getAddress());
+        memberRepository.save(member); // 수정된 정보 저장
+    }
+
+    @Override
+    public boolean isMemberIdDuplicate(String memberId) {
+        return memberRepository.existsByMemberId(memberId);
+    }
+
+    @Override
+    public boolean isEmailDuplicate(String email) {
+        return memberRepository.existsByEmail(email);
+    }
 }
