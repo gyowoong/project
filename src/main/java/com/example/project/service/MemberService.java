@@ -6,4 +6,6 @@ public interface MemberService {
 
     void registerMember(MemberDto memberDto);
 
+    boolean validateMember(String memberId, String password);
+
 }

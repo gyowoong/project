@@ -1,5 +1,7 @@
 package com.example.project.service;
 
+import java.util.Optional;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -42,6 +44,17 @@ public class MemberServiceImpl implements MemberService {
             e.printStackTrace(); // 에러를 출력하여 디버깅
             throw new RuntimeException("회원가입 중 오류가 발생했습니다.");
         }
+    }
+
+    @Override
+    public boolean validateMember(String memberId, String rawPassword) {
+        Optional<Member> optionalMember = memberRepository.findByMemberId(memberId);
+
+        if (optionalMember.isPresent()) {
+            Member member = optionalMember.get();
+            return passwordEncoder.matches(rawPassword, member.getPassword());
+        }
+        return false;
     }
 
 }
