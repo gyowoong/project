@@ -55,7 +55,7 @@
                     <li><a href="./blog-details.html">Blog Details</a></li>
                   </ul>
                 </li>
-                <li><a th:href="@{/movie/center}">고객센터</a></li>
+                <li><a th:href="@{/center}">고객센터</a></li>
               </ul>
             </nav>
           </div>
@@ -71,47 +71,5 @@
       </div>
       <div id="mobile-menu-wrap"></div>
     </div>
-    <!-- <form class="" role="search" th:action="@{movieList}" id="searchForm">
-      <input type="hidden" name="page" th:value="1" />
-      <input type="hidden" name="size" th:value="${requestDto.size}" />
-      <input type="hidden" name="genre" th:value="${requestDto.genre}" />
-      <input type="hidden" name="sort" th:value="${requestDto.sort}" />
-      <input type="hidden" name="movieList" th:value="popular" />
-      <div class="d-flex justify-content-center">
-        <select name="type" id="type" class="form-select me-2">
-          <option value="mp" th:selected="${requestDto.type == 'mp'}">
-            전체
-          </option>
-          <option value="m" th:selected="${requestDto.type == 'm'}">
-            영화
-          </option>
-          <option value="p" th:selected="${requestDto.type == 'p'}">
-            인물
-          </option>
-        </select>
-        <input
-          class="form-control me-2 w-25"
-          type="search"
-          placeholder="Search"
-          aria-label="Search"
-          name="keyword"
-          th:value="${keyword}"
-        />
-        <button class="btn btn-outline-success" type="submit">Search</button>
-      </div>
-    </form> -->
-    <!-- <form action="" method="get">
-      <input type="hidden" name="page" th:value="${requestDto.page}" />
-      <input type="hidden" name="size" th:value="${requestDto.size}" />
-      <input type="hidden" name="type" th:value="${requestDto.type}" />
-      <input type="hidden" name="keyword" th:value="${requestDto.keyword}" />
-      <input type="hidden" name="sort" th:value="${requestDto.sort}" />
-      <input type="hidden" name="genre" th:value="${requestDto.genre}" />
-      <input
-        type="hidden"
-        name="movieList"
-        th:value="${requestDto.movieList}"
-      />
-    </form> -->
   </header>
 </html>
