@@ -58,14 +58,14 @@
                   <li>
                     <a
                       class="dropdown-item"
-                      th:href="@{movieList(page=1,size=10,type=${requestDto.type},keyword=${requestDto.keyword},genre=,sort=${requestDto.sort})}"
+                      th:href="@{movieList(movieList=nowPlaying,page=1,size=${requestDto.size},type=,keyword=,genre=,sort=popularity)}"
                       >전체</a
                     >
                   </li>
                   <li th:each="dto : ${genreDtos}">
                     <a
                       class="dropdown-item"
-                      th:href="@{movieList(page=1,size=10,type=${requestDto.type},keyword=${requestDto.keyword},genre=${dto.id},sort=${requestDto.sort})}"
+                      th:href="@{movieList(movieList=popular,page=1,size=${requestDto.size},type=${requestDto.type},keyword=${requestDto.keyword},genre=${dto.id},sort=${requestDto.sort})}"
                       >[[${dto.name}]]</a
                     >
                   </li>
@@ -77,21 +77,21 @@
             <ul class="nav nav-pills nav-fill mb-4 tab-list">
               <li class="nav-item">
                 <a
-                  href="/movie/movieList?movieList=now_playing&genre=&page=1"
+                  th:href="@{movieList(movieList=nowPlaying,page=1,size=${requestDto.size},type=,keyword=,genre=,sort=popularity)}"
                   class="nav-link text-white nowPlaying"
                   >현재 상영작</a
                 >
               </li>
               <li class="nav-item">
                 <a
-                  href="/movie/movieList?movieList=upcoming&genre=&page=1"
+                  th:href="@{movieList(movieList=upcoming,page=1,size=${requestDto.size},type=,keyword=,genre=,sort=popularity)}"
                   class="nav-link text-white upcoming"
                   >상영 예정작</a
                 >
               </li>
               <li class="nav-item">
                 <a
-                  href="/movie/movieList?movieList=popular&genre=&page=1"
+                  th:href="@{movieList(movieList=popular,page=1,size=${requestDto.size},type=,keyword=,genre=,sort=popularity)}"
                   class="nav-link text-white popular"
                   >전체 영화 목록</a
                 >
@@ -101,7 +101,10 @@
               </li>
             </ul>
             <!-- 영화 리스트 -->
-            <div class="row trending__product-row">
+            <div
+              class="row trending__product-row"
+              th:if="${requestDto.type != 'p'}"
+            >
               <div class="d-flex sub-head">
                 <h3 class="text-white">영화 건</h3>
               </div>
@@ -110,7 +113,7 @@
                 th:each="dto : ${result.dtoList}"
               >
                 <div class="product__item mb-2">
-                  <a href=""
+                  <a th:href="@{movieDetail(id=${dto.id})}"
                     ><img
                       th:src="'https://image.tmdb.org/t/p/w500/' + ${dto.posterPath}"
                       alt=""
@@ -133,14 +136,17 @@
               </div>
               <div class="mt-4"></div>
             </div>
-            <div class="row trending__people-row"></div>
+            <div
+              class="row trending__people-row"
+              th:if="${requestDto.type != 'm'}"
+            ></div>
             <!-- 페이지 -->
             <nav aria-label="...">
               <ul class="pagination justify-content-center">
                 <li th:class="'page-item ' + ${result.prev ? '':'disabled'}">
                   <a
                     class="page-link text-light bg-transparent"
-                    th:href="@{movieList(page=${result.start-1},size=${result.size},type=${requestDto.type},keyword=${requestDto.keyword},genre=${requestDto.genre},sort=${requestDto.sort})}"
+                    th:href="@{movieList(movieList=${requestDto.movieList},page=${result.start-1},size=${result.size},type=${requestDto.type},keyword=${requestDto.keyword},genre=${requestDto.genre},sort=${requestDto.sort})}"
                     >Previous</a
                   >
                 </li>
@@ -151,14 +157,14 @@
                 >
                   <a
                     th:class="'page-link text-light ' + ${result.page == page ? 'bg-danger border-light active' : 'bg-transparent'}"
-                    th:href="@{movieList(page=${page},size=${result.size},type=${requestDto.type},keyword=${requestDto.keyword},genre=${requestDto.genre},sort=${requestDto.sort})}"
+                    th:href="@{movieList(movieList=${requestDto.movieList},page=${page},size=${result.size},type=${requestDto.type},keyword=${requestDto.keyword},genre=${requestDto.genre},sort=${requestDto.sort})}"
                     th:text="${page}"
                   ></a>
                 </li>
                 <li th:class="'page-item ' + ${result.next ? '':'disabled'}">
                   <a
                     class="page-link text-light bg-transparent"
-                    th:href="@{movieList(page=${result.end+1},size=${result.size},type=${requestDto.type},keyword=${requestDto.keyword},genre=${requestDto.genre},sort=${requestDto.sort})}"
+                    th:href="@{movieList(movieList=${requestDto.movieList},page=${result.end+1},size=${result.size},type=${requestDto.type},keyword=${requestDto.keyword},genre=${requestDto.genre},sort=${requestDto.sort})}"
                     >Next</a
                   >
                 </li>
@@ -177,7 +183,7 @@
         th:value="${movieList != null ? movieList:'now_playing'}"
       />
       <input type="hidden" name="genre" th:value="${genre}" /> -->
-      <input type="hidden" name="movieList" th:value="${movieList}" />
+      <!-- <input type="hidden" name="movieList" th:value="${movieList}" /> -->
     </form>
   </div>
   <th:block layout:fragment="js">
