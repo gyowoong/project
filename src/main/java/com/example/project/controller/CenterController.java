@@ -23,4 +23,9 @@ public class CenterController {
         log.info(" ai 챗봇 요청");
     }
 
+    @GetMapping("/email")
+    public void getEmail() {
+        log.info(" 이메일게시판 요청");
+    }
+
 }

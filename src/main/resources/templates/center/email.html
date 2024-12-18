@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorate="~{/layouts/layout}">
+  <div layout:fragment="content" class="bg-light">
+    <head>
+      <meta charset="UTF-8">
+      <title>이메일 문의 게시판</title>
+      <link rel="stylesheet" href="/css/email2.css"> <!-- CSS 파일 링크 -->
+      <th:block layout:fragment="css"></th:block>
+        <meta charset="UTF-8">
+    </head>
+    <body>
+        <h2>이메일 문의 게시판</h2>
+        <table>
+            <tr>
+                <th>번호</th>
+                <th>이름</th>
+                <th>이메일</th>
+                <th>문의 내용</th>
+            </tr>
+            <tr th:each="inquiry : ${inquiries}">
+                <td th:text="${inquiry.id}"></td>
+                <td th:text="${inquiry.name}"></td>
+                <td th:text="${inquiry.email}"></td>
+                <td th:text="${inquiry.message}"></td>
+            </tr>
+        </table>
+    </body>
+  <th:block layout:fragment="js">
+    <script th:src="@{/js/email.js}"></script>
+  </th:block>
+</html>

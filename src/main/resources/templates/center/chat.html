@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" layout:decorate="~{/layouts/layout}">
-  <th:block layout:fragment="css"></th:block>
-
+  <th:block layout:fragment="css">
+    <link rel="stylesheet" th:href="@{/css/chat.css}">
+  </th:block>
   <div layout:fragment="content" class="bg-light">
     <div class="chat-container">
       <div class="user-message"><strong>User:</strong> 안녕하세요!</div>
@@ -15,8 +16,7 @@
       <input type="submit" value="전송" />
     </form>
   </div>
-
   <th:block layout:fragment="js">
-    <script th:src="@/js/chat.js"></script>
+    <script th:src="@{/js/chat.js}"></script>
   </th:block>
 </html>
