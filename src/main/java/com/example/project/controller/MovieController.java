@@ -18,9 +18,12 @@ import com.example.project.dto.GenreDto;
 import com.example.project.dto.MovieDto;
 import com.example.project.dto.PageRequestDTO;
 import com.example.project.dto.PageResultDTO;
+import com.example.project.dto.PeopleDto;
 import com.example.project.entity.Movie;
+import com.example.project.entity.People;
 import com.example.project.service.GenreService;
 import com.example.project.service.MovieService;
+import com.example.project.service.PeopleService;
 
 @RequiredArgsConstructor
 @Log4j2
@@ -30,6 +33,7 @@ public class MovieController {
 
     private final MovieService movieService;
     private final GenreService genreService;
+    private final PeopleService peopleService;
 
     @GetMapping("/main")
     public void getHome() {
@@ -59,10 +63,22 @@ public class MovieController {
     public void getMovieList(@ModelAttribute("requestDto") PageRequestDTO requestDto,
             Model model) {
         log.info("영화 전체 목록 요청 {}", requestDto);
-        PageResultDTO<MovieDto, Movie> result = movieService.getList(requestDto);
-        List<GenreDto> genreDtos = genreService.getGenres();
+        if (requestDto.getType().contains("m") && requestDto.getKeyword() != null && requestDto.getKeyword() != "") {
+            PageResultDTO<MovieDto, Movie> result = movieService.getList(requestDto);
+            model.addAttribute("result", result);
 
-        model.addAttribute("result", result);
+        }
+        if (requestDto.getType().contains("p") && requestDto.getKeyword() != null && requestDto.getKeyword() != "") {
+
+            PageResultDTO<PeopleDto, People> result2 = peopleService.getList(requestDto);
+            model.addAttribute("result2", result2);
+
+        } else {
+            PageResultDTO<MovieDto, Movie> result = movieService.getList(requestDto);
+            model.addAttribute("result", result);
+        }
+
+        List<GenreDto> genreDtos = genreService.getGenres();
         model.addAttribute("genreDtos", genreDtos);
     }
 
