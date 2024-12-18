@@ -27,8 +27,9 @@ public class MemberController {
     private final MemberService memberService;
 
     @GetMapping("/login")
-    public void getLogin() {
-        log.info("로그인 폼 요청");
+    public String loginPage(Model model) {
+        model.addAttribute("memberDto", new MemberDto());
+        return "member/login";
     }
 
     @GetMapping("/register")
@@ -55,4 +56,15 @@ public class MemberController {
         }
     }
 
+    @PostMapping("/login")
+    public String login(@ModelAttribute("memberDto") MemberDto memberDto, Model model) {
+        boolean isValidUser = memberService.validateMember(memberDto.getMemberId(), memberDto.getPassword());
+
+        if (!isValidUser) {
+            model.addAttribute("error", "아이디 또는 비밀번호가 잘못되었습니다.");
+            return "member/login";
+        }
+
+        return "redirect:/"; // 로그인 성공 시 메인 페이지로 이동
+    }
 }
