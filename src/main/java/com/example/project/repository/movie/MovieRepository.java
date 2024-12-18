@@ -1,4 +1,4 @@
-package com.example.project.repository;
+package com.example.project.repository.movie;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

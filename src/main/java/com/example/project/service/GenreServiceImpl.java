@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.project.dto.GenreDto;
 import com.example.project.entity.Genre;
-import com.example.project.repository.GenreRepository;
+import com.example.project.repository.movie.GenreRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;

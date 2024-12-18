@@ -21,6 +21,11 @@ import com.example.project.entity.Movie;
 import com.example.project.entity.MovieGenre;
 import com.example.project.entity.MoviePeople;
 import com.example.project.entity.People;
+import com.example.project.repository.movie.GenreRepository;
+import com.example.project.repository.movie.MovieGenreRepository;
+import com.example.project.repository.movie.MoviePeopleRepository;
+import com.example.project.repository.movie.MovieRepository;
+import com.example.project.repository.movie.PeopleRepository;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 

@@ -14,8 +14,8 @@ import com.example.project.dto.PageRequestDTO;
 import com.example.project.dto.PageResultDTO;
 import com.example.project.entity.Genre;
 import com.example.project.entity.Movie;
-import com.example.project.repository.GenreRepository;
-import com.example.project.repository.MovieRepository;
+import com.example.project.repository.movie.GenreRepository;
+import com.example.project.repository.movie.MovieRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;

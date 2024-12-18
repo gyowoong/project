@@ -8,7 +8,7 @@ import com.example.project.dto.MovieDto;
 import com.example.project.dto.test.UserDto;
 import com.example.project.entity.Movie;
 import com.example.project.entity.test.UserEntity;
-import com.example.project.repository.MovieRepository;
+import com.example.project.repository.movie.MovieRepository;
 import com.example.project.repository.test.UserRepository;
 
 import jakarta.transaction.Transactional;

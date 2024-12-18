@@ -1,4 +1,4 @@
-package com.example.project.repository;
+package com.example.project.repository.movie;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -54,10 +54,11 @@ public class MovieRepositoryImpl extends QuerydslRepositorySupport implements Mo
         if ("m".equals(type) && keyword != null && !keyword.isEmpty()) {
             builder.and(movie.title.like("%" + keyword + "%")); // 제목에 keyword가 포함된 영화 검색
         }
-        if ("nowPlaying".equals(movieList)) {
-            builder.and(
-                    movie.releaseDate.between(LocalDate.now().toString(), LocalDate.now().minusWeeks(3).toString()));
-        }
+        // if ("nowPlaying".equals(movieList)) {
+        // builder.and(
+        // movie.releaseDate.between(LocalDate.now().toString(),
+        // LocalDate.now().minusWeeks(3).toString()));
+        // }
 
         query.where(builder); // 조건을 모두 적용
 
