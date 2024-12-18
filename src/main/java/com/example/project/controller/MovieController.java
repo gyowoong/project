@@ -50,12 +50,6 @@ public class MovieController {
 
     }
 
-    @GetMapping("/center")
-    public void getCenter() {
-        log.info("home 폼 요청");
-
-    }
-
     @GetMapping("/movieList")
     public void getMovieList(Long genre, Long page, String movieList, String type, String keyword, Model model) {
         log.info("movieList 폼 요청 {}", page);
