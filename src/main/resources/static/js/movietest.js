@@ -1,4 +1,4 @@
-fetch("/movies/movieList")
+fetch("/rest/movieList")
   .then((response) => {
     if (!response.ok) throw new Error("에러");
 

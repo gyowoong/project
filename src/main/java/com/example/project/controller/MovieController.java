@@ -58,7 +58,7 @@ public class MovieController {
     @GetMapping("/movieList")
     public void getMovieList(@ModelAttribute("requestDto") PageRequestDTO requestDto,
             Model model) {
-        log.info("도서 전체 목록 요청 {}", requestDto);
+        log.info("영화 전체 목록 요청 {}", requestDto);
         PageResultDTO<MovieDto, Movie> result = movieService.getList(requestDto);
         List<GenreDto> genreDtos = genreService.getGenres();
 
