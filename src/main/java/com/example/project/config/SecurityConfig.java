@@ -18,7 +18,12 @@ public class SecurityConfig {
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-        http.authorizeHttpRequests(authorize -> authorize.anyRequest().permitAll());
+        http.authorizeHttpRequests(authorize -> authorize.anyRequest().permitAll())
+                .logout(logout -> logout
+                        .logoutUrl("/logout") // 로그아웃 요청 URL
+                        .logoutSuccessUrl("/member/login") // 로그아웃 후 이동할 URL
+                        .invalidateHttpSession(true) // 세션 무효화
+                        .deleteCookies("JSESSIONID")); // 세션 쿠키 삭제
 
         // http.authorizeHttpRequests(authorize -> authorize
         // .requestMatchers("/" ,"/admin/css/**",

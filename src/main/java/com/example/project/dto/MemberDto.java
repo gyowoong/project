@@ -51,4 +51,5 @@ public class MemberDto {
     private MemberRole role; // Enum을 String으로 변환하여 전송
 
     private LocalDateTime regDate; // 등록일 (읽기 전용)
+
 }
