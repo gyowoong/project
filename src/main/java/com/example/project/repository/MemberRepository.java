@@ -3,10 +3,15 @@ package com.example.project.repository;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
 import com.example.project.entity.Member;
 
-@Repository
+import org.springframework.data.jpa.repository.JpaRepository;
+
 public interface MemberRepository extends JpaRepository<Member, Long> {
+    Optional<Member> findByMemberId(String memberId);
+
+    boolean existsByMemberId(String memberId);
+
+    boolean existsByEmail(String email);
 }

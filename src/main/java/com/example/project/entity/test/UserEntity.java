@@ -20,7 +20,7 @@ import lombok.ToString;
 @Entity
 public class UserEntity {
     @Id
-    @Column(nullable = false , unique = true)
+    @Column(nullable = false, unique = true)
     private String userid;
 
     @Column(nullable = false)
@@ -39,7 +39,7 @@ public class UserEntity {
     private String email;
 
     private int point;
-    
+
     private boolean reser;
 
     private int gender;

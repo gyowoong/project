@@ -2,29 +2,90 @@ package com.example.project.service;
 
 import java.util.Optional;
 
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.project.dto.MemberDto;
 import com.example.project.entity.Member;
-
+import com.example.project.entity.constant.MemberRole;
 import com.example.project.repository.MemberRepository;
 
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
 
-@RequiredArgsConstructor
-@Log4j2
 @Service
-public class MemberServiceImpl implements UserDetailsService, MemberService {
+@RequiredArgsConstructor
+public class MemberServiceImpl implements MemberService {
+
+    private final MemberRepository memberRepository;
+    private final PasswordEncoder passwordEncoder;
+
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'loadUserByUsername'");
+    public void registerMember(MemberDto memberDto) {
+        Member member = Member.builder()
+                .memberId(memberDto.getMemberId())
+                .password(passwordEncoder.encode(memberDto.getPassword()))
+                .name(memberDto.getName())
+                .email(memberDto.getEmail())
+                .birth(memberDto.getBirth())
+                .gender(memberDto.getGender())
+                .phone(memberDto.getPhone())
+                .address(memberDto.getAddress())
+                .role(MemberRole.MEMBER)
+                .point(0)
+                .build();
+        memberRepository.save(member);
     }
 
+    @Override
+    public boolean validateMember(String memberId, String rawPassword) {
+        Optional<Member> optionalMember = memberRepository.findByMemberId(memberId);
+
+        if (optionalMember.isPresent()) {
+            Member member = optionalMember.get();
+            return passwordEncoder.matches(rawPassword, member.getPassword());
+        }
+        return false;
+    }
+
+    public MemberDto getMemberById(String memberId) {
+        return memberRepository.findByMemberId(memberId)
+                .map(member -> MemberDto.builder()
+                        .memberId(member.getMemberId())
+                        .name(member.getName())
+                        .email(member.getEmail())
+                        .phone(member.getPhone())
+                        .point(member.getPoint())
+                        .address(member.getAddress())
+                        .build())
+                .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
+    }
+
+    @Override
+    public boolean verifyPassword(String memberId, String rawPassword) {
+        return memberRepository.findByMemberId(memberId)
+                .map(member -> passwordEncoder.matches(rawPassword, member.getPassword()))
+                .orElse(false);
+    }
+
+    @Override
+    public void updateMember(MemberDto memberDto) {
+        Member member = memberRepository.findByMemberId(memberDto.getMemberId())
+                .orElseThrow(() -> new RuntimeException("회원 정보를 찾을 수 없습니다."));
+
+        member.setEmail(memberDto.getEmail());
+        member.setPhone(memberDto.getPhone());
+        member.setAddress(memberDto.getAddress());
+        memberRepository.save(member); // 수정된 정보 저장
+    }
+
+    @Override
+    public boolean isMemberIdDuplicate(String memberId) {
+        return memberRepository.existsByMemberId(memberId);
+    }
+
+    @Override
+    public boolean isEmailDuplicate(String email) {
+        return memberRepository.existsByEmail(email);
+    }
 }

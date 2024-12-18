@@ -9,16 +9,31 @@
           <div class="col-lg-6">
             <div class="login__form">
               <h3>로그인</h3>
-              <form th:action="@{/member/login}" method="post">
+              <form
+                th:action="@{/member/login}"
+                method="post"
+                th:object="${memberDto}"
+              >
                 <div class="input__item">
-                  <input type="text" placeholder="Email address" />
+                  <input
+                    type="text"
+                    th:field="*{memberId}"
+                    placeholder="아이디"
+                  />
                   <span class="icon_mail"></span>
                 </div>
                 <div class="input__item">
-                  <input type="text" placeholder="Password" />
+                  <input
+                    type="password"
+                    th:field="*{password}"
+                    placeholder="비밀번호"
+                  />
                   <span class="icon_lock"></span>
                 </div>
                 <button type="submit" class="site-btn">로그인</button>
+                <div th:if="${error}" style="color: red; margin-top: 10px">
+                  <p th:text="${error}"></p>
+                </div>
               </form>
               <a href="#" class="forget_id">아이디 찾기</a>
               <a href="#" class="forget_pass">비밀번호 찾기</a>
@@ -28,34 +43,6 @@
             <div class="login__register">
               <h3>회원이 아니신가요?</h3>
               <a th:href="@{/member/register}" class="primary-btn">회원가입</a>
-            </div>
-          </div>
-        </div>
-        <div class="login__social">
-          <div class="row d-flex justify-content-center">
-            <div class="col-lg-6">
-              <div class="login__social__links">
-                <span>or</span>
-                <ul>
-                  <li>
-                    <a href="#" class="facebook"
-                      ><i class="fa-brands fa-facebook"></i> Sign in With
-                      Facebook</a
-                    >
-                  </li>
-                  <li>
-                    <a href="#" class="google"
-                      ><i class="fa-brands fa-google"></i> Sign in With
-                      Google</a
-                    >
-                  </li>
-                  <li>
-                    <a href="#" class="twitter"
-                      ><i class="fa-brands fa-x-twitter"></i> Sign in With X</a
-                    >
-                  </li>
-                </ul>
-              </div>
             </div>
           </div>
         </div>

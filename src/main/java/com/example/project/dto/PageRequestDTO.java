@@ -24,9 +24,21 @@ public class PageRequestDTO {
     private String type;
     private String keyword;
 
+    // 정렬
+    private String sort;
+
+    // 장르
+    private Long genre;
+
+    // 분류
+    private String movieList;
+
     public PageRequestDTO() {
         this.page = 1;
-        this.size = 10;
+        this.size = 5;
+        this.sort = "popularity";
+        this.genre = null;
+        this.movieList = "nowPlaying";
     }
 
     public Pageable getPageable(Sort sort) {

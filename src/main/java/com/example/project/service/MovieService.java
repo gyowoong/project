@@ -2,16 +2,16 @@ package com.example.project.service;
 
 import java.util.List;
 
+import com.example.project.dto.GenreDto;
 import com.example.project.dto.MovieDto;
 import com.example.project.dto.PageRequestDTO;
 import com.example.project.dto.PageResultDTO;
+import com.example.project.entity.Genre;
 import com.example.project.entity.Movie;
 
 public interface MovieService {
 
     PageResultDTO<MovieDto, Movie> getList(PageRequestDTO requestDto);
-
-    List<String> getGenre(Long id);
 
     public default MovieDto entityToDto(Movie movie) {
         return MovieDto.builder()

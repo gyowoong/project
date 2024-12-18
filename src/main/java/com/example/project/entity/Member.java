@@ -1,6 +1,7 @@
 package com.example.project.entity;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import com.example.project.entity.constant.MemberRole;
@@ -32,12 +33,11 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "MEMBER")
-public class Member {
+public class Member extends BaseEntity {
 
     @Id
-    @SequenceGenerator(name = "movie_member_seq_gen", sequenceName = "movie_member_seq", allocationSize = 1, initialValue = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "movie_member_seq_gen")
-    private Long mid;
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // 자동 생성 설정
+    private Long mid; // Primary Key
 
     @Column(nullable = false, unique = true)
     private String memberId;
@@ -48,7 +48,8 @@ public class Member {
     @Column(nullable = false)
     private String name;
 
-    private String phone;
+    @Column(nullable = false, unique = true)
+    private String email;
 
     @Column(nullable = false)
     private String gender;
@@ -57,13 +58,14 @@ public class Member {
     private String birth;
 
     @Column(nullable = false)
-    private String email;
-
-    private String address;
-
     private int point;
+
+    @Column(nullable = false)
+    private String phone; // 전화번호 필드 추가
+
+    @Column(nullable = false)
+    private String address; // 주소 필드 추가
 
     @Enumerated(EnumType.STRING)
     private MemberRole role;
-
 }

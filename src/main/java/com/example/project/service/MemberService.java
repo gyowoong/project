@@ -6,33 +6,18 @@ import com.example.project.entity.constant.MemberRole;
 
 public interface MemberService {
 
-    default Member dtoToEntity(MemberDto memberDto) {
-        return Member.builder()
-                .memberId(memberDto.getMemberId())
-                .password(memberDto.getPassword())
-                .name(memberDto.getName())
-                .phone(memberDto.getPhone())
-                .gender(memberDto.getGender())
-                .birth(memberDto.getBirth())
-                .email(memberDto.getEmail())
-                .point(memberDto.getPoint())
-                .address(memberDto.getAddress())
-                .role(MemberRole.MEMBER)
-                .build();
-    }
+    void registerMember(MemberDto memberDto);
 
-    default MemberDto entityToDto(Member member) {
-        return MemberDto.builder()
-                .memberId(member.getMemberId())
-                .password(member.getPassword())
-                .name(member.getName())
-                .phone(member.getPhone())
-                .gender(member.getGender())
-                .birth(member.getBirth())
-                .email(member.getEmail())
-                .point(member.getPoint())
-                .address(member.getAddress())
-                .role(MemberRole.MEMBER)
-                .build();
-    }
+    boolean validateMember(String memberId, String password);
+
+    MemberDto getMemberById(String memberId);
+
+    boolean verifyPassword(String memberId, String rawPassword);
+
+    void updateMember(MemberDto memberDto);
+
+    boolean isMemberIdDuplicate(String memberId);
+
+    boolean isEmailDuplicate(String email);
+
 }
