@@ -47,31 +47,99 @@
               </div>      
             </td>
             <td>
-              <ul class="list-group list-group-flush">
-                <a  href="#" class="list-group-item list-group-item-action">
-                  <li> 영화 리스트</li>
-                </a>                        
-              </ul>
+              <div>
+                <ul class="list-group list-group-flush">
+                  <li class="movie-item" style="list-style: none;">
+                    <a href="#" class="text-dark fw-bold">
+                      <span>무파사:라이온킹</span>
+                    </a>
+                  </li>
+                  <li class="movie-item" style="list-style: none;">
+                    <a href="#" class="text-dark fw-bold">
+                      <span>위키드</span>
+                    </a>
+                  </li>
+                </ul>
+              </div>
             </td>
             <td>
-              <ul class="nav justify-content-center">
-                <li class="nav-item">
-                  <a class="nav-link active" aria-current="page" href="#">날짜요일</a>
-                </li>
-              </ul>
-              <ul class="list-group list-group-flush">
-                <li class="list-group-item">
-                  <a href="#" class="list-group-item list-group-item-action">
-                    <div>
-                      <span>상영시간</span>
-                      <span>영화타이틀</span>
-                    </div>
-                  </a>
-                </li>
-              </ul>
+              <div class="date-schedule">
+                <div>
+                  <li style="list-style: none;">
+                    <a href="#" class="date-btn btn-light">
+                      <label for="radioDate">
+                        <input type="radio" name="radioDate" id="radioDate">
+                        <strong>14</strong>
+                        <em>토</em>
+                      </label>
+                    </a>
+                  </li>
+                </div>
+                <div>
+                  <li style="list-style: none;">
+                    <a href="#" class="date-btn btn-light">
+                      <label for="radioDate">
+                        <input type="radio" name="radioDate" id="radioDate">
+                        <strong>15</strong>
+                        <em>일</em>
+                      </label>
+                    </a>
+                  </li>
+                </div>
+                <div>
+                  <li style="list-style: none;">
+                    <a href="#" class="date-btn btn-light">
+                      <label for="radioDate">
+                        <input type="radio" name="radioDate" id="radioDate">
+                        <strong>16</strong>
+                        <em>월</em>
+                      </label>
+                    </a>
+                  </li>
+                </div>
+              </div>
+              <div>
+                <div class="select_tit">위키드</div>
+                <div class="timeSelect">
+                  <span class="theaterCate">IMAX</span>
+                  <ul class="timelist-container" style="padding: 0; margin: 0;">
+                    <li class="timelist" style="list-style: none;">
+                      <a role="button" href="#" class="button">
+                        <div>
+                          <span class="time"><strong>12:00</strong></span>
+                          <span class="seat-hall">
+                            <span class="seat"><strong>180</strong>/180</span>
+                            <span class="hall">1관</span>
+                          </span>
+                        </div>
+                      </a>
+                    </li>
+                    <li class="timelist" style="list-style: none;">
+                      <a role="button" href="#" class="button">
+                        <div>
+                          <span class="time"><strong>12:00</strong></span>
+                          <span class="seat-hall">
+                            <span class="seat"><strong>180</strong>/180</span>
+                            <span class="hall">1관</span>
+                          </span>
+                        </div>
+                      </a>
+                    </li>
+                  </ul>
+                </div>               
+              </div>
             </td>                
           </tr>
         </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="3">
+              <a href="#" class="select-info"> 
+                좌석선택<i class="fa-solid fa-angles-right"></i>
+              </a>
+            </td>
+          </tr>
+        </tfoot>
       </table>        
     <th:block layout:fragment="js">
       <script th:src="@{/js/reservation.js}"></script>
