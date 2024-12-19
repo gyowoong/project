@@ -13,6 +13,8 @@ public interface MovieService {
 
     PageResultDTO<MovieDto, Movie> getList(PageRequestDTO requestDto);
 
+    MovieDto read(Long id);
+
     public default MovieDto entityToDto(Movie movie) {
         return MovieDto.builder()
                 .id(movie.getId())

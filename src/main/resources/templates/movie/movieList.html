@@ -136,10 +136,17 @@
             >
               <div class="d-flex sub-head">
                 <h3 class="text-white">영화 건</h3>
+                <a
+                  href=""
+                  class="btn btn-outline-danger"
+                  th:if="${requestDto.type == 'mp'}"
+                  >더보기</a
+                >
               </div>
               <div
                 class="col-lg-3 col-md-4 col-sm-6 product"
-                th:each="dto : ${result.dtoList}"
+                th:each="dto, iterStat : ${result.dtoList}"
+                th:if="${requestDto.type == 'mp' and iterStat.index < 4 or requestDto.type != 'mp'}"
               >
                 <div class="product__item mb-2">
                   <a th:href="@{movieDetail(id=${dto.id})}"
@@ -171,10 +178,17 @@
             >
               <div class="d-flex sub-head">
                 <h3 class="text-white">인물 건</h3>
+                <a
+                  href=""
+                  class="btn btn-outline-danger"
+                  th:if="${requestDto.type == 'mp'}"
+                  >더보기</a
+                >
               </div>
               <div
                 class="col-lg-3 col-md-4 col-sm-6 product"
-                th:each="dto : ${result2.dtoList}"
+                th:each="dto, iterStat : ${result2.dtoList}"
+                th:if="${requestDto.type == 'mp' and iterStat.index < 4 or requestDto.type != 'mp'}"
               >
                 <div class="product__item mb-2">
                   <a th:href="@{movieDetail(id=${dto.id})}"
@@ -201,30 +215,69 @@
             </div>
           </div>
           <!-- 페이지 -->
-          <nav aria-label="...">
+          <nav aria-label="..." th:if="${requestDto.type != 'mp'}">
             <ul class="pagination justify-content-center">
-              <li th:class="'page-item ' + ${result.prev ? '':'disabled'}">
+              <!-- Previous button -->
+              <li
+                th:class="'page-item ' + ${(result != null and result.prev) or (result2 != null and result2.prev) ? '' : 'disabled'}"
+              >
                 <a
                   class="page-link text-light bg-transparent"
-                  th:href="@{movieList(movieList=${requestDto.movieList},page=${result.start-1},size=${result.size},type=${requestDto.type},keyword=${requestDto.keyword},genre=${requestDto.genre},sort=${requestDto.sort})}"
+                  th:href="@{
+                      movieList(
+                        movieList=${requestDto.movieList},
+                        page=${(result != null and result.prev) ? result.start-1 : (result2 != null and result2.prev) ? result2.start-1 : 0},
+                        size=${(result != null) ? result.size : result2.size},
+                        type=${requestDto.type},
+                        keyword=${requestDto.keyword},
+                        genre=${requestDto.genre},
+                        sort=${requestDto.sort}
+                      )
+                   }"
                   >Previous</a
                 >
               </li>
+
+              <!-- Page list -->
               <li
                 th:class="page-item"
                 aria-current="page"
-                th:each="page : ${result.pageList}"
+                th:each="page : ${result != null ? result.pageList : result2.pageList}"
               >
                 <a
-                  th:class="'page-link text-light ' + ${result.page == page ? 'bg-danger border-light active' : 'bg-transparent'}"
-                  th:href="@{movieList(movieList=${requestDto.movieList},page=${page},size=${result.size},type=${requestDto.type},keyword=${requestDto.keyword},genre=${requestDto.genre},sort=${requestDto.sort})}"
+                  th:class="'page-link text-light ' + ${result != null ? (result.page == page ? 'bg-danger border-light active' : 'bg-transparent') : (result2.page == page ? 'bg-danger border-light active' : 'bg-transparent')}"
+                  th:href="@{
+                      movieList(
+                        movieList=${requestDto.movieList},
+                        page=${page},
+                        size=${(result != null) ? result.size : result2.size},
+                        type=${requestDto.type},
+                        keyword=${requestDto.keyword},
+                        genre=${requestDto.genre},
+                        sort=${requestDto.sort}
+                      )
+                   }"
                   th:text="${page}"
                 ></a>
               </li>
-              <li th:class="'page-item ' + ${result.next ? '':'disabled'}">
+
+              <!-- Next button -->
+              <li
+                th:class="'page-item ' + ${(result != null and result.next) or (result2 != null and result2.next) ? '' : 'disabled'}"
+              >
                 <a
                   class="page-link text-light bg-transparent"
-                  th:href="@{movieList(movieList=${requestDto.movieList},page=${result.end+1},size=${result.size},type=${requestDto.type},keyword=${requestDto.keyword},genre=${requestDto.genre},sort=${requestDto.sort})}"
+                  th:href="@{
+                      movieList(
+                        movieList=${requestDto.movieList},
+                        page=${(result != null and result.next) ? result.end+1 : (result2 != null and result2.next) ? result2.end+1 : 0},
+                        size=${(result != null) ? result.size : result2.size},
+                        type=${requestDto.type},
+                        keyword=${requestDto.keyword},
+                        genre=${requestDto.genre},
+                        sort=${requestDto.sort}
+                      )
+                   }"
                   >Next</a
                 >
               </li>

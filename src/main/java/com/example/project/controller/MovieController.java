@@ -41,11 +41,11 @@ public class MovieController {
 
     }
 
-    @GetMapping("/read")
-    public void getRead() {
-        log.info("home 폼 요청");
+    // @GetMapping("/read")
+    // public void getRead() {
+    // log.info("home 폼 요청");
 
-    }
+    // }
 
     @GetMapping("/reservation")
     public void getReservation() {
@@ -77,15 +77,11 @@ public class MovieController {
     }
 
     @GetMapping("/movieDetail")
-    public void getMovieDetail(Long id, String movieList, Long genre, String type, String keyword, Long page,
+    public void getMovieDetail(Long id, @ModelAttribute("requestDto") PageRequestDTO requestDto,
             Model model) {
         log.info("movieDetail 폼 요청 {}", id);
-        model.addAttribute("id", id);
-        model.addAttribute("movieList", movieList);
-        model.addAttribute("genre", genre);
-        model.addAttribute("type", type);
-        model.addAttribute("keyword", keyword);
-        model.addAttribute("page", page);
+        MovieDto movieDto = movieService.read(id);
+        // model.addAttribute("id", id);
+        model.addAttribute("movieDto", movieDto);
     }
-
 }
