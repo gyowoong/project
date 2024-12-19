@@ -76,6 +76,13 @@ public class MemberServiceImpl implements MemberService {
         member.setEmail(memberDto.getEmail());
         member.setPhone(memberDto.getPhone());
         member.setAddress(memberDto.getAddress());
+
+        // 비밀번호가 입력되었는지 확인하고 암호화 후 저장
+        if (memberDto.getPassword() != null && !memberDto.getPassword().isEmpty()) {
+            String encodedPassword = passwordEncoder.encode(memberDto.getPassword());
+            member.setPassword(encodedPassword);
+        }
+
         memberRepository.save(member); // 수정된 정보 저장
     }
 

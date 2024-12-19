@@ -24,23 +24,23 @@ import lombok.extern.log4j.Log4j2;
 public class AdminController {
 
     private final UserServie userServie;
- 
+
     @GetMapping("/index")
     public void getHome() {
         log.info("home 폼 요청");
-        
+
     }
-  
+
     @GetMapping("/user")
     public void getUser(UserDto userDto, Model model) {
         log.info("home 폼 요청");
         List<UserEntity> list = userServie.allList(userDto);
         model.addAttribute("list", list);
-        
+
     }
-   
+
     @GetMapping("/create")
-    public void getCreate(MovieDto movieDto, Model model ) {
+    public void getCreate(MovieDto movieDto, Model model) {
 
         log.info("home 폼 요청");
         List<Movie> list = userServie.mList(movieDto);
