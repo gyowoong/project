@@ -1,4 +1,4 @@
-package com.example.project.service;
+package com.example.project.service.reservation;
 
 import com.example.project.dto.SeatStatusDto;
 import com.example.project.entity.Auditorium;

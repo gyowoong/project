@@ -19,10 +19,11 @@
                 <div class="col-6">
                   <nav id="theaternav" class="h-100 flex-column align-items-stretch border-end bg-light p-0">                       
                     <nav class="nav flex-column p-0">
-                      <a class="nav-link text-dark fw-bold" th:href="@{#item-1-1}">
-                        <span class="statetitle">서울</span>
+                      <!-- <a class="nav-link text-dark fw-bold" th:each="theater : ${theaters}"
+                      th:href="@{/reservation/theater/{id}(id=${theater.theaterId})}">
+                        <span class="statetitle" th:text="${theater.theaterName}"></span>
                         <span class="count">(20)</span>
-                      </a>     
+                      </a>      -->
                       <a class="nav-link text-dark fw-bold" th:href="@{#item-1-1}">
                         <span class="statetitle">경기</span>
                         <span class="count">(20)</span>
