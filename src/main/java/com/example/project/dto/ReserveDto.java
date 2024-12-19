@@ -18,6 +18,7 @@ public class ReserveDto {
     private Long reserveNo; // 예매번호
 
     // 극장 정보
+    private Long theaterId;
     private String theaterName;
 
     // 상영관 정보
@@ -26,13 +27,15 @@ public class ReserveDto {
     private Long price;
 
     // 좌석 정보
+    private Long seatId;
     private String rowNum;
     private Long seatNum;
 
     // 회원 정보
-    private String memberId;
+    private Long mid;
 
     // 영화 정보
+    private Long id;
     private String title;
 
     private ReserveStatus status;

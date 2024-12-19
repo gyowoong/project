@@ -17,7 +17,7 @@ public interface SeatService {
                 .seatNum(seatDto.getSeatNum())
                 .auditorium(Auditorium.builder()
                         .auditoriumNo(seatDto.getAuditoriumNo())
-                        .auditoriumName(seatDto.getAuditoriumName()).build())
+                        .build())
                 .build();
     }
 
