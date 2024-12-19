@@ -2,30 +2,83 @@
 <html lang="en" layout:decorate="~{/layouts/layout}">
   <div layout:fragment="content" class="bg-light">
     <head>
-      <meta charset="UTF-8">
+      <meta charset="UTF-8" />
       <title>이메일 문의 게시판</title>
-      <link rel="stylesheet" href="/css/email.css"> <!-- CSS 파일 링크 -->
+      <link rel="stylesheet" href="/css/email.css" />
       <th:block layout:fragment="css"></th:block>
-        <meta charset="UTF-8">
     </head>
     <body>
-        <h2>이메일 문의 게시판</h2>
+      <h2>이메일 문의 게시판</h2>
+      <div class="board-container">
+        <!-- 글 작성 버튼 -->
+        <button id="emailInquiryBtn">글 작성</button>
+
+        <!-- 게시판 테이블 -->
         <table>
+          <thead>
             <tr>
-                <th>번호</th>
-                <th>이름</th>
-                <th>이메일</th>
-                <th>문의 내용</th>
+              <th>번호</th>
+              <th>이름</th>
+              <th>이메일</th>
+              <th>문의 내용</th>
+              <th>수정</th>
+              <th>삭제</th>
             </tr>
+          </thead>
+          <tbody>
             <tr th:each="inquiry : ${inquiries}">
-                <td th:text="${inquiry.id}"></td>
-                <td th:text="${inquiry.name}"></td>
-                <td th:text="${inquiry.email}"></td>
-                <td th:text="${inquiry.message}"></td>
+              <td th:text="${inquiry.id}"></td>
+              <td th:text="${inquiry.name}"></td>
+              <td th:text="${inquiry.email}"></td>
+              <td th:text="${inquiry.message}"></td>
+              <td>
+                <button class="edit-btn" th:data-id="${inquiry.id}">
+                  수정
+                </button>
+              </td>
+              <td>
+                <button class="delete-btn" th:data-id="${inquiry.id}">
+                  삭제
+                </button>
+              </td>
             </tr>
+          </tbody>
         </table>
+
+        <!-- 페이징 -->
+        <div class="pagination" th:if="${inquiries}">
+          <button
+            th:each="page : ${#numbers.sequence(1, totalPages)}"
+            th:text="${page}"
+            th:classappend="${currentPage == page} ? 'active'"
+            th:onclick="'location.href=' + @{'/inquiries?page='} + ${page}"
+          ></button>
+        </div>
+      </div>
+
+      <!-- 글 작성/수정 폼 -->
+      <div id="form-container" style="display: none">
+        <form action="/inquiries" method="post" id="inquiryForm">
+          <input type="hidden" name="id" id="inquiry-id" />
+          <div>
+            <label for="name">이름:</label>
+            <input type="text" name="name" id="name" required />
+          </div>
+          <div>
+            <label for="email">이메일:</label>
+            <input type="email" name="email" id="email" required />
+          </div>
+          <div>
+            <label for="message">문의 내용:</label>
+            <textarea name="message" id="message" required></textarea>
+          </div>
+          <button type="submit">저장</button>
+          <button type="button" id="closeFormBtn">취소</button>
+        </form>
+      </div>
     </body>
-  <th:block layout:fragment="js">
-    <script th:src="@{/js/email.js}"></script>
-  </th:block>
+    <th:block layout:fragment="js">
+      <script src="/js/email.js"></script>
+    </th:block>
+  </div>
 </html>
