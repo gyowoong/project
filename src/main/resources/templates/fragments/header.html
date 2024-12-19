@@ -6,7 +6,7 @@
         <div class="col-lg-2">
           <div class="header__logo">
             <a th:href="@{/movie/main}"
-              ><h3 class="color_white">씨네플레닛</h2></a
+              ><h3 class="color_white">씨네플레닛</h3></a
             >
           </div>
         </div>
@@ -15,21 +15,27 @@
             <nav class="header__menu mobile-menu">
               <ul>
                 <li class="active">
-                  <a th:href="@{/movie/movieList}">영화</a>
+                  <a
+                    th:href="@{/movie/movieList?movieList=nowPlaying&page=1&size=5&type&keyword&genre&sort=popularity}"
+                    >영화</a
+                  >
 
                   <ul class="dropdown">
                     <li>
-                      <a th:href="@{/movie/movieList?movieList=now_playing}"
+                      <a
+                        th:href="@{/movie/movieList?movieList=nowPlaying&page=1&size=5&type&keyword&genre&sort=popularity}"
                         >현재 상영작</a
                       >
                     </li>
                     <li>
-                      <a th:href="@{/movie/movieList?movieList=upcoming}"
+                      <a
+                        th:href="@{/movie/movieList?movieList=upcoming&page=1&size=5&type&keyword&genre&sort=popularity}"
                         >상영 예정작</a
                       >
                     </li>
                     <li>
-                      <a th:href="@{/movie/movieList?movieList=popular}"
+                      <a
+                        th:href="@{/movie/movieList?movieList=popular&page=1&size=5&type&keyword&genre&sort=popularity}"
                         >전체 영화 목록</a
                       >
                     </li>
@@ -55,7 +61,7 @@
                     <li><a href="./blog-details.html">Blog Details</a></li>
                   </ul>
                 </li>
-                <li><a th:href="@{/movie/center}">고객센터</a></li>
+                <li><a th:href="@{/center}">고객센터</a></li>
               </ul>
             </nav>
           </div>
@@ -71,30 +77,5 @@
       </div>
       <div id="mobile-menu-wrap"></div>
     </div>
-    <form class="" role="search" action="" id="searchForm">
-      <input type="hidden" name="page" th:value="${page != null ? page:1}" />
-      <input
-        type="hidden"
-        name="movieList"
-        th:value="${movieList != null ? movieList:'now_playing'}"
-      />
-      <input type="hidden" name="genre" th:value="${genre}" />
-      <div class="d-flex justify-content-center">
-        <select name="type" id="type" class="form-select me-2">
-          <option value="a" th:selected="${type == 'a'}">전체</option>
-          <option value="m" th:selected="${type == 'm'}">영화</option>
-          <option value="p" th:selected="${type == 'p'}">인물</option>
-        </select>
-        <input
-          class="form-control me-2 w-25"
-          type="search"
-          placeholder="Search"
-          aria-label="Search"
-          name="keyword"
-          th:value="${keyword}"
-        />
-        <button class="btn btn-outline-success" type="submit">Search</button>
-      </div>
-    </form>
   </header>
 </html>

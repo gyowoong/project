@@ -27,7 +27,6 @@ public class People {
     private Long gender;
     private String knownForDepartment;
     private String name;
-    private String originalName;
     private Double popularity;
     private String profilePath;
 

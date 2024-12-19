@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorate="~{/layouts/layout}">
+  <div layout:fragment="content">
+    <section class="user-info spad">
+      <div
+        class="container"
+        style="
+          max-width: 600px;
+          margin: 0 auto;
+          background-color: #222;
+          padding: 20px;
+          border-radius: 10px;
+          color: #ddd;
+          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        "
+      >
+        <h3
+          style="
+            color: #fff;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+          "
+        >
+          <span th:text="${member.name}"></span>님 반갑습니다!
+        </h3>
+        <p
+          style="
+            color: #ffb74d;
+            text-align: center;
+            font-size: 18px;
+            margin-bottom: 30px;
+          "
+        >
+          회원님의 현재 포인트는
+          <strong th:text="${member.point}" style="font-size: 20px">0</strong>
+          점입니다.
+        </p>
+        <div
+          style="
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            font-size: 16px;
+            padding: 10px 30px;
+          "
+        >
+          <p>
+            <strong style="color: #ff8f00">아이디</strong> :
+            <span th:text="${member.memberId}" style="color: #fff"></span>
+          </p>
+          <p>
+            <strong style="color: #ff8f00">이름</strong> :
+            <span th:text="${member.name}" style="color: #fff"></span>
+          </p>
+          <p>
+            <strong style="color: #ff8f00">이메일</strong> :
+            <span th:text="${member.email}" style="color: #fff"></span>
+          </p>
+          <p>
+            <strong style="color: #ff8f00">휴대전화</strong> :
+            <span th:text="${member.phone}" style="color: #fff"></span>
+          </p>
+          <p>
+            <strong style="color: #ff8f00">주소</strong> :
+            <span th:text="${member.address}" style="color: #fff"></span>
+          </p>
+        </div>
+        <div
+          style="
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 30px;
+          "
+        >
+          <a
+            th:href="@{/member/verify-password}"
+            style="
+              background-color: #ff4c4c;
+              color: #fff;
+              border: none;
+              border-radius: 5px;
+              padding: 10px 20px;
+              font-size: 16px;
+              text-decoration: none;
+              text-align: center;
+            "
+          >
+            회원정보수정
+          </a>
+          <form th:action="@{/logout}" method="post" style="margin: 0">
+            <button
+              type="submit"
+              style="
+                background-color: #555;
+                color: #fff;
+                border: none;
+                border-radius: 5px;
+                padding: 10px 20px;
+                font-size: 16px;
+                cursor: pointer;
+              "
+            >
+              로그아웃
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+  </div>
+  <th:block layout:fragment="js"></th:block>
+</html>

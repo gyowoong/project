@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class MovieDto {
-     private Long id;
+    private Long id;
 
     private String backdrop_path;
     private Long budget;
@@ -27,7 +27,7 @@ public class MovieDto {
     // private String origin_country;
     private String originalLanguage;
     private String originalTitle;
-    
+
     private String overview;
     private Double popularity;
     private String posterPath;
@@ -40,10 +40,8 @@ public class MovieDto {
     private Double voteAverage;
     private Long voteCount;
 
-    
-    private Set<MovieGenre> movieGenres;
+    private Set<MovieGenreDto> movieGenresDtos;
 
-    
     private Set<MoviePeople> moviePeople;
 
 

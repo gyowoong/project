@@ -40,11 +40,9 @@ public class MemberRepositoryTest {
                 .password(passwordEncoder.encode("1111"))
                 .email("user33@example.com")
                 .name("가렌")
-                .phone("010-1234-6527")
                 .point(0)
                 .gender("Male")
                 .birth("2000-03-09")
-                .address("서울")
                 .role(MemberRole.MEMBER)
                 .build();
 

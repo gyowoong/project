@@ -1,5 +1,6 @@
 package com.example.project.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -33,5 +34,8 @@ public class MoviePeople {
     @ManyToOne
     @JoinColumn(name = "people_id")
     private People people;
+
+    @Column(length = 500)
+    private String character;
 
 }

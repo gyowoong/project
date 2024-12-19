@@ -7,6 +7,7 @@ import java.util.Set;
 import com.example.project.admin.Entity.Admin;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -60,6 +61,11 @@ public class Movie {
     @OneToMany(mappedBy = "movie")
     private Set<MoviePeople> moviePeople;
 
+<<<<<<< HEAD
     
+=======
+    @OneToMany(mappedBy = "movie")
+    private List<Review> reviews;
+>>>>>>> main
 
 }
