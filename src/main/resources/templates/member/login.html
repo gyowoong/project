@@ -9,23 +9,15 @@
           <div class="col-lg-6">
             <div class="login__form">
               <h3>로그인</h3>
-              <form
-                th:action="@{/member/login}"
-                method="post"
-                th:object="${memberDto}"
-              >
+              <form th:action="@{/member/login}" method="post">
                 <div class="input__item">
-                  <input
-                    type="text"
-                    th:field="*{memberId}"
-                    placeholder="아이디"
-                  />
+                  <input type="text" name="username" placeholder="아이디" />
                   <span class="icon_mail"></span>
                 </div>
                 <div class="input__item">
                   <input
                     type="password"
-                    th:field="*{password}"
+                    name="password"
                     placeholder="비밀번호"
                   />
                   <span class="icon_lock"></span>

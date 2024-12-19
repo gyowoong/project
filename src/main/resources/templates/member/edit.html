@@ -187,28 +187,65 @@
 
           <!-- 주소 -->
           <div
-            style="
-              display: flex;
-              flex-direction: column;
-              gap: 5px;
-              color: #ddd;
-              font-size: 14px;
-            "
+            class="form-group"
+            style="margin-bottom: 15px; display: flex; gap: 10px"
           >
-            <label for="address">주소</label>
-            <input
-              type="text"
-              id="address"
-              th:field="*{address}"
-              required
-              style="
-                background-color: #333;
-                color: #fff;
-                padding: 10px;
-                border: none;
-                border-radius: 5px;
-              "
-            />
+            <div style="flex: 1">
+              <label for="city" style="font-weight: bold"
+                >주소를 적어주세요 (도·시)</label
+              >
+              <select
+                id="city"
+                name="city"
+                style="
+                  background: #333;
+                  color: #fff;
+                  border: 1px solid #555;
+                  width: 100%;
+                "
+                class="form-control"
+                required
+              >
+                <option value="">도·시를 선택하세요</option>
+                <option value="서울특별시">서울특별시</option>
+                <option value="부산광역시">부산광역시</option>
+                <option value="대구광역시">대구광역시</option>
+                <option value="인천광역시">인천광역시</option>
+                <option value="광주광역시">광주광역시</option>
+                <option value="대전광역시">대전광역시</option>
+                <option value="울산광역시">울산광역시</option>
+                <option value="세종특별자치시">세종특별자치시</option>
+                <option value="경기도">경기도</option>
+                <option value="강원도">강원도</option>
+                <option value="충청북도">충청북도</option>
+                <option value="충청남도">충청남도</option>
+                <option value="전라북도">전라북도</option>
+                <option value="전라남도">전라남도</option>
+                <option value="경상북도">경상북도</option>
+                <option value="경상남도">경상남도</option>
+                <option value="제주특별자치도">제주특별자치도</option>
+              </select>
+            </div>
+
+            <div style="flex: 1">
+              <label for="district" style="font-weight: bold"
+                >주소를 적어주세요 (구·군·시)</label
+              >
+              <input
+                type="text"
+                id="district"
+                name="district"
+                placeholder="구·군·시 입력"
+                style="
+                  background: #333;
+                  color: #fff;
+                  border: 1px solid #555;
+                  width: 100%;
+                "
+                class="form-control"
+                required
+              />
+            </div>
           </div>
 
           <div style="text-align: center; margin-top: 20px">
