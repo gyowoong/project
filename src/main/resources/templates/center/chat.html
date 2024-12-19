@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorate="~{/layouts/layout}">
+  <th:block layout:fragment="css">
+    <link rel="stylesheet" th:href="@{/css/chat.css}">
+  </th:block>
+  <div layout:fragment="content" class="bg-light">
+    <div class="chat-container">
+      <div class="user-message"><strong>User:</strong> 안녕하세요!</div>
+      <div class="bot-message">
+        <strong>AI 상담사:</strong> 안녕하세요! 무엇을 도와드릴까요?
+      </div>
+    </div>
+    <!-- 사용자 입력을 위한 폼 -->
+    <form id="chat-form">
+      <input type="text" id="user-input" placeholder="메시지를 입력하세요" />
+      <input type="submit" value="전송" />
+    </form>
+  </div>
+  <th:block layout:fragment="js">
+    <script th:src="@{/js/chat.js}"></script>
+  </th:block>
+</html>

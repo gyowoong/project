@@ -31,12 +31,14 @@ public class MovieServiceImpl implements MovieService {
     public PageResultDTO getList(PageRequestDTO requestDto) {
         // 페이지 나누기 개념 추가
         Pageable pageable = requestDto.getPageable(Sort.by(requestDto.getSort()).descending());
-        Page<Movie> movies = movieRepository.getTotalList(requestDto.getType(), requestDto.getKeyword(),
+        Page<Movie> movies = movieRepository.getTotalList(requestDto.getType(),
+                requestDto.getKeyword(),
                 requestDto.getMovieList(),
                 requestDto.getGenre(), pageable);
         Function<Movie, MovieDto> function = (en -> entityToDto(en));
 
         return new PageResultDTO<>(movies, function);
+        // return null;
     }
 
 }

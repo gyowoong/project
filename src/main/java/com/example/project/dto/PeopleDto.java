@@ -1,27 +1,19 @@
-package com.example.project.entity;
+package com.example.project.dto;
 
 import java.util.Set;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import com.example.project.entity.MoviePeople;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
 
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
-@Setter
-@Getter
-@Entity
-public class People {
-
-    @Id
+@Data
+public class PeopleDto {
     private Long id;
 
     private Long gender;
@@ -30,7 +22,5 @@ public class People {
     private Double popularity;
     private String profilePath;
 
-    @OneToMany(mappedBy = "people")
     private Set<MoviePeople> moviePeople;
-
 }

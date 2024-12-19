@@ -38,6 +38,35 @@
   </th:block>
 
   <div layout:fragment="content">
+    <form class="" role="search" th:action="@{movieList}" id="searchForm">
+      <input type="hidden" name="page" th:value="1" />
+      <input type="hidden" name="size" th:value="${requestDto.size}" />
+      <input type="hidden" name="genre" th:value="${requestDto.genre}" />
+      <input type="hidden" name="sort" th:value="${requestDto.sort}" />
+      <input type="hidden" name="movieList" th:value="popular" />
+      <div class="d-flex justify-content-center">
+        <select name="type" id="type" class="form-select me-2">
+          <option value="mp" th:selected="${requestDto.type == 'mp'}">
+            전체
+          </option>
+          <option value="m" th:selected="${requestDto.type == 'm'}">
+            영화
+          </option>
+          <option value="p" th:selected="${requestDto.type == 'p'}">
+            인물
+          </option>
+        </select>
+        <input
+          class="form-control me-2 w-25"
+          type="search"
+          placeholder="Search"
+          aria-label="Search"
+          name="keyword"
+          th:value="${keyword}"
+        />
+        <button class="btn btn-outline-success" type="submit">Search</button>
+      </div>
+    </form>
     <!-- Product Section Begin -->
     <section class="product spad">
       <div class="container">
@@ -139,51 +168,84 @@
             <div
               class="row trending__people-row"
               th:if="${requestDto.type != 'm'}"
-            ></div>
-            <!-- 페이지 -->
-            <nav aria-label="...">
-              <ul class="pagination justify-content-center">
-                <li th:class="'page-item ' + ${result.prev ? '':'disabled'}">
-                  <a
-                    class="page-link text-light bg-transparent"
-                    th:href="@{movieList(movieList=${requestDto.movieList},page=${result.start-1},size=${result.size},type=${requestDto.type},keyword=${requestDto.keyword},genre=${requestDto.genre},sort=${requestDto.sort})}"
-                    >Previous</a
-                  >
-                </li>
-                <li
-                  th:class="page-item"
-                  aria-current="page"
-                  th:each="page : ${result.pageList}"
-                >
-                  <a
-                    th:class="'page-link text-light ' + ${result.page == page ? 'bg-danger border-light active' : 'bg-transparent'}"
-                    th:href="@{movieList(movieList=${requestDto.movieList},page=${page},size=${result.size},type=${requestDto.type},keyword=${requestDto.keyword},genre=${requestDto.genre},sort=${requestDto.sort})}"
-                    th:text="${page}"
-                  ></a>
-                </li>
-                <li th:class="'page-item ' + ${result.next ? '':'disabled'}">
-                  <a
-                    class="page-link text-light bg-transparent"
-                    th:href="@{movieList(movieList=${requestDto.movieList},page=${result.end+1},size=${result.size},type=${requestDto.type},keyword=${requestDto.keyword},genre=${requestDto.genre},sort=${requestDto.sort})}"
-                    >Next</a
-                  >
-                </li>
-              </ul>
-            </nav>
+            >
+              <div class="d-flex sub-head">
+                <h3 class="text-white">인물 건</h3>
+              </div>
+              <div
+                class="col-lg-3 col-md-4 col-sm-6 product"
+                th:each="dto : ${result2.dtoList}"
+              >
+                <div class="product__item mb-2">
+                  <a th:href="@{movieDetail(id=${dto.id})}"
+                    ><img
+                      th:src="'https://image.tmdb.org/t/p/w500/' + ${dto.profilePath}"
+                      alt=""
+                      class="product__item__pic set-bg"
+                  /></a>
+                </div>
+                <div class="product__item__text mx-4">
+                  <h5>
+                    <a href="" th:text="${dto.name}">타이틀</a>
+                  </h5>
+                  <ul>
+                    <li>예매율</li>
+                    31.8%
+                  </ul>
+                  <ul>
+                    <li>개봉일</li>
+                    [[${dto.knownForDepartment}]]
+                  </ul>
+                </div>
+              </div>
+            </div>
           </div>
+          <!-- 페이지 -->
+          <nav aria-label="...">
+            <ul class="pagination justify-content-center">
+              <li th:class="'page-item ' + ${result.prev ? '':'disabled'}">
+                <a
+                  class="page-link text-light bg-transparent"
+                  th:href="@{movieList(movieList=${requestDto.movieList},page=${result.start-1},size=${result.size},type=${requestDto.type},keyword=${requestDto.keyword},genre=${requestDto.genre},sort=${requestDto.sort})}"
+                  >Previous</a
+                >
+              </li>
+              <li
+                th:class="page-item"
+                aria-current="page"
+                th:each="page : ${result.pageList}"
+              >
+                <a
+                  th:class="'page-link text-light ' + ${result.page == page ? 'bg-danger border-light active' : 'bg-transparent'}"
+                  th:href="@{movieList(movieList=${requestDto.movieList},page=${page},size=${result.size},type=${requestDto.type},keyword=${requestDto.keyword},genre=${requestDto.genre},sort=${requestDto.sort})}"
+                  th:text="${page}"
+                ></a>
+              </li>
+              <li th:class="'page-item ' + ${result.next ? '':'disabled'}">
+                <a
+                  class="page-link text-light bg-transparent"
+                  th:href="@{movieList(movieList=${requestDto.movieList},page=${result.end+1},size=${result.size},type=${requestDto.type},keyword=${requestDto.keyword},genre=${requestDto.genre},sort=${requestDto.sort})}"
+                  >Next</a
+                >
+              </li>
+            </ul>
+          </nav>
         </div>
       </div>
     </section>
     <!-- Product Section End -->
-    <form action="" method="post">
-      <!-- <input type="hidden" name="page" th:value="${page != null ? page:1}" />
+    <form action="" method="get">
+      <input type="hidden" name="page" th:value="${requestDto.page}" />
+      <input type="hidden" name="size" th:value="${requestDto.size}" />
+      <input type="hidden" name="type" th:value="${requestDto.type}" />
+      <input type="hidden" name="keyword" th:value="${requestDto.keyword}" />
+      <input type="hidden" name="sort" th:value="${requestDto.sort}" />
+      <input type="hidden" name="genre" th:value="${requestDto.genre}" />
       <input
         type="hidden"
         name="movieList"
-        th:value="${movieList != null ? movieList:'now_playing'}"
+        th:value="${requestDto.movieList}"
       />
-      <input type="hidden" name="genre" th:value="${genre}" /> -->
-      <!-- <input type="hidden" name="movieList" th:value="${movieList}" /> -->
     </form>
   </div>
   <th:block layout:fragment="js">
