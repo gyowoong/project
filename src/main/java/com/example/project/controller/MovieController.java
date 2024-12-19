@@ -9,13 +9,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.project.dto.GenreDto;
 import com.example.project.dto.MovieDto;
 import com.example.project.dto.PageRequestDTO;
 import com.example.project.dto.PageResultDTO;
+import com.example.project.dto.PeopleDto;
 import com.example.project.entity.Movie;
 import com.example.project.entity.People;
 import com.example.project.service.GenreService;
@@ -53,16 +56,10 @@ public class MovieController {
     @GetMapping("/movieList")
     public void getMovieList(@ModelAttribute("requestDto") PageRequestDTO requestDto,
             Model model) {
-<<<<<<< HEAD
-        log.info("도서 전체 목록 요청 {}", requestDto);
-        PageResultDTO<MovieDto, Movie> result = movieService.getList(requestDto);
-        List<GenreDto> genreDtos = genreService.getGenres();
-=======
         log.info("영화 전체 목록 요청 {}", requestDto);
         if (requestDto.getType().contains("m") && requestDto.getKeyword() != null && requestDto.getKeyword() != "") {
             PageResultDTO<MovieDto, Movie> result = movieService.getList(requestDto);
             model.addAttribute("result", result);
->>>>>>> main
 
         }
         if (requestDto.getType().contains("p") && requestDto.getKeyword() != null && requestDto.getKeyword() != "") {
