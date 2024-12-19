@@ -1,17 +1,33 @@
 package com.example.project.test;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.stream.LongStream;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.test.annotation.Commit;
 
 import com.example.project.admin.Entity.Admin;
+import com.example.project.admin.Entity.MovieAdd;
+import com.example.project.admin.Entity.MovieState;
 import com.example.project.admin.Entity.constant.AdminRole;
+import com.example.project.admin.repository.AdminMovieRepository;
 import com.example.project.admin.repository.AdminRepository;
+import com.example.project.admin.repository.MovieAddRepository;
+import com.example.project.entity.Genre;
+import com.example.project.entity.Movie;
+import com.example.project.entity.MovieGenre;
 import com.example.project.entity.test.UserEntity;
+import com.example.project.repository.GenreRepository;
+import com.example.project.repository.MovieGenreRepository;
+import com.example.project.repository.MovieRepository;
 import com.example.project.repository.test.UserRepository;
+import com.querydsl.core.types.Predicate;
+
+import jakarta.transaction.Transactional;
 
 @SpringBootTest
 public class AdminRepositoryTest {
@@ -23,6 +39,22 @@ public class AdminRepositoryTest {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    
+    @Autowired
+    private MovieRepository movieRepository;
+
+    @Autowired
+    private GenreRepository genreRepository;
+
+    @Autowired
+    private MovieGenreRepository movieGenreRepository;
+    @Autowired
+    private AdminMovieRepository adminMovieRepository;
+    @Autowired
+    private MovieAddRepository movieAddRepository;
+
+
+    @Transactional
     @Test
     public void insertAdmin(){
         Admin admin = Admin.builder().userId("user1").password(passwordEncoder.encode("1111")).adminRole(AdminRole.ADMIN).build();
@@ -62,5 +94,140 @@ public class AdminRepositoryTest {
         });;
     }
 
+     // @Transactional
+    // @Test
+    // public void getGenre() {
+    //     List<Object[]> results = movieRepository.getMovieDetailsWithGenres(1159311L);
+
+    //     for (Object[] objects : results) {
+            
+    //         // System.out.println(Arrays.toString(objects));
+
+    //         Movie movie = (Movie) objects[0];   
+    //         Genre genre = (Genre) objects[1];
+    //         System.out.println(movie.getTitle());
+    //         System.out.println(movie.getReleaseDate());
+    //         System.out.println(genre.getName());
+           
+    //     }
+
+        // 데이터를 정리할 Map
+        // Map<String, Map<String, List<String>>> movieDetails = new HashMap<>();
+        // for (Object[] result : results) {
+        //     String title = (String) result[0];       // 영화 제목
+        //     String releaseDate = (String) result[1]; // 문자열로 된 개봉일
+        //     String genre = (String) result[2];       // 장르 이름
     
+        //     // 데이터를 Map에 추가
+        //     movieDetails
+        //         .computeIfAbsent(title, k -> new HashMap<>())
+        //         .computeIfAbsent(releaseDate, k -> new ArrayList<>())
+        //         .add(genre);
+        // }
+    
+        // // 정리된 데이터를 출력
+        // movieDetails.forEach((title, details) -> {
+        //     details.forEach((releaseDate, genres) -> {
+        //         System.out.println("Movie: " + title + ", Release Date: " + releaseDate +
+        //                            ", Genres: " + String.join(", ", genres));
+        //     });
+        // });
+    
+    @Transactional
+    @Test
+    public void getGenres(){
+        List<Object[]> result = adminMovieRepository.getMovieDetails();
+
+        for (Object[] objects : result) {
+            
+                    System.out.println(Arrays.toString(objects));
+        
+                    // String title = (String) objects[0];
+                    // String releaseDate = (String) objects[1];
+                    // String genres = (String) objects[2];
+                    // System.out.println(title);
+                    // System.out.println(releaseDate);
+                    // System.out.println(genres);
+                   
+                }
+    }
+
+    @Test
+    @Transactional
+    @Commit
+    public void addMovieWithGenres() {
+        
+        Movie movie = Movie.builder()
+        .title("test test test test")
+        .overview("왜 안돼는가")
+        .releaseDate("2024-12-16")
+        .build();
+        movieRepository.save(movie);
+
+        System.out.println(movie);
+
+        
+        // Genre genre = genreRepository.findById(28L).get(); // 장르 하나 추가
+        List<Long> genreIds = List.of(28L, 80L,16L); // 장르 여러개 추가
+        for (Long genreId : genreIds) {
+            Genre genre = genreRepository.findById(genreId)
+                    .orElseThrow(() -> new IllegalArgumentException("선택하신 장르를 찾을 수 없습니다. : " + genreId)); //선택한 장르가 없을때
+        System.out.println(genre);
+            
+            MovieGenre movieGenre = MovieGenre.builder()
+            .movie(movie)
+            .genre(genre)
+            .build();
+            
+            movieGenreRepository.save(movieGenre);
+            System.out.println(movieGenre);
+    }
+}
+
+
+@Transactional
+@Test
+public void addTest(){
+    List<Object[]> list = movieAddRepository.findByAddList();
+    for (Object[] objects : list) {
+            
+        // System.out.println(Arrays.toString(objects));
+
+        String state = (String) objects[0];
+        System.out.println(state);
+       
+    }
+}
+
+@Transactional
+@Test
+public void selectTest(){
+    List<Object[]> state = movieAddRepository.findByState("서울특별시");
+    for (Object[] objects : state) {
+        System.out.println(Arrays.toString(objects));
+    }
+
+}
+
+@Transactional
+@Test
+public void selectTest2(){
+    List<Object[]> state = movieAddRepository.stateAndName("","가");
+    for (Object[] objects : state) {
+        System.out.println(Arrays.toString(objects));
+        String tste = (String) objects[0];
+
+        System.out.println(tste);
+    }
+
+   
+}
+
+@Transactional
+@Test
+public void stateTest(){
+    List<String> state = movieAddRepository.findAllStates();
+
+   System.out.println(state);
+}  
 }

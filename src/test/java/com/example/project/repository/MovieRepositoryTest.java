@@ -1,8 +1,13 @@
 package com.example.project.repository;
 
 import java.io.File;
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -14,6 +19,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.annotation.Commit;
 import org.springframework.web.client.RestTemplate;
 
 import com.example.project.entity.Genre;
@@ -201,11 +207,6 @@ public class MovieRepositoryTest {
         });
     }
 
-    @Transactional
-    @Test
-    public void getGenre() {
-        List<String> genre = movieRepository.getGenre(558449L);
-        System.out.println(genre);
-    }
-
+   
+       
 }

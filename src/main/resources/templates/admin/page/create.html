@@ -5,7 +5,13 @@
       <div class="col-md-12 grid-margin stretch-card">
         <div class="card">
           <div class="card-body">
-            <p class="card-title">영화 등록</p>
+            <p class="card-title">
+              영화 관리
+              <a th:href="@{/admin/page/join}" class="btn btn-outline-primary">
+                등록
+              </a>
+            </p>
+
             <div class="row">
               <div class="col-12">
                 <div class="table-responsive">
@@ -20,19 +26,17 @@
                         <th>감독</th>
                         <th>배우</th>
                         <th>장르</th>
-                        <th>등급</th>
                         <th>개봉일</th>
                         <th></th>
                       </tr>
                     </thead>
                     <tbody>
-                      <tr th:each="dto : ${movie}">
-                        <td th:text="${dto.title}"></td>
+                      <tr th:each="movies : ${movieDetails}">
+                        <td th:text="${movies.title}"></td>
                         <td></td>
                         <td></td>
-                        <td></td>
-                        <td></td>
-                        <td th:text="${dto.releaseDate}"></td>
+                        <td th:text="${movies.genres}"></td>
+                        <td th:text="${movies.releaseDate}"></td>
                       </tr>
                     </tbody>
                   </table>

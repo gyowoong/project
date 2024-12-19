@@ -1,5 +1,6 @@
 package com.example.project.dto;
 
+import java.util.ArrayList;
 import java.util.Set;
 
 import com.example.project.entity.MovieGenre;
@@ -44,4 +45,10 @@ public class MovieDto {
 
     
     private Set<MoviePeople> moviePeople;
+
+
+    
+
+    
+
 }
