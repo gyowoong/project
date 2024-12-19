@@ -1,9 +1,5 @@
 package com.example.project.controller;
 
-import java.security.Principal;
-
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,15 +12,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.project.dto.MemberDto;
-import com.example.project.dto.MovieDto;
-import com.example.project.entity.Member;
+
 import com.example.project.service.MemberService;
 
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Log4j2
 @Controller
@@ -164,15 +158,24 @@ public class MemberController {
     }
 
     @PostMapping("/edit")
-    public String updateMember(HttpSession session, @ModelAttribute("member") MemberDto memberDto) {
+    public String editMember(@ModelAttribute("member") MemberDto memberDto, HttpSession session, Model model) {
+        // 세션에서 현재 로그인된 사용자 확인
         String memberId = (String) session.getAttribute("memberId");
-
         if (memberId == null) {
-            return "redirect:/member/login"; // 로그인 안 되어 있으면 로그인 페이지로
+            return "redirect:/member/login"; // 로그인하지 않은 경우
         }
 
-        memberDto.setMemberId(memberId); // ID 수정 불가능
-        memberService.updateMember(memberDto); // 수정 로직 호출
-        return "redirect:/member/mypage"; // 수정 완료 후 마이페이지로 이동
+        // DTO에 세션에서 가져온 memberId 설정
+        memberDto.setMemberId(memberId);
+
+        // 서비스 호출하여 회원정보 업데이트
+        try {
+            memberService.updateMember(memberDto);
+        } catch (RuntimeException e) {
+            model.addAttribute("error", e.getMessage());
+            return "member/edit";
+        }
+
+        return "redirect:/member/mypage"; // 성공 시 마이페이지로 리다이렉트
     }
 }

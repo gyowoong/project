@@ -27,7 +27,9 @@
           method="post"
           th:object="${member}"
           style="display: flex; flex-direction: column; gap: 15px"
+          onsubmit="return validatePasswords()"
         >
+          <!-- 아이디 -->
           <div
             style="
               display: flex;
@@ -52,6 +54,8 @@
               "
             />
           </div>
+
+          <!-- 이름 -->
           <div
             style="
               display: flex;
@@ -76,6 +80,60 @@
               "
             />
           </div>
+
+          <!-- 새 비밀번호 -->
+          <div
+            style="
+              display: flex;
+              flex-direction: column;
+              gap: 5px;
+              color: #ddd;
+              font-size: 14px;
+            "
+          >
+            <label for="password">새 비밀번호</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="새 비밀번호 입력"
+              style="
+                background-color: #333;
+                color: #fff;
+                padding: 10px;
+                border: none;
+                border-radius: 5px;
+              "
+            />
+          </div>
+
+          <!-- 새 비밀번호 확인 -->
+          <div
+            style="
+              display: flex;
+              flex-direction: column;
+              gap: 5px;
+              color: #ddd;
+              font-size: 14px;
+            "
+          >
+            <label for="passwordConfirm">새 비밀번호 확인</label>
+            <input
+              type="password"
+              id="passwordConfirm"
+              placeholder="새 비밀번호 확인 입력"
+              style="
+                background-color: #333;
+                color: #fff;
+                padding: 10px;
+                border: none;
+                border-radius: 5px;
+              "
+            />
+            <span id="passwordError" style="color: red; font-size: 12px"></span>
+          </div>
+
+          <!-- 이메일 -->
           <div
             style="
               display: flex;
@@ -100,6 +158,8 @@
               "
             />
           </div>
+
+          <!-- 휴대전화 -->
           <div
             style="
               display: flex;
@@ -124,6 +184,8 @@
               "
             />
           </div>
+
+          <!-- 주소 -->
           <div
             style="
               display: flex;
@@ -148,6 +210,7 @@
               "
             />
           </div>
+
           <div style="text-align: center; margin-top: 20px">
             <button
               type="submit"
@@ -169,5 +232,21 @@
     </section>
   </div>
 
-  <th:block layout:fragment="js"></th:block>
+  <th:block layout:fragment="js">
+    <script>
+      function validatePasswords() {
+        const password = document.getElementById("password").value;
+        const passwordConfirm =
+          document.getElementById("passwordConfirm").value;
+        const errorSpan = document.getElementById("passwordError");
+
+        if (password && password !== passwordConfirm) {
+          errorSpan.textContent = "비밀번호가 일치하지 않습니다.";
+          return false;
+        }
+        errorSpan.textContent = "";
+        return true;
+      }
+    </script>
+  </th:block>
 </html>

@@ -10,10 +10,8 @@ import com.example.project.admin.Entity.Admin;
 import java.util.Collection;
 import java.util.List;
 
+public interface AdminRepository extends JpaRepository<Admin, Long> {
 
-public interface AdminRepository extends JpaRepository<Admin,Long>{
-    
    Optional<Admin> findByUserId(String userId);
 
-   
 }
