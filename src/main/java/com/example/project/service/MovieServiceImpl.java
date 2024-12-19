@@ -41,4 +41,10 @@ public class MovieServiceImpl implements MovieService {
         // return null;
     }
 
+    @Override
+    public MovieDto read(Long id) {
+
+        return entityToDto(movieRepository.findById(id).get());
+    }
+
 }
