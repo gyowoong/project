@@ -36,7 +36,7 @@ public class Inquiry {
 
     @NotBlank(message = "문의 내용은 필수 항목입니다.")
     @Column(nullable = false)
-    private String message;
+    private String content;
 
     // Getters Setters
     public Long getId() {
@@ -63,12 +63,8 @@ public class Inquiry {
         this.email = email;
     }
 
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
+    public void setContent(String content) {
+        this.content = content;
     }
 
 }

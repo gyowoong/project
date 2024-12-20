@@ -4,7 +4,7 @@
     <head>
       <meta charset="UTF-8" />
       <title>이메일 문의 게시판</title>
-      <link rel="stylesheet" href="/css/email.css" />
+      <link rel="stylesheet" th:href="@{/css/email.css}" />
       <th:block layout:fragment="css"></th:block>
     </head>
     <body>
@@ -30,7 +30,7 @@
               <td th:text="${inquiry.id}"></td>
               <td th:text="${inquiry.name}"></td>
               <td th:text="${inquiry.email}"></td>
-              <td th:text="${inquiry.message}"></td>
+              <td th:text="${inquiry.content}"></td>
               <td>
                 <button class="edit-btn" th:data-id="${inquiry.id}">
                   수정
@@ -58,8 +58,9 @@
 
       <!-- 글 작성/수정 폼 -->
       <div id="form-container" style="display: none">
-        <form action="/inquiries" method="post" id="inquiryForm">
+        <form action="/center/email/save" method="post" id="inquiryForm">
           <input type="hidden" name="id" id="inquiry-id" />
+          <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
           <div>
             <label for="name">이름:</label>
             <input type="text" name="name" id="name" required />
@@ -69,16 +70,16 @@
             <input type="email" name="email" id="email" required />
           </div>
           <div>
-            <label for="message">문의 내용:</label>
-            <textarea name="message" id="message" required></textarea>
+            <label for="content">문의 내용:</label>
+            <textarea name="content" id="content" required></textarea>
           </div>
           <button type="submit">저장</button>
-          <button type="button" id="closeFormBtn">취소</button>
+          <button type="reset">취소</button>
         </form>
       </div>
     </body>
     <th:block layout:fragment="js">
-      <script src="/js/email.js"></script>
+      <script th:src="@{/js/email.js}"></script>
     </th:block>
   </div>
 </html>

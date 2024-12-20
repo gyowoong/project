@@ -32,18 +32,19 @@ public class InquiryService {
         inquiryRepository.deleteById(id);
     }
 
+    // 모든 문의 데이터 조회
+    public List<Inquiry> getAllInquiries() {
+        return inquiryRepository.findAll();
+    }
+
     // 생성자 주입
     public InquiryService(InquiryRepository inquiryRepository) {
         this.inquiryRepository = inquiryRepository;
     }
 
-    // 모든 문의 데이터 조회
-    public List<Inquiry> findAll() {
-        return inquiryRepository.findAll();
+    // 새로운 문의 저장
+    public void save(Inquiry inquiry) {
+        inquiryRepository.save(inquiry);
     }
 
-    // 새로운 문의 저장
-    public Inquiry save(Inquiry inquiry) {
-        return inquiryRepository.save(inquiry);
-    }
 }
