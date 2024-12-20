@@ -9,6 +9,8 @@ public interface PeopleService {
 
     PageResultDTO<PeopleDto, People> getList(PageRequestDTO requestDto);
 
+    PeopleDto read(Long id);
+
     public default PeopleDto entityToDto(People people) {
         return PeopleDto.builder()
                 .id(people.getId())

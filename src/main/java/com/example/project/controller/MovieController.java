@@ -9,10 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.project.dto.GenreDto;
 import com.example.project.dto.MovieDto;
@@ -57,19 +54,22 @@ public class MovieController {
     public void getMovieList(@ModelAttribute("requestDto") PageRequestDTO requestDto,
             Model model) {
         log.info("영화 전체 목록 요청 {}", requestDto);
-        if (requestDto.getType().contains("m") && requestDto.getKeyword() != null && requestDto.getKeyword() != "") {
-            PageResultDTO<MovieDto, Movie> result = movieService.getList(requestDto);
-            model.addAttribute("result", result);
+        if (requestDto.getKeyword() != null && requestDto.getKeyword() != "") {
+            if (requestDto.getType().contains("m")) {
+                PageResultDTO<MovieDto, Movie> movies = movieService.getList(requestDto);
+                model.addAttribute("movies", movies);
+                log.info("토탈 {}", movies.getTotalPage());
+            }
+            if (requestDto.getType().contains("p")) {
 
-        }
-        if (requestDto.getType().contains("p") && requestDto.getKeyword() != null && requestDto.getKeyword() != "") {
+                PageResultDTO<PeopleDto, People> people = peopleService.getList(requestDto);
+                log.info("토탈 {}", people.getTotalPage());
+                model.addAttribute("people", people);
 
-            PageResultDTO<PeopleDto, People> result2 = peopleService.getList(requestDto);
-            model.addAttribute("result2", result2);
-
+            }
         } else {
-            PageResultDTO<MovieDto, Movie> result = movieService.getList(requestDto);
-            model.addAttribute("result", result);
+            PageResultDTO<MovieDto, Movie> movies = movieService.getList(requestDto);
+            model.addAttribute("movies", movies);
         }
 
         List<GenreDto> genreDtos = genreService.getGenres();
@@ -81,7 +81,20 @@ public class MovieController {
             Model model) {
         log.info("movieDetail 폼 요청 {}", id);
         MovieDto movieDto = movieService.read(id);
-        // model.addAttribute("id", id);
+        List<String> directorList = movieService.getDirectorList(id);
+        List<String> actorList = movieService.getActorList(id);
+        List<String> genreList = movieService.getGenreList(id);
         model.addAttribute("movieDto", movieDto);
+        model.addAttribute("directorList", directorList);
+        model.addAttribute("actorList", actorList);
+        model.addAttribute("genreList", genreList);
+    }
+
+    @GetMapping("/personDetail")
+    public void getPersonDetail(Long id, @ModelAttribute("requestDto") PageRequestDTO requestDto,
+            Model model) {
+        log.info("personDetail 폼 요청 {}", id);
+        PeopleDto peopleDto = peopleService.read(id);
+        model.addAttribute("peopleDto", peopleDto);
     }
 }

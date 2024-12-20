@@ -8,13 +8,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import com.example.project.dto.GenreDto;
 import com.example.project.dto.MovieDto;
 import com.example.project.dto.PageRequestDTO;
 import com.example.project.dto.PageResultDTO;
-import com.example.project.entity.Genre;
 import com.example.project.entity.Movie;
-import com.example.project.repository.movie.GenreRepository;
 import com.example.project.repository.movie.MovieRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -43,8 +40,22 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public MovieDto read(Long id) {
-
         return entityToDto(movieRepository.findById(id).get());
+    }
+
+    @Override
+    public List<String> getDirectorList(Long id) {
+        return movieRepository.getDirectorList(id);
+    }
+
+    @Override
+    public List<String> getActorList(Long id) {
+        return movieRepository.getActorList(id);
+    }
+
+    @Override
+    public List<String> getGenreList(Long id) {
+        return movieRepository.getGenreList(id);
     }
 
 }

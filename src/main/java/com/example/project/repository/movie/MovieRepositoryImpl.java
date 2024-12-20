@@ -10,8 +10,11 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 
 import com.example.project.entity.Movie;
+import com.example.project.entity.QGenre;
 import com.example.project.entity.QMovie;
 import com.example.project.entity.QMovieGenre;
+import com.example.project.entity.QMoviePeople;
+import com.example.project.entity.QPeople;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
@@ -83,6 +86,73 @@ public class MovieRepositoryImpl extends QuerydslRepositorySupport implements Mo
 
         // 결과를 Movie로 반환
         return new PageImpl<>(result, pageable, count);
+    }
+
+    @Override
+    public List<String> getDirectorList(Long id) {
+        QMovie movie = QMovie.movie;
+        QMoviePeople moviePeople = QMoviePeople.moviePeople;
+        QPeople people = QPeople.people;
+
+        JPQLQuery<String> query = from(movie).leftJoin(moviePeople).on(movie.id.eq(moviePeople.movie.id))
+                .leftJoin(moviePeople).on(moviePeople.people.id.eq(people.id)).select(people.name).distinct();
+
+        // 기본 조건: movie.id > 0
+        BooleanBuilder builder = new BooleanBuilder();
+        builder.and(movie.id.gt(0L));
+
+        builder.and(moviePeople.movie.id.eq(id)).and(moviePeople.role.eq("Director"));
+
+        query.where(builder);
+
+        List<String> result = query.fetch();
+
+        return result;
+    }
+
+    @Override
+    public List<String> getActorList(Long id) {
+        QMovie movie = QMovie.movie;
+        QMoviePeople moviePeople = QMoviePeople.moviePeople;
+        QPeople people = QPeople.people;
+
+        JPQLQuery<String> query = from(movie).leftJoin(moviePeople).on(movie.id.eq(moviePeople.movie.id))
+                .leftJoin(moviePeople).on(moviePeople.people.id.eq(people.id)).select(people.name)
+                .orderBy(people.popularity.desc());
+
+        // 기본 조건: movie.id > 0
+        BooleanBuilder builder = new BooleanBuilder();
+        builder.and(movie.id.gt(0L));
+
+        builder.and(moviePeople.movie.id.eq(id)).and(moviePeople.character.isNotNull());
+
+        query.where(builder);
+
+        List<String> result = query.fetch();
+
+        return result;
+    }
+
+    @Override
+    public List<String> getGenreList(Long id) {
+        QMovie movie = QMovie.movie;
+        QMovieGenre movieGenre = QMovieGenre.movieGenre;
+        QGenre genre = QGenre.genre;
+
+        JPQLQuery<String> query = from(movie).leftJoin(movieGenre).on(movie.id.eq(movieGenre.movie.id))
+                .leftJoin(movieGenre).on(movieGenre.genre.id.eq(genre.id)).select(genre.name);
+
+        // 기본 조건: movie.id > 0
+        BooleanBuilder builder = new BooleanBuilder();
+        builder.and(movie.id.gt(0L));
+
+        builder.and(movieGenre.movie.id.eq(id));
+
+        query.where(builder);
+
+        List<String> result = query.fetch();
+
+        return result;
     }
 
 }
