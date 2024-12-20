@@ -1,36 +1,180 @@
 <!DOCTYPE html>
 <html lang="en" layout:decorate="~{/layouts/layout}">
-  <th:block layout:fragment="css"></th:block>
-
+  <th:block layout:fragment="css">
+    <style>
+      .anime__details__widget ul li span {
+        width: auto;
+      }
+      .anime__details__widget .row {
+        display: block;
+      }
+      .anime__details__widget ul li span {
+        list-style: none;
+        font-size: 15px;
+        color: #ffffff;
+        line-height: 30px;
+        position: relative;
+      }
+      .overview {
+        color: #ffffff;
+      }
+      .anime__details__content {
+        margin: 0;
+      }
+    </style>
+  </th:block>
   <div layout:fragment="content">
-    <!-- Product Section Begin -->
-    <section class="product spad">
+    <section class="anime-details spad">
       <div class="container">
+        <div class="anime__details__content">
+          <div class="row">
+            <div class="col-lg-3">
+              <div
+                class="anime__details__pic set-bg"
+                data-setbg="img/anime/details-pic.jpg"
+              >
+                <img
+                  th:src="'https://image.tmdb.org/t/p/w500/' + ${movieDto.posterPath}"
+                  alt=""
+                  class="product__item__pic set-bg"
+                />
+                <!-- <div class="comment"><i class="fa fa-comments"></i> 11</div> -->
+                <!-- <div class="view"><i class="fa fa-eye"></i> 9141</div> -->
+              </div>
+            </div>
+            <div class="col-lg-9">
+              <div class="anime__details__text">
+                <div class="anime__details__title">
+                  <h3 th:text="${movieDto.title}">영화 타이틀 가져오기</h3>
+                </div>
+                <div class="anime__details__rating">
+                  <div class="rating">
+                    <div
+                      th:each="i : ${#numbers.sequence(0, 4)}"
+                      style="display: inline-block"
+                    >
+                      <span href="#" th:if="${i < (movieDto.voteAverage / 2)}"
+                        ><i class="fa-solid fa-star"></i
+                      ></span>
+                      <span href="#" th:if="${i >= (movieDto.voteAverage / 2)}"
+                        ><i class="fa-regular fa-star"></i
+                      ></span>
+                    </div>
+                  </div>
+                  <span th:text="${movieDto.voteCount} + ' Votes'"
+                    >1.029 Votes</span
+                  >
+                </div>
+                <p th:text="${movieDto.tagline}">영화에 대한 상세 정보</p>
+                <div class="anime__details__widget">
+                  <div class="row">
+                    <div class="">
+                      <ul>
+                        <li>
+                          <span>감독:</span>
+                          <!-- 리스트의 감독 이름을 출력 -->
+                          <span th:each="director, iterStat : ${directorList}">
+                            <!-- 최대 3명까지 출력 -->
+                            <span
+                              th:if="${iterStat.index < 3}"
+                              th:text="${director}"
+                            ></span
+                            ><!-- 마지막 항목이 아닌 경우에만 쉼표 추가 --><span
+                              th:if="${!iterStat.last and iterStat.index < 2}"
+                              >,&nbsp</span
+                            >
+                          </span>
+                          <!-- 3명이 넘을 경우 외 n 명으로 출력 -->
+                          <span th:if="${directorList.size() > 3}">
+                            외 [[${directorList.size() - 3}]] 명</span
+                          >
+                        </li>
+                        <li>
+                          <span>출연진:</span>
+                          <!-- 리스트의 배우 이름을 출력 -->
+                          <span th:each="actor, iterStat : ${actorList}">
+                            <!-- 최대 3명까지 출력 -->
+                            <span
+                              th:if="${iterStat.index < 3}"
+                              th:text="${actor}"
+                            ></span
+                            ><!-- 마지막 항목이 아닌 경우에만 쉼표 추가 --><span
+                              th:if="${!iterStat.last and iterStat.index < 2}"
+                              >,&nbsp</span
+                            >
+                          </span>
+                          <!-- 3명이 넘을 경우 외 n 명으로 출력 -->
+                          <span th:if="${actorList.size() > 3}">
+                            외 [[${actorList.size() - 3}]] 명</span
+                          >
+                        </li>
+                        <li>
+                          <span>장르:</span>
+                          <!-- 리스트의 모든 감독 이름을 출력 -->
+                          <span th:each="genre, iterStat : ${genreList}">
+                            <span th:text="${genre}"></span
+                            ><span th:if="${!iterStat.last}">,&nbsp</span>
+                            <!-- 마지막 항목이 아닌 경우에만 쉼표 추가 -->
+                          </span>
+                        </li>
+                        <li><span>등급:</span> ~세이상 관람가</li>
+                        <li>
+                          <span>개봉일:</span> [[${movieDto.releaseDate}]]
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div class="anime__details__btn">
+                  <a href="#" class="follow-btn"
+                    ><i class="fa fa-heart-o"></i> 찜 하기</a
+                  >
+                  <a href="#" class="watch-btn"
+                    ><span>빠른 예매</span> <i class="fa fa-angle-right"></i
+                  ></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="section-title">
+          <h5>개요</h5>
+        </div>
         <div
-          class="row p-4 p-md-5 mb-4 rounded text-body-emphasis bg-body-secondary"
-        >
-          <!-- <div class="col-lg-4 imgtest"></div>
-          <div class="col-lg-8">
-            <h1 class="display-4 fst-italic">Title of a longer featured blog post</h1>
-            <p class="lead my-3">Multiple lines of text that form the lede, informing new readers quickly and efficiently about what’s most interesting in this post’s contents.</p>
-            <p class="lead mb-0"><a href="#" class="text-body-emphasis fw-bold">Continue reading...</a></p>
-          </div> -->
+          class="anime__review__item overview"
+          th:text="${movieDto.overview}"
+        ></div>
+        <div class="row">
+          <div class="col-lg-8 col-md-8">
+            <div class="anime__details__review">
+              <div class="section-title">
+                <h5>관람평</h5>
+              </div>
+              <div class="anime__review__item">
+                <div class="anime__review__item__pic">
+                  <img src="img/anime/review-1.jpg" alt="" />
+                </div>
+                <div class="anime__review__item__text">
+                  <h6>작성자</h6>
+                  <p>댓글 내용</p>
+                </div>
+              </div>
+
+              <div class="anime__details__form">
+                <div class="section-title">
+                  <h5>관람평 작성하기</h5>
+                </div>
+                <form action="#">
+                  <textarea placeholder="Your Comment"></textarea>
+                  <button type="submit">
+                    <i class="fa fa-location-arrow"></i> 관람평 등록
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
-    <!-- Product Section End -->
-    <form action="" method="post" id="actionForm">
-      <input type="hidden" name="id" th:value="${id}" />
-      <input type="hidden" name="page" th:value="${page != null ? page:1}" />
-      <input
-        type="hidden"
-        name="movieList"
-        th:value="${movieList != null ? movieList:'now_playing'}"
-      />
-      <input type="hidden" name="genre" th:value="${genre}" />
-    </form>
   </div>
-  <th:block layout:fragment="js">
-    <script th:src="@{/js/movieDetail.js}"></script>
-  </th:block>
 </html>

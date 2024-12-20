@@ -38,4 +38,6 @@ public class MoviePeople {
     @Column(length = 500)
     private String character;
 
+    private String role;
+
 }
