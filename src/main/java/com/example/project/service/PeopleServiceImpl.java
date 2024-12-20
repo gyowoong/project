@@ -1,6 +1,5 @@
 package com.example.project.service;
 
-import java.util.List;
 import java.util.function.Function;
 
 import org.springframework.data.domain.Page;
@@ -8,11 +7,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import com.example.project.dto.GenreDto;
 import com.example.project.dto.PeopleDto;
 import com.example.project.dto.PageRequestDTO;
 import com.example.project.dto.PageResultDTO;
-import com.example.project.entity.Genre;
 import com.example.project.entity.People;
 import com.example.project.repository.movie.PeopleRepository;
 
@@ -36,6 +33,11 @@ public class PeopleServiceImpl implements PeopleService {
 
         return new PageResultDTO<>(peoples, function);
         // return null;
+    }
+
+    @Override
+    public PeopleDto read(Long id) {
+        return entityToDto(peopleRepository.findById(id).get());
     }
 
 }
