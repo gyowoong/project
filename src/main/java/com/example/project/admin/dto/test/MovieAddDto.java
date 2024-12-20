@@ -7,7 +7,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -18,6 +17,7 @@ public class MovieAddDto {
     private String add;
     private String manager;
 
+    private Long sno;
     private String state;
 
     public MovieAddDto(String name, String add, String state) {
@@ -26,12 +26,12 @@ public class MovieAddDto {
         this.state = state;
     }
 
-    public MovieAddDto(String name, String add, String manager, String state) {
+    public MovieAddDto(Long tno, String name, String add, String state) {
         this.name = name;
         this.add = add;
-        this.manager = manager;
         this.state = state;
+        this.tno = tno;
+
     }
 
-    
 }

@@ -6,10 +6,6 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-<<<<<<< HEAD
-=======
-
->>>>>>> main
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -50,13 +46,8 @@ public class SecurityConfig {
         // http.formLogin(login -> login.loginPage("/admin/login")
         // .defaultSuccessUrl("/admin/page/index", true).permitAll());
 
-<<<<<<< HEAD
-        // http.formLogin(login -> login.loginPage("/admin/login")
-        // .defaultSuccessUrl("/admin/page/index", true).permitAll());
-=======
         // http.sessionManagement(session ->
         // session.sessionCreationPolicy(SessionCreationPolicy.ALWAYS));
->>>>>>> main
 
         // http.logout(logout -> logout
         // .logoutRequestMatcher(new AntPathRequestMatcher("/admin/logout"))
@@ -65,13 +56,8 @@ public class SecurityConfig {
         // http.csrf(csrf -> csrf.disable());
         return http.build();
     }
-<<<<<<< HEAD
-    
-     @Bean 
-=======
 
     @Bean
->>>>>>> main
     PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }

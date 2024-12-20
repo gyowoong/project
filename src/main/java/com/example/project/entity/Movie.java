@@ -61,11 +61,7 @@ public class Movie {
     @OneToMany(mappedBy = "movie")
     private Set<MoviePeople> moviePeople;
 
-<<<<<<< HEAD
-    
-=======
     @OneToMany(mappedBy = "movie")
     private List<Review> reviews;
->>>>>>> main
 
 }

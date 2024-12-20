@@ -4,18 +4,24 @@ import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.project.admin.Entity.MovieAdd;
 import com.example.project.admin.dto.test.MovieAddDto;
+import com.example.project.admin.dto.test.MovieStateDto;
 import com.example.project.admin.dto.test.UserDto;
 import com.example.project.admin.service.test.UserServie;
 import com.example.project.dto.MovieDetailsDTO;
 import com.example.project.entity.test.UserEntity;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @RequiredArgsConstructor
 @Controller
@@ -40,33 +46,54 @@ public class AdminController {
     }
 
     @GetMapping("/create")
-<<<<<<< HEAD
     public void getCreate(Model model) {
         log.info("create 폼 요청");
-         // 서비스 호출
-         List<MovieDetailsDTO> movieDetails = userServie.getMovieDetails();
-=======
-    public void getCreate(MovieDto movieDto, Model model) {
->>>>>>> main
+        // 서비스 호출
+        List<MovieDetailsDTO> movieDetails = userServie.getMovieDetails();
 
-         // 모델에 데이터 추가
-         model.addAttribute("movieDetails", movieDetails);
+        // 모델에 데이터 추가
+        model.addAttribute("movieDetails", movieDetails);
     }
 
     @GetMapping("/join")
     public void getJoin() {
         log.info("join 폼 요청");
-        
+
     }
-    @GetMapping("/movie")
-    public void getMovie(String state,String name,Model model) {
-        log.info("movie 폼 요청 {} {}" ,state ,name);
-        List<MovieAddDto> add = userServie.selectList(state,name);
+
+    @GetMapping({ "/movie", "/movieAdd" })
+    public void getMovie(String state, String name, Model model) {
+        log.info("movie 폼 요청 {} {}", state, name);
+        List<MovieAddDto> add = userServie.selectList(state, name);
         model.addAttribute("add", add);
         model.addAttribute("states", userServie.getAllStates());
         model.addAttribute("state", state);
         model.addAttribute("name", name);
-        log.info("movie 폼 요청 {}" ,model);
-        
+        log.info("movie 폼 요청 {}", model);
+
     }
+
+    @PostMapping("/movieAdd")
+    public String postMovieAdd(@Valid MovieAddDto movieAddDto, BindingResult result, Model model) {
+        log.info("영화관등록 폼 요청 {} ", movieAddDto);
+        if (result.hasErrors()) {
+            return "/admin/page/movieAdd";
+        }
+
+        Long add = userServie.addMovie(movieAddDto);
+        // List<MovieStateDto> state = userServie.getAllStates();
+        model.addAttribute("add", add);
+        // model.addAttribute("state", state);
+
+        return "redirect:/admin/page/movie";
+    }
+
+    // @PostMapping("/remove")
+    // public String postRemove(Long tno) {
+    // log.info("영화관삭제 폼 요청 {} ", tno);
+    // userServie.delete(tno);
+
+    // return "redirect:/admin/page/movie";
+    // }
+
 }

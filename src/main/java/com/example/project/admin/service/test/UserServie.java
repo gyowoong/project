@@ -3,104 +3,91 @@ package com.example.project.admin.service.test;
 import java.util.List;
 
 import com.example.project.admin.Entity.MovieAdd;
+import com.example.project.admin.Entity.MovieState;
 import com.example.project.dto.MovieDetailsDTO;
 import com.example.project.dto.MovieDto;
 import com.example.project.dto.PageRequestDTO;
 import com.example.project.dto.PageResultDTO;
 import com.example.project.admin.dto.test.MovieAddDto;
+import com.example.project.admin.dto.test.MovieStateDto;
 import com.example.project.admin.dto.test.UserDto;
 import com.example.project.entity.Genre;
 import com.example.project.entity.Movie;
 import com.example.project.entity.test.UserEntity;
 
 public interface UserServie {
-
-
+    // 회원 정보 리스트
     List<UserEntity> allList(UserDto userDto);
-    // public List<MovieDto> getMovieDetailsWithGenres(Long id);
+
+    // 영화 정보 리스트
     List<MovieDetailsDTO> getMovieDetails();
-    // Long join(MovieDto movieDto);
 
-    List<MovieAddDto> addList();
+    // 영화관 정보 리스트
+    // List<MovieAddDto> addList();
 
-    List<MovieAddDto> selectList(String state,String name);
+    // 영화관 지역선택 또는 영화관명 검색으로 리스트 출력
+    List<MovieAddDto> selectList(String state, String name);
 
-    List<String> getAllStates();
+    // 지역 select 리스트
+    List<MovieStateDto> getAllStates();
 
-    default UserEntity dtoToEntity(UserDto dto){
+    // 영화관 등록
+    Long addMovie(MovieAddDto movieAddDto);
+
+    // 영화관 삭제
+    void delete(Long tno);
+
+    default UserEntity dtoToEntity(UserDto dto) {
         return UserEntity.builder()
-        .userid(dto.getUserid())
-        .password(dto.getPassword())
-        .name(dto.getName())
-        .addr(dto.getAddr())
-        .telNo(dto.getTelNo())
-        .email(dto.getEmail())
-        .point(dto.getPoint())
-        .reser(dto.isReser())
-        .gender(dto.getGender())
-        .age(dto.getAge())
-        .brith(dto.getBrith())
-        .build();
+                .userid(dto.getUserid())
+                .password(dto.getPassword())
+                .name(dto.getName())
+                .addr(dto.getAddr())
+                .telNo(dto.getTelNo())
+                .email(dto.getEmail())
+                .point(dto.getPoint())
+                .reser(dto.isReser())
+                .gender(dto.getGender())
+                .age(dto.getAge())
+                .brith(dto.getBrith())
+                .build();
     }
-    default UserDto entityToDto(UserEntity entity){
+
+    default UserDto entityToDto(UserEntity entity) {
         return UserDto.builder()
-        .userid(entity.getUserid())
-        .password(entity.getPassword())
-        .name(entity.getName())
-        .addr(entity.getAddr())
-        .telNo(entity.getTelNo())
-        .email(entity.getEmail())
-        .point(entity.getPoint())
-        .reser(entity.isReser())
-        .gender(entity.getGender())
-        .age(entity.getAge())
-        .brith(entity.getBrith())
-        .build();
+                .userid(entity.getUserid())
+                .password(entity.getPassword())
+                .name(entity.getName())
+                .addr(entity.getAddr())
+                .telNo(entity.getTelNo())
+                .email(entity.getEmail())
+                .point(entity.getPoint())
+                .reser(entity.isReser())
+                .gender(entity.getGender())
+                .age(entity.getAge())
+                .brith(entity.getBrith())
+                .build();
     }
 
+    default MovieAdd dtoToEntity(MovieAddDto dto) {
+        MovieState movieState = MovieState.builder().sno(dto.getSno()).build();
 
-    default Movie mDtoToEntity(MovieDto dto){
-        return Movie.builder()
-        .id(dto.getId())
-        .backdrop_path(dto.getBackdrop_path())
-        .budget(dto.getBudget())
-        .homepage(dto.getHomepage())
-        .originalLanguage(dto.getOriginalLanguage())
-        .originalTitle(dto.getOriginalTitle())
-        .overview(dto.getOverview())
-        .popularity(dto.getPopularity())
-        .posterPath(dto.getPosterPath())
-        .releaseDate(dto.getReleaseDate())
-        .runtime(dto.getRuntime())
-        .status(dto.getStatus())
-        .tagline(dto.getTagline())
-        .title(dto.getTitle())
-        .voteAverage(dto.getVoteAverage())
-        .voteCount(dto.getVoteCount())
-        .movieGenres(dto.getMovieGenres())
-        .moviePeople(dto.getMoviePeople())
-        .build();
+        return MovieAdd.builder()
+                .tno(dto.getTno())
+                .name(dto.getName())
+                .add(dto.getAdd())
+                .manager(dto.getManager())
+                .movieState(movieState)
+                .build();
     }
-    default MovieDto mEntityToDto(Movie movie, List<Genre> genre, String releaseDate){
-        return MovieDto.builder()
-        .id(movie.getId())
-        .backdrop_path(movie.getBackdrop_path())
-        .budget(movie.getBudget())
-        .homepage(movie.getHomepage())
-        .originalLanguage(movie.getOriginalLanguage())
-        .originalTitle(movie.getOriginalTitle())
-        .overview(movie.getOverview())
-        .popularity(movie.getPopularity())
-        .posterPath(movie.getPosterPath())
-        .releaseDate(movie.getReleaseDate())
-        .runtime(movie.getRuntime())
-        .status(movie.getStatus())
-        .tagline(movie.getTagline())
-        .title(movie.getTitle())
-        .voteAverage(movie.getVoteAverage())
-        .voteCount(movie.getVoteCount())
-        .movieGenres(movie.getMovieGenres())
-        .moviePeople(movie.getMoviePeople())
-        .build();
+
+    default MovieAddDto entityToDto(MovieAdd entity) {
+        return MovieAddDto.builder()
+                .tno(entity.getTno())
+                .name(entity.getName())
+                .add(entity.getAdd())
+                .manager(entity.getManager())
+                .build();
     }
+
 }
