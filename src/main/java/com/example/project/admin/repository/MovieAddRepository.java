@@ -29,11 +29,13 @@ public interface MovieAddRepository extends JpaRepository<MovieAdd, Long> {
     // t.THEATER_NAME LIKE %:name%)", nativeQuery = true)
     // List<Object[]> stateAndName(String state, String name);
 
-    @Query(value = "SELECT t,ts FROM THEATER t JOIN t.movieState ts WHERE ts.state LIKE %:state%")
-    List<Object[]> stateSearch(String state);
+    // @Query(value = "SELECT t,ts FROM THEATER t JOIN t.movieState ts WHERE
+    // ts.state LIKE %:state%")
+    // List<Object[]> stateSearch(String state);
 
-    @Query(value = "SELECT t,ts FROM THEATER t JOIN t.movieState ts WHERE t.name LIKE %:name%")
-    List<Object[]> nameSearch(String name);
+    // @Query(value = "SELECT t,ts FROM THEATER t JOIN t.movieState ts WHERE t.name
+    // LIKE %:name%")
+    // List<Object[]> nameSearch(String name);
 
     @Query(value = "SELECT t, ts FROM THEATER t JOIN t.movieState ts " +
             "WHERE (:state IS NULL OR ts.state LIKE %:state%) " +
