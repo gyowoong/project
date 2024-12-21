@@ -9,11 +9,13 @@ public interface PeopleService {
 
     PageResultDTO<PeopleDto, People> getList(PageRequestDTO requestDto);
 
+    PeopleDto read(Long id);
+
     public default PeopleDto entityToDto(People people) {
         return PeopleDto.builder()
                 .id(people.getId())
                 .gender(people.getGender())
-                .knownForDepartment(people.getKnownForDepartment())
+                .job(people.getJob())
                 .name(people.getName())
                 .popularity(people.getPopularity())
                 .profilePath(people.getProfilePath())
@@ -24,7 +26,7 @@ public interface PeopleService {
         return People.builder()
                 .id(peopleDto.getId())
                 .gender(peopleDto.getGender())
-                .knownForDepartment(peopleDto.getKnownForDepartment())
+                .job(peopleDto.getJob())
                 .name(peopleDto.getName())
                 .popularity(peopleDto.getPopularity())
                 .profilePath(peopleDto.getProfilePath())
