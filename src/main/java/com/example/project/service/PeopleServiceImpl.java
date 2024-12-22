@@ -1,5 +1,7 @@
 package com.example.project.service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Function;
 
 import org.springframework.data.domain.Page;
@@ -38,6 +40,15 @@ public class PeopleServiceImpl implements PeopleService {
     @Override
     public PeopleDto read(Long id) {
         return entityToDto(peopleRepository.findById(id).get());
+    }
+
+    @Override
+    public List<PeopleDto> getDirectorListByMovieId(Long id) {
+        List<PeopleDto> peopleDtos = new ArrayList<>();
+        peopleRepository.getDirectorListByMovieId(id).stream().forEach(person -> {
+            peopleDtos.add(entityToDto(person));
+        });
+        return peopleDtos;
     }
 
 }

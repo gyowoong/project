@@ -21,6 +21,22 @@
       .anime__details__content {
         margin: 0;
       }
+
+      .spad {
+        padding: 0;
+      }
+      .product {
+        padding: 0;
+      }
+      .product__item__text {
+        padding-top: 0;
+        padding-left: 10px;
+      }
+      .product__item__text ul {
+        margin: 0;
+        color: #ffffff;
+        font-weight: 500;
+      }
     </style>
   </th:block>
   <div layout:fragment="content">
@@ -69,40 +85,39 @@
             </div>
           </div>
         </div>
-        <div class="section-title">
-          <h5>개요</h5>
-        </div>
-
-        <div class="row">
-          <div class="col-lg-8 col-md-8">
-            <div class="anime__details__review">
-              <div class="section-title">
-                <h5>관람평</h5>
-              </div>
-              <div class="anime__review__item">
-                <div class="anime__review__item__pic">
-                  <img src="img/anime/review-1.jpg" alt="" />
-                </div>
-                <div class="anime__review__item__text">
-                  <h6>작성자</h6>
-                  <p>댓글 내용</p>
-                </div>
-              </div>
-
-              <div class="anime__details__form">
-                <div class="section-title">
-                  <h5>관람평 작성하기</h5>
-                </div>
-                <form action="#">
-                  <textarea placeholder="Your Comment"></textarea>
-                  <button type="submit">
-                    <i class="fa fa-location-arrow"></i> 관람평 등록
-                  </button>
-                </form>
-              </div>
-            </div>
+        <div class="row trending__product-row">
+          <div class="section-title">
+            <h5>필모그래피</h5>
+          </div>
+        <div
+          class="col-lg-3 col-md-4 col-sm-6 mb-3 product"
+          th:each="dto, iterStat : ${movieDtos}"
+        >
+          <div class="product__item mb-2">
+            <a th:href="@{movieDetail(id=${dto.id})}"
+              ><img
+                th:src="'https://image.tmdb.org/t/p/w500/' + ${dto.posterPath}"
+                alt=""
+                class="product__item__pic set-bg"
+            /></a>
+          </div>
+          <div class="product__item__text mx-4">
+            <h5>
+              <a
+                th:href="@{movieDetail(id=${dto.id})}"
+                th:text="${dto.title}"
+                >타이틀</a
+              >
+            </h5>
+            <ul>
+              <li>개봉일</li>
+              [[${dto.releaseDate}]]
+            </ul>
           </div>
         </div>
+        <div class="mt-4"></div>
+      </div>
+
       </div>
     </section>
   </div>

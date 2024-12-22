@@ -1,6 +1,9 @@
 package com.example.project.service;
 
 import com.example.project.dto.PeopleDto;
+
+import java.util.List;
+
 import com.example.project.dto.PageRequestDTO;
 import com.example.project.dto.PageResultDTO;
 import com.example.project.entity.People;
@@ -10,6 +13,8 @@ public interface PeopleService {
     PageResultDTO<PeopleDto, People> getList(PageRequestDTO requestDto);
 
     PeopleDto read(Long id);
+
+    List<PeopleDto> getDirectorListByMovieId(Long id);
 
     public default PeopleDto entityToDto(People people) {
         return PeopleDto.builder()

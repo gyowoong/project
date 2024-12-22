@@ -3,6 +3,7 @@ package com.example.project.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.project.dto.GenreDto;
 import com.example.project.dto.MovieDto;
+import com.example.project.dto.MoviePeopleDto;
 import com.example.project.dto.PageRequestDTO;
 import com.example.project.dto.PageResultDTO;
 import com.example.project.dto.PeopleDto;
@@ -80,14 +82,26 @@ public class MovieController {
     public void getMovieDetail(Long id, @ModelAttribute("requestDto") PageRequestDTO requestDto,
             Model model) {
         log.info("movieDetail 폼 요청 {}", id);
-        MovieDto movieDto = movieService.read(id);
-        List<String> directorList = movieService.getDirectorList(id);
-        List<String> actorList = movieService.getActorList(id);
-        List<String> genreList = movieService.getGenreList(id);
+        MovieDto movieDto = movieService.getMovieDetail(id);
         model.addAttribute("movieDto", movieDto);
+        List<MoviePeopleDto> directorList = new ArrayList<>();
+        List<MoviePeopleDto> actorList = new ArrayList<>();
+        for (MoviePeopleDto person : movieDto.getMoviePeopleDtos()) {
+            if (person.getRole() == "Director") {
+                directorList.add(person);
+            }
+            if (person.getCharacter() == null) {
+                actorList.add(person);
+            }
+        }
         model.addAttribute("directorList", directorList);
         model.addAttribute("actorList", actorList);
-        model.addAttribute("genreList", genreList);
+        // List<String> directorList = movieService.getDirectorList(id);
+        // List<String> actorList = movieService.getActorList(id);
+        // List<String> genreList = movieService.getGenreList(id);
+        // model.addAttribute("directorList", directorList);
+        // model.addAttribute("actorList", actorList);
+        // model.addAttribute("genreList", genreList);
     }
 
     @GetMapping("/personDetail")
@@ -95,6 +109,8 @@ public class MovieController {
             Model model) {
         log.info("personDetail 폼 요청 {}", id);
         PeopleDto peopleDto = peopleService.read(id);
+        List<MovieDto> movieDtos = movieService.getMovieListByPersonId(id);
         model.addAttribute("peopleDto", peopleDto);
+        model.addAttribute("movieDtos", movieDtos);
     }
 }

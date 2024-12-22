@@ -1,5 +1,6 @@
 package com.example.project.repository;
 
+import java.util.List;
 import java.util.stream.IntStream;
 
 import org.json.simple.JSONArray;
@@ -22,6 +23,8 @@ import com.example.project.repository.movie.MovieGenreRepository;
 import com.example.project.repository.movie.MoviePeopleRepository;
 import com.example.project.repository.movie.MovieRepository;
 import com.example.project.repository.movie.PeopleRepository;
+
+import jakarta.transaction.Transactional;
 
 @SpringBootTest
 public class MovieRepositoryTest {
@@ -270,16 +273,26 @@ public class MovieRepositoryTest {
                 ;
         }
 
-        // 영화 id로 Director 리스트 가져오기 테스트
-        @Test
-        public void getDirectorList() {
-                System.out.println(movieRepository.getDirectorList(1241982L));
-        }
+        // // 영화 id로 Director 리스트 가져오기 테스트
+        // @Test
+        // public void getDirectorList() {
+        // System.out.println(movieRepository.getDirectorList(1241982L));
+        // }
 
-        // 영화 id로 Actor 리스트 가져오기 테스트
+        // // 영화 id로 Actor 리스트 가져오기 테스트
+        // @Test
+        // public void getActorList() {
+        // System.out.println(movieRepository.getActorList(1241982L));
+        // }
+
+        @Transactional
         @Test
-        public void getActorList() {
-                System.out.println(movieRepository.getActorList(1241982L));
+        public void getMovieListByPersonId() {
+                List<Movie> movies = movieRepository.getMovieListByPersonId(240724L);
+                for (Movie movie : movies) {
+                        System.out.println(movie);
+                }
+
         }
 
 }

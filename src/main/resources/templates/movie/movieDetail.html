@@ -26,8 +26,10 @@
   <div layout:fragment="content">
     <section class="anime-details spad">
       <div class="container">
+        <!-- 영화 정보 -->
         <div class="anime__details__content">
           <div class="row">
+            <!-- 영화 포스터 -->
             <div class="col-lg-3">
               <div
                 class="anime__details__pic set-bg"
@@ -42,10 +44,11 @@
                 <!-- <div class="view"><i class="fa fa-eye"></i> 9141</div> -->
               </div>
             </div>
+            <!-- 영화 기본 정보 -->
             <div class="col-lg-9">
               <div class="anime__details__text">
                 <div class="anime__details__title">
-                  <h3 th:text="${movieDto.title}">영화 타이틀 가져오기</h3>
+                  <h3 th:text="${movieDto.title}"></h3>
                 </div>
                 <div class="anime__details__rating">
                   <div class="rating">
@@ -96,7 +99,7 @@
                             <!-- 최대 3명까지 출력 -->
                             <span
                               th:if="${iterStat.index < 3}"
-                              th:text="${actor}"
+                              th:text="${actor.role}"
                             ></span
                             ><!-- 마지막 항목이 아닌 경우에만 쉼표 추가 --><span
                               th:if="${!iterStat.last and iterStat.index < 2}"
@@ -137,13 +140,28 @@
             </div>
           </div>
         </div>
-        <div class="section-title">
-          <h5>개요</h5>
+        <div class="d-flex justify-content-center">
+          <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+            <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked>
+            <label class="btn btn-outline-primary" for="btnradio1">주요 정보</label>
+          
+            <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
+            <label class="btn btn-outline-primary" for="btnradio2">감독/출연</label>
+          
+            <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off">
+            <label class="btn btn-outline-primary" for="btnradio3">평점/리뷰</label>
+          </div>
         </div>
-        <div
-          class="anime__review__item overview"
-          th:text="${movieDto.overview}"
-        ></div>
+        <div class="movie_info">
+          <div class="movie_info_people">
+            <div class="movie_info_people_director">
+
+
+
+            </div>
+          </div>
+          
+        </div>
         <div class="row">
           <div class="col-lg-8 col-md-8">
             <div class="anime__details__review">
@@ -177,4 +195,10 @@
       </div>
     </section>
   </div>
+  <th:block layout:fragment="js">
+    <script>
+      const movieId = "[[${movieDto.id}]]"
+    </script>
+    <script th:src="@{/js/movietest.js}"></script>
+  </th:block>
 </html>
