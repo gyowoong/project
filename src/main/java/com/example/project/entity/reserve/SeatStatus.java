@@ -1,4 +1,4 @@
-package com.example.project.entity;
+package com.example.project.entity.reserve;
 
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;

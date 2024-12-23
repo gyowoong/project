@@ -6,13 +6,13 @@ import java.util.Map;
 import com.example.project.dto.MovieDto;
 import com.example.project.dto.ReserveDto;
 import com.example.project.dto.TheaterDto;
-import com.example.project.entity.Auditorium;
 import com.example.project.entity.Member;
 import com.example.project.entity.Movie;
-import com.example.project.entity.Reserve;
-import com.example.project.entity.Screening;
-import com.example.project.entity.Seat;
-import com.example.project.entity.Theater;
+import com.example.project.entity.reserve.Auditorium;
+import com.example.project.entity.reserve.Reserve;
+import com.example.project.entity.reserve.Screening;
+import com.example.project.entity.reserve.Seat;
+import com.example.project.entity.reserve.Theater;
 
 public interface ReserveService {
 

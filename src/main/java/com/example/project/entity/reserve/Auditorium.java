@@ -1,4 +1,4 @@
-package com.example.project.entity;
+package com.example.project.entity.reserve;
 
 import java.util.ArrayList;
 import java.util.List;

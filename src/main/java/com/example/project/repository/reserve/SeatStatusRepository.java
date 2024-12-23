@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.example.project.entity.SeatStatus;
 import com.example.project.entity.constant.SeatStatusEnum;
+import com.example.project.entity.reserve.SeatStatus;
 
 public interface SeatStatusRepository extends JpaRepository<SeatStatus, Long> {
     // List<SeatStatus> findByAuditorium_Seat(Long auditoriumNo); // 특정 상영관의 모든 좌석

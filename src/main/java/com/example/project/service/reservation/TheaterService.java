@@ -1,7 +1,7 @@
 package com.example.project.service.reservation;
 
 import com.example.project.dto.TheaterDto;
-import com.example.project.entity.Theater;
+import com.example.project.entity.reserve.Theater;
 
 public interface TheaterService {
 

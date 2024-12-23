@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.example.project.entity.Theater;
+import com.example.project.entity.reserve.Theater;
 
 public interface TheaterRepository extends JpaRepository<Theater, Long> {
     @Query("SELECT DISTINCT t.theaterState FROM Theater t")

@@ -21,14 +21,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
-import com.example.project.entity.Auditorium;
 import com.example.project.entity.Genre;
 import com.example.project.entity.Movie;
 import com.example.project.entity.MovieGenre;
 import com.example.project.entity.MoviePeople;
 import com.example.project.entity.People;
-import com.example.project.entity.Screening;
-import com.example.project.entity.Theater;
+import com.example.project.entity.reserve.Auditorium;
+import com.example.project.entity.reserve.Screening;
+import com.example.project.entity.reserve.Theater;
 import com.example.project.repository.movie.MovieRepository;
 import com.example.project.repository.reserve.AuditoriumRepository;
 import com.example.project.repository.reserve.ScreeningRepository;

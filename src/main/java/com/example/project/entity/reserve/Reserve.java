@@ -1,5 +1,8 @@
-package com.example.project.entity;
+package com.example.project.entity.reserve;
 
+import com.example.project.entity.BaseEntity;
+import com.example.project.entity.Member;
+import com.example.project.entity.Movie;
 import com.example.project.entity.constant.ReserveStatus;
 
 import jakarta.persistence.Column;

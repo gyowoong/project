@@ -1,9 +1,9 @@
 package com.example.project.service.reservation;
 
 import com.example.project.dto.SeatStatusDto;
-import com.example.project.entity.Auditorium;
-import com.example.project.entity.Seat;
-import com.example.project.entity.SeatStatus;
+import com.example.project.entity.reserve.Auditorium;
+import com.example.project.entity.reserve.Seat;
+import com.example.project.entity.reserve.SeatStatus;
 
 public interface SeatStatusService {
     default SeatStatus dtoToEntity(SeatStatusDto seatStatusDto) {

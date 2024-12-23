@@ -7,8 +7,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.example.project.entity.Movie;
-import com.example.project.entity.Screening;
-import com.example.project.entity.Theater;
+import com.example.project.entity.reserve.Screening;
+import com.example.project.entity.reserve.Theater;
 
 public interface ScreeningRepository extends JpaRepository<Screening, Long> {
 

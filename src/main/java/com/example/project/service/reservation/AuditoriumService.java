@@ -1,8 +1,8 @@
 package com.example.project.service.reservation;
 
 import com.example.project.dto.AuditoriumDto;
-import com.example.project.entity.Auditorium;
-import com.example.project.entity.Theater;
+import com.example.project.entity.reserve.Auditorium;
+import com.example.project.entity.reserve.Theater;
 
 public interface AuditoriumService {
     default Auditorium dtoToEntity(AuditoriumDto auditoriumDto) {

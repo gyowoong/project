@@ -3,8 +3,8 @@ package com.example.project.service.reservation;
 import java.util.List;
 
 import com.example.project.dto.SeatDto;
-import com.example.project.entity.Auditorium;
-import com.example.project.entity.Seat;
+import com.example.project.entity.reserve.Auditorium;
+import com.example.project.entity.reserve.Seat;
 
 public interface SeatService {
 

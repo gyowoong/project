@@ -1,4 +1,4 @@
-package com.example.project.entity;
+package com.example.project.entity.reserve;
 
 import groovy.transform.ToString;
 import jakarta.persistence.Column;
