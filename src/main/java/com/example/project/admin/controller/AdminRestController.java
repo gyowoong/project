@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.project.admin.dto.test.MovieAddDto;
 import com.example.project.admin.service.test.UserServie;
 
 import lombok.RequiredArgsConstructor;
@@ -21,11 +20,11 @@ public class AdminRestController {
 
     private final UserServie userServie;
 
-    @DeleteMapping("/{tno}")
-    public Long postRemove(@PathVariable Long tno) {
-        log.info("영화관삭제 폼 요청 {} ", tno);
-        userServie.delete(tno);
+    @DeleteMapping("/{theaterId}")
+    public Long postRemove(@PathVariable Long theaterId) {
+        log.info("영화관삭제 폼 요청 {} ", theaterId);
+        userServie.delete(theaterId);
 
-        return tno;
+        return theaterId;
     }
 }

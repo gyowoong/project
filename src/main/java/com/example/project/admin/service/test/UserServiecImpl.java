@@ -6,16 +6,16 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import com.example.project.admin.Entity.MovieAdd;
 import com.example.project.admin.Entity.MovieState;
-import com.example.project.admin.dto.test.MovieAddDto;
 import com.example.project.admin.dto.test.MovieStateDto;
 import com.example.project.admin.dto.test.UserDto;
 import com.example.project.admin.repository.AdminMovieRepository;
 import com.example.project.admin.repository.MovieAddRepository;
 import com.example.project.admin.repository.MovieStateRepository;
 import com.example.project.dto.MovieDetailsDTO;
+import com.example.project.dto.reserve.TheaterDto;
 import com.example.project.entity.Movie;
+import com.example.project.entity.reserve.Theater;
 import com.example.project.entity.test.UserEntity;
 import com.example.project.repository.test.UserRepository;
 
@@ -59,22 +59,22 @@ public class UserServiecImpl implements UserServie {
     // return details; // 리스트 반환
     // }
 
-    @Transactional
-    @Override
-    public List<MovieDetailsDTO> getMovieDetails() {
-        List<Object[]> results = adminMovieRepository.getMovieDetails();
-        List<MovieDetailsDTO> movieDetailsList = new ArrayList<>();
+    // @Transactional
+    // @Override
+    // public List<MovieDetailsDTO> getMovieDetails() {
+    // List<Object[]> results = adminMovieRepository.getMovieDetails();
+    // List<MovieDetailsDTO> movieDetailsList = new ArrayList<>();
 
-        for (Object[] result : results) {
-            String title = (String) result[0];
-            String genres = (String) result[1];
-            String releaseDate = (String) result[2];
+    // for (Object[] result : results) {
+    // String title = (String) result[0];
+    // String genres = (String) result[1];
+    // String releaseDate = (String) result[2];
 
-            movieDetailsList.add(new MovieDetailsDTO(title, releaseDate, genres));
-        }
+    // movieDetailsList.add(new MovieDetailsDTO(title, releaseDate, genres));
+    // }
 
-        return movieDetailsList;
-    }
+    // return movieDetailsList;
+    // }
 
     // @Override
     // public List<MovieAddDto> addList() {
@@ -93,14 +93,15 @@ public class UserServiecImpl implements UserServie {
     // return movieAdds;
     // }
 
+    @Transactional
     @Override
-    public List<MovieAddDto> selectList(String state, String name) {
-        List<Object[]> addList = movieAddRepository.stateAndName(state, name);
+    public List<TheaterDto> selectList(String state, String theaterName) {
+        List<Object[]> addList = movieAddRepository.stateAndName(state, theaterName);
         return addList.stream()
                 .map(result -> {
-                    MovieAdd movieAdd = (MovieAdd) result[0];
+                    Theater theater = (Theater) result[0];
                     MovieState movieState = (MovieState) result[1];
-                    return new MovieAddDto(movieAdd.getTno(), movieAdd.getName(), movieAdd.getAdd(),
+                    return new TheaterDto(theater.getTheaterId(), theater.getTheaterName(), theater.getTheaterAdd(),
                             movieState.getState());
                 })
                 .collect(Collectors.toList());
@@ -116,21 +117,22 @@ public class UserServiecImpl implements UserServie {
 
     @Transactional
     @Override
-    public Long addMovie(MovieAddDto movieAddDto) {
-        MovieState movieState = movieStateRepository.findById(movieAddDto.getSno()).get();
+    public Long addMovie(TheaterDto aDto) {
+        MovieState movieState = movieStateRepository.findById(aDto.getSno()).get();
 
-        MovieAdd movieAdd = MovieAdd.builder()
-                .name(movieAddDto.getName())
-                .add(movieAddDto.getAdd())
+        Theater theater = Theater.builder()
+                .theaterName(aDto.getTheaterName())
+                .theaterAdd(aDto.getTheaterAdd())
+                .theaterState(aDto.getTheaterState())
                 .movieState(movieState)
                 .build();
 
-        return movieAddRepository.save(movieAdd).getTno();
+        return movieAddRepository.save(theater).getTheaterId();
     }
 
     @Override
-    public void delete(Long tno) {
-        movieAddRepository.deleteById(tno);
+    public void delete(Long theaterId) {
+        movieAddRepository.deleteById(theaterId);
     }
 
 }

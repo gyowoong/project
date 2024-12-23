@@ -20,13 +20,12 @@ import lombok.ToString;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString(exclude = { "movieGenres", "moviePeople" })
+@ToString(exclude = { "movieGenres", "moviePeople", "reviews" })
 @Setter
 @Getter
 @Entity
 public class Movie {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private String backdrop_path;

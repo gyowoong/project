@@ -9,12 +9,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.example.project.admin.Entity.MovieAdd;
-import com.example.project.admin.dto.test.MovieAddDto;
 import com.example.project.admin.dto.test.MovieStateDto;
 import com.example.project.admin.dto.test.UserDto;
 import com.example.project.admin.service.test.UserServie;
 import com.example.project.dto.MovieDetailsDTO;
+import com.example.project.dto.reserve.TheaterDto;
 import com.example.project.entity.test.UserEntity;
 
 import jakarta.validation.Valid;
@@ -62,25 +61,25 @@ public class AdminController {
     }
 
     @GetMapping({ "/movie", "/movieAdd" })
-    public void getMovie(String state, String name, Model model) {
-        log.info("movie 폼 요청 {} {}", state, name);
-        List<MovieAddDto> add = userServie.selectList(state, name);
+    public void getMovie(String state, String theaterName, Model model) {
+        log.info("movie 폼 요청 {} {}", state, theaterName);
+        List<TheaterDto> add = userServie.selectList(state, theaterName);
         model.addAttribute("add", add);
         model.addAttribute("states", userServie.getAllStates());
         model.addAttribute("state", state);
-        model.addAttribute("name", name);
+        model.addAttribute("name", theaterName);
         log.info("movie 폼 요청 {}", model);
 
     }
 
     @PostMapping("/movieAdd")
-    public String postMovieAdd(@Valid MovieAddDto movieAddDto, BindingResult result, Model model) {
-        log.info("영화관등록 폼 요청 {} ", movieAddDto);
+    public String postMovieAdd(@Valid TheaterDto aDto, BindingResult result, Model model) {
+        log.info("영화관등록 폼 요청 {} ", aDto);
         if (result.hasErrors()) {
             return "/admin/page/movieAdd";
         }
 
-        Long add = userServie.addMovie(movieAddDto);
+        Long add = userServie.addMovie(aDto);
         // List<MovieStateDto> state = userServie.getAllStates();
         model.addAttribute("add", add);
         // model.addAttribute("state", state);

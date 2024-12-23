@@ -7,7 +7,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -15,4 +14,5 @@ import lombok.NoArgsConstructor;
 public class MovieStateDto {
     private Long sno;
     private String state;
+
 }

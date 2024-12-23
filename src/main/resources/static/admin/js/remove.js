@@ -8,9 +8,9 @@ movieForm.addEventListener("click", (e) => {
   if (!btn.classList.contains("fa-xmark")) return;
 
   const row = btn.closest("tr"); // 클릭된 버튼의 행
-  const tno = row.getAttribute("data-tno"); // 행의 data-tno 속성 값 가져오기
+  const theaterId = row.getAttribute("data-theaterId"); // 행의 data-tno 속성 값 가져오기
 
-  if (!tno) {
+  if (!theaterId) {
     alert("삭제할 데이터를 찾을 수 없습니다.");
     return;
   }
@@ -18,7 +18,7 @@ movieForm.addEventListener("click", (e) => {
   if (!confirm("정보를 지우시겠습니까?")) return;
 
   // 서버에 DELETE 요청
-  fetch(`/admin/page/${tno}`, {
+  fetch(`/admin/page/${theaterId}`, {
     method: "DELETE",
   })
     .then((response) => {

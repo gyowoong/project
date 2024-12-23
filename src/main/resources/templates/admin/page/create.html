@@ -7,19 +7,13 @@
           <div class="card-body">
             <p class="card-title">
               영화 관리
-              <a th:href="@{/admin/page/join}" class="btn btn-outline-primary">
-                등록
-              </a>
+              <a th:href="@{/admin/page/join}" class="btn btn-outline-primary"> 등록 </a>
             </p>
 
             <div class="row">
               <div class="col-12">
                 <div class="table-responsive">
-                  <table
-                    id="example"
-                    class="display expandable-table"
-                    style="width: 100%"
-                  >
+                  <table id="example" class="display expandable-table" style="width: 100%">
                     <thead>
                       <tr>
                         <th>제목</th>
@@ -31,12 +25,12 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr th:each="movies : ${movieDetails}">
-                        <td th:text="${movies.title}"></td>
+                      <tr>
                         <td></td>
                         <td></td>
-                        <td th:text="${movies.genres}"></td>
-                        <td th:text="${movies.releaseDate}"></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
                       </tr>
                     </tbody>
                   </table>

@@ -24,6 +24,8 @@ import com.example.project.repository.movie.MoviePeopleRepository;
 import com.example.project.repository.movie.MovieRepository;
 import com.example.project.repository.movie.PeopleRepository;
 
+import jakarta.transaction.Transactional;
+
 @SpringBootTest
 public class MovieRepositoryTest {
 
@@ -43,10 +45,11 @@ public class MovieRepositoryTest {
         private MoviePeopleRepository moviePeopleRepository;
 
         // 영화와 그 영화의 장르와 그 영화의 인물들을 한번에 테이블에 담기(가져오는 수 많으면 오래 걸림 + 렉 주의)
+
         @Test
         public void insertMovieTest() {
                 // 가져올 영화 수 설정(1에 영화 20개 씩)
-                IntStream.rangeClosed(1, 10).forEach(i -> {
+                IntStream.rangeClosed(1, 2).forEach(i -> {
                         RestTemplate rt = new RestTemplate();
                         // popular 순으로 영화 데이터 가져오기
                         ResponseEntity<String> entity = rt.getForEntity(

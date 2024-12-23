@@ -11,7 +11,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.annotation.Commit;
 
 import com.example.project.admin.Entity.Admin;
-import com.example.project.admin.Entity.MovieAdd;
 import com.example.project.admin.Entity.MovieState;
 import com.example.project.admin.Entity.constant.AdminRole;
 import com.example.project.admin.repository.AdminMovieRepository;
@@ -21,6 +20,7 @@ import com.example.project.admin.repository.MovieStateRepository;
 import com.example.project.entity.Genre;
 import com.example.project.entity.Movie;
 import com.example.project.entity.MovieGenre;
+import com.example.project.entity.reserve.Theater;
 import com.example.project.entity.test.UserEntity;
 import com.example.project.repository.movie.GenreRepository;
 import com.example.project.repository.movie.MovieGenreRepository;
@@ -219,7 +219,9 @@ public class AdminRepositoryTest {
         // List<Object[]> state = movieAddRepository.stateSearch("강");
         // List<Object[]> state = movieAddRepository.nameSearch("충주교현");
         for (Object[] objects : state) {
-            System.out.println(Arrays.toString(objects));
+            // System.out.println(Arrays.toString(objects));
+            Theater t = (Theater) objects[0];
+            System.out.println(t);
         }
 
     }
@@ -230,10 +232,10 @@ public class AdminRepositoryTest {
     public void insetStateTest() {
         MovieState state = movieStateRepository.findById(9L).get();
 
-        MovieAdd movieAdd = MovieAdd.builder()
-                .name("test test test")
-                .add("서울특별시")
-                .manager(null)
+        Theater movieAdd = Theater.builder()
+                .theaterName("test test test")
+                .theaterAdd("서울특별시")
+                .theaterState("서울특별시")
                 .movieState(state)
                 .build();
 

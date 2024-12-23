@@ -21,7 +21,7 @@
               </div>
               <div class="col-4">
                 <div class="form-floating">
-                  <input type="text" class="form-control" placeholder="" name="name" />
+                  <input type="text" class="form-control" placeholder="" name="theaterName" />
                   <label for="floatingInputGrid">영화관 이름으로 찾기</label>
                 </div>
               </div>
@@ -45,10 +45,10 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <tr th:each="list : ${add}" th:attr="data-tno=${list.tno}">
+                        <tr th:each="list : ${add}" th:attr="data-theaterId=${list.theaterId}">
                           <td th:text="${list.state}"></td>
-                          <td th:text="${list.name}"></td>
-                          <td th:text="${list.add}"></td>
+                          <td th:text="${list.theaterName}"></td>
+                          <td th:text="${list.theaterAdd}"></td>
                           <td>
                             <button type="button"><i class="fa-solid fa-xmark"></i></button>
                           </td>
