@@ -97,6 +97,7 @@ public class MovieRepositoryImpl extends QuerydslRepositorySupport implements Mo
     // return new PageImpl<>(result, pageable, count);
     // }
 
+    // 영화 리스트 불러오기
     @Override
     public Page<Object[]> getTotalList(String type, String keyword, String movieList, Long genreId,
             Pageable pageable) {
@@ -254,6 +255,7 @@ public class MovieRepositoryImpl extends QuerydslRepositorySupport implements Mo
     // return result;
     // }
 
+    // 인물 id로 영화 리스트 불러오기
     @Override
     public List<Movie> getMovieListByPersonId(Long id) {
         QMovie movie = QMovie.movie;
@@ -276,6 +278,7 @@ public class MovieRepositoryImpl extends QuerydslRepositorySupport implements Mo
         return result;
     }
 
+    // 영화 상세 정보 불러오기
     @Override
     public Object[] getMovieDetailById(Long id) {
         QMovie movie = QMovie.movie;

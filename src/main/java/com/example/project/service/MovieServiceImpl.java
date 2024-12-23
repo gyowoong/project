@@ -44,14 +44,13 @@ public class MovieServiceImpl implements MovieService {
                 (List<Genre>) en[3]));
 
         return new PageResultDTO<>(movies, function);
-        // return null;
     }
 
-    @Override
-    public MovieDto read(Long id) {
-        return null;
-        // return entityToDto(movieRepository.findById(id).get());
-    }
+    // @Override
+    // public MovieDto read(Long id) {
+    // return null;
+    // // return entityToDto(movieRepository.findById(id).get());
+    // }
 
     // @Override
     // public List<String> getDirectorList(Long id) {

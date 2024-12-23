@@ -82,26 +82,24 @@ public class MovieController {
     public void getMovieDetail(Long id, @ModelAttribute("requestDto") PageRequestDTO requestDto,
             Model model) {
         log.info("movieDetail 폼 요청 {}", id);
+
         MovieDto movieDto = movieService.getMovieDetail(id);
         model.addAttribute("movieDto", movieDto);
-        List<MoviePeopleDto> directorList = new ArrayList<>();
-        List<MoviePeopleDto> actorList = new ArrayList<>();
-        for (MoviePeopleDto person : movieDto.getMoviePeopleDtos()) {
-            if (person.getRole() == "Director") {
-                directorList.add(person);
-            }
-            if (person.getCharacter() == null) {
-                actorList.add(person);
+
+        List<PeopleDto> directorList = new ArrayList<>();
+        List<PeopleDto> actorList = new ArrayList<>();
+        for (PeopleDto peopleDto : movieDto.getPeopleDtos()) {
+            for (MoviePeopleDto moviePeopleDto : peopleDto.getMoviePeople()) {
+                if (moviePeopleDto.getRole() != null && moviePeopleDto.getRole().equals("Director")) {
+                    directorList.add(peopleDto);
+                }
+                if (moviePeopleDto.getRole() == null) {
+                    actorList.add(peopleDto);
+                }
             }
         }
         model.addAttribute("directorList", directorList);
         model.addAttribute("actorList", actorList);
-        // List<String> directorList = movieService.getDirectorList(id);
-        // List<String> actorList = movieService.getActorList(id);
-        // List<String> genreList = movieService.getGenreList(id);
-        // model.addAttribute("directorList", directorList);
-        // model.addAttribute("actorList", actorList);
-        // model.addAttribute("genreList", genreList);
     }
 
     @GetMapping("/personDetail")

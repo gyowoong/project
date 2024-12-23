@@ -31,13 +31,13 @@ public class MovieRestController {
     private final MovieService movieService;
     private final PeopleService peopleService;
 
-    @GetMapping("/movieList")
-    public ResponseEntity<PageResultDTO<MovieDto, Movie>> getList(
-            @ModelAttribute("requestDto") @RequestBody PageRequestDTO requestDto) {
-        log.info("rest 영화 전체 목록 요청 {}", requestDto);
-        PageResultDTO<MovieDto, Movie> result = movieService.getList(requestDto);
-        return new ResponseEntity<>(result, HttpStatus.OK);
-    }
+    // @GetMapping("/movieList")
+    // public ResponseEntity<PageResultDTO<MovieDto, Movie>> getList(
+    // @ModelAttribute("requestDto") @RequestBody PageRequestDTO requestDto) {
+    // log.info("rest 영화 전체 목록 요청 {}", requestDto);
+    // PageResultDTO<MovieDto, Movie> result = movieService.getList(requestDto);
+    // return new ResponseEntity<>(result, HttpStatus.OK);
+    // }
 
     @GetMapping("/movieDetail/{id}")
     public ResponseEntity<MovieDto> getMovieDetail(@PathVariable Long id,

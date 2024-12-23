@@ -23,5 +23,5 @@ public class PeopleDto {
     private Double popularity;
     private String profilePath;
 
-    private List<MoviePeople> moviePeople;
+    private List<MoviePeopleDto> moviePeople;
 }

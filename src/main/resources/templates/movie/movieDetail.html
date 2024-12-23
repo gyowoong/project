@@ -80,7 +80,7 @@
                             <!-- 최대 3명까지 출력 -->
                             <span
                               th:if="${iterStat.index < 3}"
-                              th:text="${director}"
+                              th:text="${director.name}"
                             ></span
                             ><!-- 마지막 항목이 아닌 경우에만 쉼표 추가 --><span
                               th:if="${!iterStat.last and iterStat.index < 2}"
@@ -99,7 +99,7 @@
                             <!-- 최대 3명까지 출력 -->
                             <span
                               th:if="${iterStat.index < 3}"
-                              th:text="${actor.role}"
+                              th:text="${actor.name}"
                             ></span
                             ><!-- 마지막 항목이 아닌 경우에만 쉼표 추가 --><span
                               th:if="${!iterStat.last and iterStat.index < 2}"
@@ -114,13 +114,17 @@
                         <li>
                           <span>장르:</span>
                           <!-- 리스트의 모든 감독 이름을 출력 -->
-                          <span th:each="genre, iterStat : ${genreList}">
-                            <span th:text="${genre}"></span
+                          <span
+                            th:each="genre, iterStat : ${movieDto.genresDtos}"
+                          >
+                            <span th:text="${genre.name}"></span
                             ><span th:if="${!iterStat.last}">,&nbsp</span>
                             <!-- 마지막 항목이 아닌 경우에만 쉼표 추가 -->
                           </span>
                         </li>
-                        <li><span>등급:</span> ~세이상 관람가</li>
+                        <li>
+                          <span>상영 시간:</span> [[${movieDto.runtime}]]분
+                        </li>
                         <li>
                           <span>개봉일:</span> [[${movieDto.releaseDate}]]
                         </li>
@@ -141,28 +145,62 @@
           </div>
         </div>
         <div class="d-flex justify-content-center">
-          <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-            <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked>
-            <label class="btn btn-outline-primary" for="btnradio1">주요 정보</label>
-          
-            <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
-            <label class="btn btn-outline-primary" for="btnradio2">감독/출연</label>
-          
-            <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off">
-            <label class="btn btn-outline-primary" for="btnradio3">평점/리뷰</label>
+          <div
+            class="btn-group"
+            role="group"
+            aria-label="Basic radio toggle button group"
+          >
+            <input
+              type="radio"
+              class="btn-check"
+              name="btnradio"
+              id="btnradio1"
+              autocomplete="off"
+              checked
+            />
+            <label class="btn btn-outline-primary" for="btnradio1"
+              >주요 정보</label
+            >
+
+            <input
+              type="radio"
+              class="btn-check"
+              name="btnradio"
+              id="btnradio2"
+              autocomplete="off"
+            />
+            <label class="btn btn-outline-primary" for="btnradio2"
+              >감독/출연</label
+            >
+
+            <input
+              type="radio"
+              class="btn-check"
+              name="btnradio"
+              id="btnradio3"
+              autocomplete="off"
+            />
+            <label class="btn btn-outline-primary" for="btnradio3"
+              >평점/리뷰</label
+            >
+
+            <input
+              type="radio"
+              class="btn-check"
+              name="btnradio"
+              id="btnradio4"
+              autocomplete="off"
+            />
+            <label class="btn btn-outline-primary" for="btnradio4">추천</label>
           </div>
         </div>
         <div class="movie_info">
-          <div class="movie_info_people">
-            <div class="movie_info_people_director">
-
-
-
-            </div>
-          </div>
-          
+          <div class="overview"></div>
+          <div class="row trending__product-row director_row"></div>
+          <div class="row trending__product-row actor_row"></div>
+          <div class="row review_row"></div>
         </div>
-        <div class="row">
+        <!-- <div class="row">
           <div class="col-lg-8 col-md-8">
             <div class="anime__details__review">
               <div class="section-title">
@@ -191,13 +229,13 @@
               </div>
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
     </section>
   </div>
   <th:block layout:fragment="js">
     <script>
-      const movieId = "[[${movieDto.id}]]"
+      const movieId = "[[${movieDto.id}]]";
     </script>
     <script th:src="@{/js/movietest.js}"></script>
   </th:block>

@@ -17,4 +17,8 @@ public class MoviePeopleDto {
 
     private String role;
 
+    private Long peopleId;
+
+    private Long movieId;
+
 }
