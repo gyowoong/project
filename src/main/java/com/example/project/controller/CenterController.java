@@ -44,10 +44,10 @@ public class CenterController {
         return "/center/email";
     }
 
-    @GetMapping("/counseling")
-    public String getCounseling() {
+    @GetMapping("/center/dashboard")
+    public String getCenterDashboard() {
         log.info("상담 내역 요청");
-        return "/center/counseling";
+        return "/center/dashboard";
     }
 
 }

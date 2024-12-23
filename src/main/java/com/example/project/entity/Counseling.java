@@ -4,6 +4,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Table(name = "Counseling")
@@ -18,6 +20,10 @@ public class Counseling {
     private String counselingType;
     private String content;
     private String status;
+
+    @ManyToOne
+    @JoinColumn(name = "email_inquiry_id")
+    private EmailInquiry emailInquiry;
 
     // Getter와 Setter
     public Long getUserId() {
