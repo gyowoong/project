@@ -88,16 +88,17 @@ public class ReserveServiceImpl implements ReserveService {
 
     }
 
-    @Override
-    public List<MovieDto> getMoviesByTheater(Long theaterId) {
-        List<Movie> movies = screeningRepository.findMoviesByTheaterId(theaterId);
-        return movies.stream()
-                .map(movie -> MovieDto.builder()
-                        .id(movie.getId())
-                        .title(movie.getTitle())
-                        .build())
-                .collect(Collectors.toList());
-    }
+    // public List<MovieDto> getMoviesByTheaterId(Long theaterId) {
+    // List<Movie> movies = screeningRepository.findMoviesByTheaterId(theaterId);
+    // return movies.stream()
+    // .map(movie -> MovieDto.builder()
+    // .movieId(movie.getId())
+    // .title(movie.getTitle())
+    // .releaseDate(movie.getReleaseDate())
+    // .posterPath(movie.getPosterPath())
+    // .build())
+    // .collect(Collectors.toList());
+    // }
 
     @Override
     public List<Screening> getScreenings(Long theaterId, Long movieId) {

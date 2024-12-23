@@ -31,7 +31,7 @@ public interface ReserveService {
 
     List<TheaterDto> getTheatersByRegion(String region);
 
-    List<MovieDto> getMoviesByTheater(Long theaterId);
+    // List<MovieDto> getMoviesByTheaterId(Long theaterId);
 
     List<Screening> getScreenings(Long theaterId, Long movieId);
 

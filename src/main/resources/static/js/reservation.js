@@ -1,26 +1,47 @@
-// let prev = null; //지역 클릭시 배경색 변경
-// document.querySelectorAll(".fw-bold").forEach((button) => {
-//   button.addEventListener("click", (e) => {
-//     e.preventDefault();
-//     if (prev) {
-//       prev.classList.remove("clicked");
-//     }
-//     e.currentTarget.classList.add("clicked");
-//     prev = e.currentTarget;
-//   });
-// });
+let prev = null; //지역 클릭시 배경색 변경
+document.querySelectorAll(".fw-bold").forEach((button) => {
+  button.addEventListener("click", (e) => {
+    e.preventDefault();
+    if (prev) {
+      prev.classList.remove("clicked");
+    }
+    e.currentTarget.classList.add("clicked");
+    prev = e.currentTarget;
+  });
+});
 
-// let prev2 = null; //극장 클릭시 글자색 변경
-// document.querySelectorAll(".fw-semibold").forEach((button) => {
-//   button.addEventListener("click", (e) => {
-//     e.preventDefault();
-//     if (prev2) {
-//       prev2.classList.remove("clicked");
-//     }
-//     e.currentTarget.classList.add("clicked");
-//     prev2 = e.currentTarget;
-//   });
-// });
+document.addEventListener("DOMContentLoaded", () => {
+  const dateList = document.getElementById("dateList");
+  if (!dateList) {
+    console.error("dateList 요소를 찾을 수 없습니다!");
+    return;
+  }
+
+  const today = new Date();
+
+  Array.from({ length: 7 }).forEach((_, i) => {
+    const currentDate = new Date();
+    currentDate.setDate(today.getDate() + i);
+
+    const day = currentDate.getDate();
+    const dayOfWeek = currentDate.toLocaleDateString("ko-KR", {
+      weekday: "short",
+    });
+
+    const listItem = `
+          <li>
+                <a href="#" class="date-btn btn btn-light d-flex flex-column align-items-center justify-content-center">
+                    <label class="d-flex flex-column align-items-center">
+                        <input type="radio" name="radioDate">
+                        <strong>${day}</strong>
+                        <em>${dayOfWeek}</em>
+                    </label>
+                </a>
+            </li>
+      `;
+    dateList.insertAdjacentHTML("beforeend", listItem);
+  });
+});
 
 // let prev3 = null; //날짜 클릭시 색상 변경
 // document.querySelectorAll(".date-btn").forEach((button) => {
@@ -75,6 +96,7 @@ function addClickHandler(selector, clickedClass) {
 document.querySelectorAll(".region-list").forEach((link) => {
   link.addEventListener("click", (e) => {
     e.preventDefault();
+
     const region = e.currentTarget.getAttribute("data-region");
     if (!region) {
       console.error("지역값이 없습니다");

@@ -7,24 +7,36 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.IntStream;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 
 import com.example.project.entity.Auditorium;
+import com.example.project.entity.Genre;
 import com.example.project.entity.Movie;
+import com.example.project.entity.MovieGenre;
+import com.example.project.entity.MoviePeople;
+import com.example.project.entity.People;
 import com.example.project.entity.Screening;
 import com.example.project.entity.Theater;
 import com.example.project.repository.movie.MovieRepository;
+import com.example.project.repository.reserve.AuditoriumRepository;
 import com.example.project.repository.reserve.ScreeningRepository;
 import com.example.project.repository.reserve.TheaterRepository;
 
 @SpringBootTest
 @Transactional
-public class ScreeningRepositoryTest {
+public class ReserveRepositoryTest {
 
     @Autowired
     private ScreeningRepository screeningRepository;
@@ -34,5 +46,8 @@ public class ScreeningRepositoryTest {
 
     @Autowired
     private MovieRepository movieRepository;
+
+    @Autowired
+    private AuditoriumRepository auditoriumRepository;
 
 }

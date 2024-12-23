@@ -53,11 +53,12 @@ public class ReserveController {
         return ResponseEntity.ok(theaters);
     }
 
-    @GetMapping("/movies")
-    public ResponseEntity<List<MovieDto>> getMoviesByTheater(@RequestParam Long theaterId) {
-        List<MovieDto> movies = reserveService.getMoviesByTheater(theaterId);
-        return ResponseEntity.ok(movies);
-    }
+    // @GetMapping("/movies")
+    // public ResponseEntity<List<MovieDto>> getMoviesByTheater(@RequestParam Long
+    // theaterId) {
+    // List<MovieDto> movies = reserveService.getMoviesByTheater(theaterId);
+    // return ResponseEntity.ok(movies);
+    // }
 
     @GetMapping("/screenings")
     public ResponseEntity<List<Screening>> getScreenings(@RequestParam Long theaterId, @RequestParam Long movieId) {

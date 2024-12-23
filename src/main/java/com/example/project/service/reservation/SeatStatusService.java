@@ -10,7 +10,6 @@ public interface SeatStatusService {
         return SeatStatus.builder()
                 .seatStatusId(seatStatusDto.getSeatStatusId())
                 .seatStatusEnum(seatStatusDto.getStatus())
-                .auditorium(Auditorium.builder().auditoriumName(seatStatusDto.getAuditoriumName()).build())
                 .seat((Seat.builder().seatId(seatStatusDto.getSeatId()).rowNum(seatStatusDto.getRowNum())
                         .seatNum(seatStatusDto.getSeatNum()).build()))
                 .build();
@@ -23,7 +22,7 @@ public interface SeatStatusService {
                 .rowNum(seatStatus.getSeat().getRowNum())
                 .seatNum(seatStatus.getSeat().getSeatNum())
                 .status(seatStatus.getSeatStatusEnum())
-                .auditoriumName(seatStatus.getAuditorium().getAuditoriumName())
+                .auditoriumName(seatStatus.getSeat().getAuditorium().getAuditoriumName())
                 .build();
     }
 }
