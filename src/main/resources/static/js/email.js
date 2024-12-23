@@ -1,26 +1,71 @@
-// 이메일 문의 버튼 클릭 시 고객센터 게시판 열기
+// 글 작성 폼 열기
 document
   .getElementById("emailInquiryBtn")
   .addEventListener("click", function () {
-    const inquiryBoard = document.getElementById("inquiryBoard");
-    inquiryBoard.style.display = "block"; // 게시판을 보이게 설정
+    document.getElementById("form-container").style.display = "block";
+    document.getElementById("inquiryForm").reset();
+    document.getElementById("inquiry-id").value = "";
   });
 
-// 문의 제출 처리
+// 글 작성 폼 닫기
+document.getElementById("closeFormBtn").addEventListener("click", function () {
+  document.getElementById("form-container").style.display = "none";
+});
+
+// 수정 버튼 클릭 처리
+document.querySelectorAll(".edit-btn").forEach((button) => {
+  button.addEventListener("click", function () {
+    const id = this.getAttribute("data-id");
+    fetch(`/inquiries/${id}`)
+      .then((response) => response.json())
+      .then((data) => {
+        document.getElementById("form-container").style.display = "block";
+        document.getElementById("inquiry-id").value = data.id;
+        document.getElementById("name").value = data.name;
+        document.getElementById("email").value = data.email;
+        document.getElementById("message").value = data.message;
+      });
+  });
+});
+
+// 삭제 버튼 클릭 처리
+document.querySelectorAll(".delete-btn").forEach((button) => {
+  button.addEventListener("click", function () {
+    const id = this.getAttribute("data-id");
+    if (confirm("정말 삭제하시겠습니까?")) {
+      fetch(`center/email/delete/${inquiryId}`, { method: "DELETE" }).then(() =>
+        location.reload()
+      );
+    }
+  });
+});
+
+// 문의 폼 제출 처리
 document.getElementById("inquiryForm").addEventListener("submit", function (e) {
   e.preventDefault();
 
-  // 입력한 제목과 내용 가져오기
-  const subject = document.getElementById("subject").value;
+  const id = document.getElementById("inquiry-id").value;
+  const name = document.getElementById("name").value;
+  const email = document.getElementById("email").value;
   const message = document.getElementById("message").value;
 
-  // 새 문의 항목을 게시판에 추가
-  const board = document.getElementById("board");
-  const newInquiry = document.createElement("div");
-  newInquiry.classList.add("inquiry-item");
-  newInquiry.innerHTML = `<h4>${subject}</h4><p>${message}</p>`;
-  board.appendChild(newInquiry);
+  const requestData = {
+    id,
+    name,
+    email,
+    message,
+  };
 
-  // 폼 초기화
-  document.getElementById("inquiryForm").reset();
+  const method = id ? "PUT" : "POST";
+  const url = id ? `/inquiries/${id}` : "/inquiries";
+
+  fetch(url, {
+    method: method,
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(requestData),
+  }).then(() => {
+    location.reload();
+  });
 });
