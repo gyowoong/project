@@ -3,6 +3,7 @@ package com.example.project.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.project.dto.GenreDto;
 import com.example.project.dto.MovieDto;
+import com.example.project.dto.MoviePeopleDto;
 import com.example.project.dto.PageRequestDTO;
 import com.example.project.dto.PageResultDTO;
 import com.example.project.dto.PeopleDto;
@@ -80,14 +82,24 @@ public class MovieController {
     public void getMovieDetail(Long id, @ModelAttribute("requestDto") PageRequestDTO requestDto,
             Model model) {
         log.info("movieDetail 폼 요청 {}", id);
-        MovieDto movieDto = movieService.read(id);
-        List<String> directorList = movieService.getDirectorList(id);
-        List<String> actorList = movieService.getActorList(id);
-        List<String> genreList = movieService.getGenreList(id);
+
+        MovieDto movieDto = movieService.getMovieDetail(id);
         model.addAttribute("movieDto", movieDto);
+
+        List<PeopleDto> directorList = new ArrayList<>();
+        List<PeopleDto> actorList = new ArrayList<>();
+        for (PeopleDto peopleDto : movieDto.getPeopleDtos()) {
+            for (MoviePeopleDto moviePeopleDto : peopleDto.getMoviePeople()) {
+                if (moviePeopleDto.getRole() != null && moviePeopleDto.getRole().equals("Director")) {
+                    directorList.add(peopleDto);
+                }
+                if (moviePeopleDto.getRole() == null) {
+                    actorList.add(peopleDto);
+                }
+            }
+        }
         model.addAttribute("directorList", directorList);
         model.addAttribute("actorList", actorList);
-        model.addAttribute("genreList", genreList);
     }
 
     @GetMapping("/personDetail")
@@ -95,6 +107,8 @@ public class MovieController {
             Model model) {
         log.info("personDetail 폼 요청 {}", id);
         PeopleDto peopleDto = peopleService.read(id);
+        List<MovieDto> movieDtos = movieService.getMovieListByPersonId(id);
         model.addAttribute("peopleDto", peopleDto);
+        model.addAttribute("movieDtos", movieDtos);
     }
 }

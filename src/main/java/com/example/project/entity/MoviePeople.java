@@ -17,7 +17,7 @@ import lombok.ToString;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
+@ToString(exclude = { "movie", "people" })
 @Setter
 @Getter
 @Entity

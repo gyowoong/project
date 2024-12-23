@@ -1,6 +1,6 @@
 package com.example.project.dto;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import com.example.project.entity.MoviePeople;
@@ -35,13 +35,9 @@ public class MovieDto {
     private Double voteAverage;
     private Long voteCount;
 
-    private Set<MovieGenreDto> movieGenresDtos;
+    private List<GenreDto> genresDtos;
 
-    private Set<MoviePeople> moviePeople;
+    private List<PeopleDto> peopleDtos;
 
-
-    
-
-    
-
+    private List<MoviePeopleDto> moviePeopleDtos;
 }

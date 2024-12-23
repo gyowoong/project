@@ -1,5 +1,6 @@
 package com.example.project.repository;
 
+import java.util.List;
 import java.util.stream.IntStream;
 
 import org.json.simple.JSONArray;
@@ -49,14 +50,12 @@ public class MovieRepositoryTest {
         @Test
         public void insertMovieTest() {
                 // 가져올 영화 수 설정(1에 영화 20개 씩)
-                IntStream.rangeClosed(1, 2).forEach(i -> {
+                IntStream.rangeClosed(1, 1).forEach(i -> {
                         RestTemplate rt = new RestTemplate();
                         // popular 순으로 영화 데이터 가져오기
                         ResponseEntity<String> entity = rt.getForEntity(
                                         "https://api.themoviedb.org/3/movie/popular?language=ko-KR&region=KR&page="
-                                                        + i
-                                                        + "&api_key="
-                                                        + "a7e035c352858d4f14b0213f9415827c",
+                                                        + i + "&api_key=" + "a7e035c352858d4f14b0213f9415827c",
                                         String.class);
 
                         JSONParser jsonParser = new JSONParser();
@@ -75,13 +74,11 @@ public class MovieRepositoryTest {
                                         Long movieID = (Long) discoverMovie.get("id");
 
                                         // 영화 id로 영화 상세 데이터 가져오기
-                                        entity = rt
-                                                        .getForEntity(
-                                                                        "https://api.themoviedb.org/3/movie/" + movieID
-                                                                                        + "?language=ko-KR"
-                                                                                        + "&api_key="
-                                                                                        + "a7e035c352858d4f14b0213f9415827c",
-                                                                        String.class);
+                                        entity = rt.getForEntity(
+                                                        "https://api.themoviedb.org/3/movie/" + movieID
+                                                                        + "?language=ko-KR" + "&api_key="
+                                                                        + "a7e035c352858d4f14b0213f9415827c",
+                                                        String.class);
                                         // 파싱
                                         JSONObject movieDetails = (JSONObject) jsonParser
                                                         .parse(entity.getBody().toString());
@@ -143,8 +140,7 @@ public class MovieRepositoryTest {
                                         // 영화 id로 해당 영화 인물 가져오기
                                         entity = rt.getForEntity(
                                                         "https://api.themoviedb.org/3/movie/" + movieID
-                                                                        + "/credits?language=ko-KR"
-                                                                        + "&api_key="
+                                                                        + "/credits?language=ko-KR" + "&api_key="
                                                                         + "a7e035c352858d4f14b0213f9415827c",
                                                         String.class);
 
@@ -155,7 +151,6 @@ public class MovieRepositoryTest {
 
                                         // 크루 하나씩 수행
                                         for (Object pInfo : crew) {
-                                                // cast 파싱
                                                 JSONObject p = (JSONObject) jsonParser.parse(pInfo.toString());
 
                                                 // 변수에 담기
@@ -164,9 +159,7 @@ public class MovieRepositoryTest {
                                                 String name = (String) p.get("name");
                                                 popularity = (Double) p.get("popularity");
                                                 String profilePath = (String) p.get("profile_path");
-
                                                 String job = (String) p.get("job");
-
                                                 String knownForDepartment = (String) p.get("known_for_department");
 
                                                 // People 객체에 담기
@@ -181,13 +174,17 @@ public class MovieRepositoryTest {
 
                                                 peopleRepository.save(people);
 
-                                                // MoviePeople 객체에 담기
-                                                MoviePeople moviePeople = MoviePeople.builder()
-                                                                .movie(Movie.builder().id(movie.getId()).build())
-                                                                .people(People.builder().id(id).build())
-                                                                .role(job)
-                                                                .build();
-                                                moviePeopleRepository.save(moviePeople);
+                                                // MoviePeople 객체에 담기 (중복 체크)
+                                                if (!moviePeopleRepository.existsByMovieIdAndPeopleId(movie.getId(),
+                                                                id)) {
+                                                        MoviePeople moviePeople = MoviePeople.builder()
+                                                                        .movie(Movie.builder().id(movie.getId())
+                                                                                        .build())
+                                                                        .people(People.builder().id(id).build())
+                                                                        .role(job)
+                                                                        .build();
+                                                        moviePeopleRepository.save(moviePeople); // 중복되지 않으면 저장
+                                                }
                                         }
 
                                         // cast 값 가져오기
@@ -195,7 +192,6 @@ public class MovieRepositoryTest {
 
                                         // 배우 하나씩 수행
                                         for (Object pInfo : cast) {
-                                                // cast 파싱
                                                 JSONObject p = (JSONObject) jsonParser.parse(pInfo.toString());
 
                                                 // 변수에 담기
@@ -204,7 +200,6 @@ public class MovieRepositoryTest {
                                                 String name = (String) p.get("name");
                                                 popularity = (Double) p.get("popularity");
                                                 String profilePath = (String) p.get("profile_path");
-
                                                 String character = (String) p.get("character");
 
                                                 // People 객체에 담기
@@ -219,15 +214,18 @@ public class MovieRepositoryTest {
 
                                                 peopleRepository.save(people);
 
-                                                // MoviePeople 객체에 담기
-                                                MoviePeople moviePeople = MoviePeople.builder()
-                                                                .movie(Movie.builder().id(movie.getId()).build())
-                                                                .people(People.builder().id(id).build())
-                                                                .character(character)
-                                                                .build();
-                                                moviePeopleRepository.save(moviePeople);
+                                                // MoviePeople 객체에 담기 (중복 체크)
+                                                if (!moviePeopleRepository.existsByMovieIdAndPeopleId(movie.getId(),
+                                                                id)) {
+                                                        MoviePeople moviePeople = MoviePeople.builder()
+                                                                        .movie(Movie.builder().id(movie.getId())
+                                                                                        .build())
+                                                                        .people(People.builder().id(id).build())
+                                                                        .character(character)
+                                                                        .build();
+                                                        moviePeopleRepository.save(moviePeople); // 중복되지 않으면 저장
+                                                }
                                         }
-
                                 }
                         } catch (ParseException e) {
                                 e.printStackTrace();
@@ -274,16 +272,26 @@ public class MovieRepositoryTest {
                 ;
         }
 
-        // 영화 id로 Director 리스트 가져오기 테스트
-        @Test
-        public void getDirectorList() {
-                System.out.println(movieRepository.getDirectorList(1241982L));
-        }
+        // // 영화 id로 Director 리스트 가져오기 테스트
+        // @Test
+        // public void getDirectorList() {
+        // System.out.println(movieRepository.getDirectorList(1241982L));
+        // }
 
-        // 영화 id로 Actor 리스트 가져오기 테스트
+        // // 영화 id로 Actor 리스트 가져오기 테스트
+        // @Test
+        // public void getActorList() {
+        // System.out.println(movieRepository.getActorList(1241982L));
+        // }
+
+        @Transactional
         @Test
-        public void getActorList() {
-                System.out.println(movieRepository.getActorList(1241982L));
+        public void getMovieListByPersonId() {
+                List<Movie> movies = movieRepository.getMovieListByPersonId(240724L);
+                for (Movie movie : movies) {
+                        System.out.println(movie);
+                }
+
         }
 
 }

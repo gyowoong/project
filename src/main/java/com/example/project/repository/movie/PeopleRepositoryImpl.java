@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 
 import com.example.project.entity.Movie;
 import com.example.project.entity.People;
+import com.example.project.entity.QMovie;
 import com.example.project.entity.QMoviePeople;
 import com.example.project.entity.QPeople;
 import com.querydsl.core.BooleanBuilder;
@@ -67,6 +68,28 @@ public class PeopleRepositoryImpl extends QuerydslRepositorySupport implements P
 
         // 결과를 Movie로 반환
         return new PageImpl<>(result, pageable, count);
+    }
+
+    @Override
+    public List<People> getDirectorListByMovieId(Long id) {
+        QPeople people = QPeople.people;
+        QMoviePeople moviePeople = QMoviePeople.moviePeople;
+        QMovie movie = QMovie.movie;
+
+        JPQLQuery<People> query = from(people).leftJoin(moviePeople).on(people.id.eq(moviePeople.people.id))
+                .leftJoin(moviePeople).on(moviePeople.movie.id.eq(movie.id));
+
+        // 기본 조건: movie.id > 0
+        BooleanBuilder builder = new BooleanBuilder();
+        builder.and(movie.id.gt(0L));
+
+        builder.and(movie.id.eq(id)).and(moviePeople.role.eq("Director"));
+
+        query.where(builder);
+
+        List<People> result = query.fetch();
+
+        return result;
     }
 
 }
