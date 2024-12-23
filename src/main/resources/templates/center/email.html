@@ -32,14 +32,19 @@
               <td th:text="${inquiry.email}"></td>
               <td th:text="${inquiry.content}"></td>
               <td>
-                <button class="edit-btn" th:data-id="${inquiry.id}">
-                  수정
-                </button>
+                <form th:action="@{/center/email/modify}" method="get">
+                  <input type="hidden" name="id" th:value="${inquiry.id}" />
+                  <button type="submit" class="btn btn-primary">수정</button>
+                </form>
               </td>
               <td>
-                <button class="delete-btn" th:data-id="${inquiry.id}">
-                  삭제
-                </button>
+                <form action="/center/email/delete" method="post">
+                  <input type="hidden" name="id" th:value="${inquiry.id}" />
+                  <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
+                  <button class="delete-btn" th:data-id="${inquiry.id}">
+                    삭제
+                  </button>
+                </form>
               </td>
             </tr>
           </tbody>
