@@ -137,24 +137,24 @@ public class AdminRepositoryTest {
     // });
     // });
 
-    @Transactional
-    @Test
-    public void getGenres() {
-        List<Object[]> result = adminMovieRepository.getMovieDetails();
+    // @Transactional
+    // @Test
+    // public void getGenres() {
+    //     List<Object[]> result = adminMovieRepository.getMovieDetails();
 
-        for (Object[] objects : result) {
+    //     for (Object[] objects : result) {
 
-            System.out.println(Arrays.toString(objects));
+    //         System.out.println(Arrays.toString(objects));
 
-            // String title = (String) objects[0];
-            // String releaseDate = (String) objects[1];
-            // String genres = (String) objects[2];
-            // System.out.println(title);
-            // System.out.println(releaseDate);
-            // System.out.println(genres);
+    //         // String title = (String) objects[0];
+    //         // String releaseDate = (String) objects[1];
+    //         // String genres = (String) objects[2];
+    //         // System.out.println(title);
+    //         // System.out.println(releaseDate);
+    //         // System.out.println(genres);
 
-        }
-    }
+    //     }
+    // }
 
     @Commit
     @Transactional
