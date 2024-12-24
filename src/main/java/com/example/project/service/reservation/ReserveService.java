@@ -31,8 +31,6 @@ public interface ReserveService {
 
     List<TheaterDto> getTheatersByRegion(String region);
 
-    // List<MovieDto> getMoviesByTheaterId(Long theaterId);
-
     List<Screening> getScreenings(Long theaterId, Long movieId);
 
     default Reserve dtoToEntity(ReserveDto reserveDto) {

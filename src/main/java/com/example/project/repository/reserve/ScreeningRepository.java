@@ -12,8 +12,9 @@ import com.example.project.entity.reserve.Theater;
 
 public interface ScreeningRepository extends JpaRepository<Screening, Long> {
 
-    @Query("SELECT DISTINCT s.movie FROM Screening s WHERE s.auditorium.theater.theaterId = :theaterId")
-    List<Movie> findMoviesByTheaterId(@Param("theaterId") Long theaterId);
+    // @Query("SELECT DISTINCT s.movie FROM Screening s WHERE
+    // s.auditorium.theater.theaterId = :theaterId")
+    // List<Movie> findMoviesByTheaterId(@Param("theaterId") Long theaterId);
 
     // @Query("SELECT s FROM Screening s WHERE s.auditorium.theater.theaterId =
     // :theaterId AND s.movie.movieId = :movieId")

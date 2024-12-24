@@ -1,6 +1,7 @@
 package com.example.project.repository;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -33,6 +34,7 @@ import com.example.project.repository.movie.MovieRepository;
 import com.example.project.repository.reserve.AuditoriumRepository;
 import com.example.project.repository.reserve.ScreeningRepository;
 import com.example.project.repository.reserve.TheaterRepository;
+import com.example.project.service.MovieService;
 
 @SpringBootTest
 @Transactional
@@ -49,5 +51,8 @@ public class ReserveRepositoryTest {
 
     @Autowired
     private AuditoriumRepository auditoriumRepository;
+
+    @Autowired
+    private MovieService movieService;
 
 }
