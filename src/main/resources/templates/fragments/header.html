@@ -71,7 +71,12 @@
             <a href="#" class="search-switch"
               ><span class="icon_search"></span
             ></a>
-            <a th:href="@{/member/login}"><span class="icon_profile"></span></a>
+            <a sec:authorize="!isAuthenticated()" th:href="@{/member/login}"
+              ><span class="icon_profile"></span
+            ></a>
+            <a sec:authorize="isAuthenticated()" th:href="@{/member/mypage}"
+              ><span class="icon_profile"></span
+            ></a>
           </div>
         </div>
       </div>
