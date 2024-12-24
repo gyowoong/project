@@ -1,12 +1,17 @@
 package com.example.project.service.reservation;
 
 import java.util.List;
+import java.util.Map;
 
+import com.example.project.dto.MovieDto;
+import com.example.project.dto.ScreeningDto;
 import com.example.project.dto.reserve.ReserveDto;
+import com.example.project.dto.reserve.TheaterDto;
 import com.example.project.entity.Member;
 import com.example.project.entity.Movie;
 import com.example.project.entity.reserve.Auditorium;
 import com.example.project.entity.reserve.Reserve;
+import com.example.project.entity.reserve.Screening;
 import com.example.project.entity.reserve.Seat;
 import com.example.project.entity.reserve.Theater;
 
@@ -22,6 +27,14 @@ public interface ReserveService {
     ReserveDto updateReserve(Long reserveId, ReserveDto reserveDto);
 
     void deleteReserve(Long reserveId);
+
+    List<String> getAllRegions();
+
+    List<TheaterDto> getTheatersByRegion(String region);
+
+    List<String> getMoviesByTheaterId(Long theaterId);
+
+    List<ScreeningDto> getScreeningsByMovieTitle(String movieTitle);
 
     default Reserve dtoToEntity(ReserveDto reserveDto) {
         return Reserve.builder()
