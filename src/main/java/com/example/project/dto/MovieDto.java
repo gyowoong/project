@@ -1,13 +1,9 @@
 package com.example.project.dto;
 
+import java.util.List;
 import java.util.Set;
 
-import com.example.project.entity.MovieGenre;
 import com.example.project.entity.MoviePeople;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -39,7 +35,9 @@ public class MovieDto {
     private Double voteAverage;
     private Long voteCount;
 
-    private Set<MovieGenreDto> movieGenresDtos;
+    private List<GenreDto> genresDtos;
 
-    private Set<MoviePeople> moviePeople;
+    private List<PeopleDto> peopleDtos;
+
+    private List<MoviePeopleDto> moviePeopleDtos;
 }

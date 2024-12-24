@@ -13,7 +13,6 @@ import com.example.project.dto.AuthMemberDto;
 import com.example.project.dto.MemberDto;
 import com.example.project.entity.Member;
 import com.example.project.entity.constant.MemberRole;
-import com.example.project.entity.test.UserEntity;
 import com.example.project.repository.MemberRepository;
 
 import lombok.RequiredArgsConstructor;

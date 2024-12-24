@@ -3,19 +3,18 @@ package com.example.project.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.project.dto.GenreDto;
 import com.example.project.dto.MovieDto;
+import com.example.project.dto.MoviePeopleDto;
 import com.example.project.dto.PageRequestDTO;
 import com.example.project.dto.PageResultDTO;
 import com.example.project.dto.PeopleDto;
@@ -41,11 +40,11 @@ public class MovieController {
 
     }
 
-    @GetMapping("/read")
-    public void getRead() {
-        log.info("home 폼 요청");
+    // @GetMapping("/read")
+    // public void getRead() {
+    // log.info("home 폼 요청");
 
-    }
+    // }
 
     @GetMapping("/reservation")
     public void getReservation() {
@@ -57,19 +56,22 @@ public class MovieController {
     public void getMovieList(@ModelAttribute("requestDto") PageRequestDTO requestDto,
             Model model) {
         log.info("영화 전체 목록 요청 {}", requestDto);
-        if (requestDto.getType().contains("m") && requestDto.getKeyword() != null && requestDto.getKeyword() != "") {
-            PageResultDTO<MovieDto, Movie> result = movieService.getList(requestDto);
-            model.addAttribute("result", result);
+        if (requestDto.getKeyword() != null && requestDto.getKeyword() != "") {
+            if (requestDto.getType().contains("m")) {
+                PageResultDTO<MovieDto, Movie> movies = movieService.getList(requestDto);
+                model.addAttribute("movies", movies);
+                log.info("토탈 {}", movies.getTotalPage());
+            }
+            if (requestDto.getType().contains("p")) {
 
-        }
-        if (requestDto.getType().contains("p") && requestDto.getKeyword() != null && requestDto.getKeyword() != "") {
+                PageResultDTO<PeopleDto, People> people = peopleService.getList(requestDto);
+                log.info("토탈 {}", people.getTotalPage());
+                model.addAttribute("people", people);
 
-            PageResultDTO<PeopleDto, People> result2 = peopleService.getList(requestDto);
-            model.addAttribute("result2", result2);
-
+            }
         } else {
-            PageResultDTO<MovieDto, Movie> result = movieService.getList(requestDto);
-            model.addAttribute("result", result);
+            PageResultDTO<MovieDto, Movie> movies = movieService.getList(requestDto);
+            model.addAttribute("movies", movies);
         }
 
         List<GenreDto> genreDtos = genreService.getGenres();
@@ -77,15 +79,36 @@ public class MovieController {
     }
 
     @GetMapping("/movieDetail")
-    public void getMovieDetail(Long id, String movieList, Long genre, String type, String keyword, Long page,
+    public void getMovieDetail(Long id, @ModelAttribute("requestDto") PageRequestDTO requestDto,
             Model model) {
         log.info("movieDetail 폼 요청 {}", id);
-        model.addAttribute("id", id);
-        model.addAttribute("movieList", movieList);
-        model.addAttribute("genre", genre);
-        model.addAttribute("type", type);
-        model.addAttribute("keyword", keyword);
-        model.addAttribute("page", page);
+
+        MovieDto movieDto = movieService.getMovieDetail(id);
+        model.addAttribute("movieDto", movieDto);
+
+        List<PeopleDto> directorList = new ArrayList<>();
+        List<PeopleDto> actorList = new ArrayList<>();
+        for (PeopleDto peopleDto : movieDto.getPeopleDtos()) {
+            for (MoviePeopleDto moviePeopleDto : peopleDto.getMoviePeople()) {
+                if (moviePeopleDto.getRole() != null && moviePeopleDto.getRole().equals("Director")) {
+                    directorList.add(peopleDto);
+                }
+                if (moviePeopleDto.getRole() == null) {
+                    actorList.add(peopleDto);
+                }
+            }
+        }
+        model.addAttribute("directorList", directorList);
+        model.addAttribute("actorList", actorList);
     }
 
+    @GetMapping("/personDetail")
+    public void getPersonDetail(Long id, @ModelAttribute("requestDto") PageRequestDTO requestDto,
+            Model model) {
+        log.info("personDetail 폼 요청 {}", id);
+        PeopleDto peopleDto = peopleService.read(id);
+        List<MovieDto> movieDtos = movieService.getMovieListByPersonId(id);
+        model.addAttribute("peopleDto", peopleDto);
+        model.addAttribute("movieDtos", movieDtos);
+    }
 }

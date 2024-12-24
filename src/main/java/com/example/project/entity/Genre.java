@@ -19,7 +19,7 @@ import lombok.ToString;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
+@ToString(exclude = "movieGenres")
 @Setter
 @Getter
 @Entity
@@ -30,7 +30,7 @@ public class Genre {
 
     private String name;
 
-    @OneToMany(mappedBy = "genre")
+    @OneToMany(mappedBy = "genre" )
     @JsonManagedReference
     private Set<MovieGenre> movieGenres;
 

@@ -1,15 +1,14 @@
 package com.example.project.entity;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,7 +20,7 @@ import lombok.ToString;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
+@ToString(exclude = { "movieGenres", "moviePeople", "reviews" })
 @Setter
 @Getter
 @Entity
@@ -49,7 +48,6 @@ public class Movie {
     private Long voteCount;
 
     @OneToMany(mappedBy = "movie")
-    @JsonManagedReference
     private Set<MovieGenre> movieGenres;
 
     @OneToMany(mappedBy = "movie")

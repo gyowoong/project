@@ -1,24 +1,24 @@
 package com.example.project.repository.movie;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Optional;
-import java.util.function.Function;
+import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
-import org.springframework.data.repository.query.FluentQuery.FetchableFluentQuery;
 
+import com.example.project.entity.Genre;
 import com.example.project.entity.Movie;
+import com.example.project.entity.MoviePeople;
+import com.example.project.entity.People;
 import com.example.project.entity.QGenre;
 import com.example.project.entity.QMovie;
 import com.example.project.entity.QMovieGenre;
+import com.example.project.entity.QMoviePeople;
+import com.example.project.entity.QPeople;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Order;
@@ -29,248 +29,288 @@ import com.querydsl.jpa.JPQLQuery;
 import lombok.extern.log4j.Log4j2;
 
 @Log4j2
-public class MovieRepositoryImpl extends QuerydslRepositorySupport implements MovieRepository {
+public class MovieRepositoryImpl extends QuerydslRepositorySupport implements MovieCustomRepository {
 
     public MovieRepositoryImpl() {
         super(Movie.class);
     }
 
-    @Override
-    public Page<Movie> getTotalList(String type, String keyword, String movieList, Long genreId, Pageable pageable) {
-        QMovie movie = QMovie.movie;
-        QMovieGenre movieGenre = QMovieGenre.movieGenre;
+    // @Override
+    // public Page<Movie> getTotalList(String type, String keyword, String
+    // movieList, Long genreId, Pageable pageable) {
+    // QMovie movie = QMovie.movie;
+    // QMovieGenre movieGenre = QMovieGenre.movieGenre;
 
-        JPQLQuery<Movie> query = from(movie).leftJoin(movieGenre).on(movie.id.eq(movieGenre.movie.id));
-        if (genreId == null) {
-            query.distinct();
+    // JPQLQuery<Movie> query =
+    // from(movie).leftJoin(movieGenre).on(movie.id.eq(movieGenre.movie.id));
+    // if (genreId == null) {
+    // query.distinct();
+    // }
+
+    // // 기본 조건: movie.id > 0
+    // BooleanBuilder builder = new BooleanBuilder();
+    // builder.and(movie.id.gt(0L));
+
+    // // genreId가 null이 아닌 경우에만 장르 조건 추가
+    // if (genreId != null) {
+    // builder.and(movieGenre.genre.id.eq(genreId)); // 장르 ID 조건
+    // }
+    // // if ("m".equals(type) && keyword != null && !keyword.isEmpty()) {
+    // builder.and(movie.title.like("%" + keyword + "%")); // 제목에 keyword가 포함된 영화 검색
+    // // }
+    // if ("nowPlaying".equals(movieList)) {
+    // System.out.println("nowPlaying");
+    // builder.and(
+    // movie.releaseDate.between(
+    // LocalDate.now().minusWeeks(3).toString(), LocalDate.now().toString()));
+    // } else if ("upcoming".equals(movieList)) {
+    // builder.and(movie.releaseDate.gt(LocalDate.now().toString()));
+    // }
+
+    // query.where(builder); // 조건을 모두 적용
+
+    // // Sort
+    // Sort sort = pageable.getSort();
+    // sort.stream().forEach(order -> {
+    // // com.querydsl.core.types.Order
+    // Order direction = order.isAscending() ? Order.ASC : Order.DESC;
+    // String prop = order.getProperty();
+    // // PathBuilder : Sort 객체 속성 - bno or title 이런 것들 지정
+    // PathBuilder<Movie> orderByExpression = new PathBuilder<>(Movie.class,
+    // "movie");
+    // // Sort 객체 사용 불가로 OrderSpecifier() 사용
+    // // com.querydsl.core.types.OrderSpecifier.OrderSpecifier(Order order,
+    // Expression
+    // // target)
+    // query.orderBy(new OrderSpecifier(direction, orderByExpression.get(prop)));
+    // });
+
+    // // 페이지네이션
+    // query.offset(pageable.getOffset());
+    // query.limit(pageable.getPageSize());
+
+    // // 결과 및 전체 개수 조회
+    // List<Movie> result = query.fetch(); // Movie 객체만 가져옵니다
+    // long count = query.fetchCount(); // 전체 데이터 개수
+
+    // // 결과를 Movie로 반환
+    // return new PageImpl<>(result, pageable, count);
+    // }
+
+    // 영화 리스트 불러오기
+    @Override
+    public Page<Object[]> getTotalList(String type, String keyword, String movieList, Long genreId,
+            Pageable pageable) {
+        QMovie movie = QMovie.movie;
+        QMoviePeople moviePeople = QMoviePeople.moviePeople;
+        QPeople people = QPeople.people;
+        QMovieGenre movieGenre = QMovieGenre.movieGenre;
+        QGenre genre = QGenre.genre;
+
+        // 기본 Query 구성
+        JPQLQuery<Movie> query = from(movie)
+                .leftJoin(moviePeople).on(movie.id.eq(moviePeople.movie.id))
+                .leftJoin(people).on(moviePeople.people.id.eq(people.id))
+                .leftJoin(movieGenre).on(movie.id.eq(movieGenre.movie.id))
+                .leftJoin(genre).on(movieGenre.genre.id.eq(genre.id));
+
+        // 조건 설정
+        BooleanBuilder builder = new BooleanBuilder();
+        builder.and(movie.id.gt(0L));
+
+        // 장르 필터 추가
+        if (genreId != null) {
+            builder.and(movieGenre.genre.id.eq(genreId));
         }
+
+        // 제목 키워드 필터 추가
+        if (keyword != null && !keyword.trim().isEmpty()) {
+            builder.and(movie.title.like("%" + keyword + "%"));
+        }
+
+        // 영화 상태 필터 추가 (상영 중 또는 예정)
+        if ("nowPlaying".equals(movieList)) {
+            builder.and(
+                    movie.releaseDate.between(
+                            LocalDate.now().minusWeeks(3).toString(),
+                            LocalDate.now().toString()));
+        } else if ("upcoming".equals(movieList)) {
+            builder.and(movie.releaseDate.gt(LocalDate.now().toString()));
+        }
+
+        // 조건 적용
+        query.where(builder);
+
+        // 정렬 적용
+        Sort sort = pageable.getSort();
+        sort.stream().forEach(order -> {
+            Order direction = order.isAscending() ? Order.ASC : Order.DESC;
+            String prop = order.getProperty();
+            PathBuilder<Movie> orderByExpression = new PathBuilder<>(Movie.class, "movie");
+            query.orderBy(new OrderSpecifier(direction, orderByExpression.get(prop)));
+        });
+
+        // 페이지네이션 설정
+        query.offset(pageable.getOffset());
+        query.limit(pageable.getPageSize());
+
+        // 데이터 조회
+        List<Movie> movies = query.distinct().fetch();
+        long total = query.fetchCount();
+
+        // 영화 세부 정보를 생성
+        List<Object[]> results = movies.stream().map(movieResult -> {
+            Long movieId = movieResult.getId();
+
+            // 관련 데이터 수집
+            List<MoviePeople> moviePeopleList = from(moviePeople)
+                    .where(moviePeople.movie.id.eq(movieId))
+                    .fetch();
+
+            List<People> peopleList = from(people)
+                    .join(moviePeople).on(moviePeople.people.id.eq(people.id))
+                    .where(moviePeople.movie.id.eq(movieId))
+                    .fetch();
+
+            List<Genre> genreList = from(genre)
+                    .join(movieGenre).on(movieGenre.genre.id.eq(genre.id))
+                    .where(movieGenre.movie.id.eq(movieId))
+                    .fetch();
+
+            // Object[]에 담기
+            return new Object[] { movieResult, moviePeopleList, peopleList, genreList };
+        }).collect(Collectors.toList());
+
+        // 결과를 Page로 반환
+        return new PageImpl<>(results, pageable, total);
+    }
+
+    // @Override
+    // public List<String> getDirectorList(Long id) {
+    // QMovie movie = QMovie.movie;
+    // QMoviePeople moviePeople = QMoviePeople.moviePeople;
+    // QPeople people = QPeople.people;
+
+    // JPQLQuery<String> query =
+    // from(movie).leftJoin(moviePeople).on(movie.id.eq(moviePeople.movie.id))
+    // .leftJoin(moviePeople).on(moviePeople.people.id.eq(people.id)).select(people.name).distinct();
+
+    // // 기본 조건: movie.id > 0
+    // BooleanBuilder builder = new BooleanBuilder();
+    // builder.and(movie.id.gt(0L));
+
+    // builder.and(moviePeople.movie.id.eq(id)).and(moviePeople.role.eq("Director"));
+
+    // query.where(builder);
+
+    // List<String> result = query.fetch();
+
+    // return result;
+    // }
+
+    // @Override
+    // public List<String> getActorList(Long id) {
+    // QMovie movie = QMovie.movie;
+    // QMoviePeople moviePeople = QMoviePeople.moviePeople;
+    // QPeople people = QPeople.people;
+
+    // JPQLQuery<String> query =
+    // from(movie).leftJoin(moviePeople).on(movie.id.eq(moviePeople.movie.id))
+    // .leftJoin(moviePeople).on(moviePeople.people.id.eq(people.id)).select(people.name)
+    // .orderBy(people.popularity.desc());
+
+    // // 기본 조건: movie.id > 0
+    // BooleanBuilder builder = new BooleanBuilder();
+    // builder.and(movie.id.gt(0L));
+
+    // builder.and(moviePeople.movie.id.eq(id)).and(moviePeople.character.isNotNull());
+
+    // query.where(builder);
+
+    // List<String> result = query.fetch();
+
+    // return result;
+    // }
+
+    // @Override
+    // public List<String> getGenreList(Long id) {
+    // QMovie movie = QMovie.movie;
+    // QMovieGenre movieGenre = QMovieGenre.movieGenre;
+    // QGenre genre = QGenre.genre;
+
+    // JPQLQuery<String> query =
+    // from(movie).leftJoin(movieGenre).on(movie.id.eq(movieGenre.movie.id))
+    // .leftJoin(movieGenre).on(movieGenre.genre.id.eq(genre.id)).select(genre.name);
+
+    // // 기본 조건: movie.id > 0
+    // BooleanBuilder builder = new BooleanBuilder();
+    // builder.and(movie.id.gt(0L));
+
+    // builder.and(movieGenre.movie.id.eq(id));
+
+    // query.where(builder);
+
+    // List<String> result = query.fetch();
+
+    // return result;
+    // }
+
+    // 인물 id로 영화 리스트 불러오기
+    @Override
+    public List<Movie> getMovieListByPersonId(Long id) {
+        QMovie movie = QMovie.movie;
+        QMoviePeople moviePeople = QMoviePeople.moviePeople;
+        QPeople people = QPeople.people;
+
+        JPQLQuery<Movie> query = from(movie).leftJoin(moviePeople).on(movie.id.eq(moviePeople.movie.id))
+                .leftJoin(moviePeople).on(moviePeople.people.id.eq(people.id));
 
         // 기본 조건: movie.id > 0
         BooleanBuilder builder = new BooleanBuilder();
         builder.and(movie.id.gt(0L));
 
-        // genreId가 null이 아닌 경우에만 장르 조건 추가
-        if (genreId != null) {
-            builder.and(movieGenre.genre.id.eq(genreId)); // 장르 ID 조건
-        }
-        if ("m".equals(type) && keyword != null && !keyword.isEmpty()) {
-            builder.and(movie.title.like("%" + keyword + "%")); // 제목에 keyword가 포함된 영화 검색
-        }
-        if ("nowPlaying".equals(movieList)) {
-            System.out.println("nowPlaying");
-            builder.and(
-                    movie.releaseDate.between(
-                            LocalDate.now().minusWeeks(3).toString(), LocalDate.now().toString()));
-        } else if ("upcoming".equals(movieList)) {
-            builder.and(movie.releaseDate.gt(LocalDate.now().toString()));
-        }
+        builder.and(people.id.eq(id));
 
-        query.where(builder); // 조건을 모두 적용
+        query.where(builder);
 
-        // Sort
-        Sort sort = pageable.getSort();
-        sort.stream().forEach(order -> {
-            // com.querydsl.core.types.Order
-            Order direction = order.isAscending() ? Order.ASC : Order.DESC;
-            String prop = order.getProperty();
-            // PathBuilder : Sort 객체 속성 - bno or title 이런 것들 지정
-            PathBuilder<Movie> orderByExpression = new PathBuilder<>(Movie.class, "movie");
-            // Sort 객체 사용 불가로 OrderSpecifier() 사용
-            // com.querydsl.core.types.OrderSpecifier.OrderSpecifier(Order order, Expression
-            // target)
-            query.orderBy(new OrderSpecifier(direction, orderByExpression.get(prop)));
-        });
+        List<Movie> result = query.fetch();
 
-        // 페이지네이션
-        query.offset(pageable.getOffset());
-        query.limit(pageable.getPageSize());
-
-        // 결과 및 전체 개수 조회
-        List<Movie> result = query.fetch(); // Movie 객체만 가져옵니다
-        long count = query.fetchCount(); // 전체 데이터 개수
-
-        // 결과를 Movie로 반환
-        return new PageImpl<>(result, pageable, count);
+        return result;
     }
 
+    // 영화 상세 정보 불러오기
     @Override
-    public void flush() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'flush'");
-    }
+    public Object[] getMovieDetailById(Long id) {
+        QMovie movie = QMovie.movie;
+        QMoviePeople moviePeople = QMoviePeople.moviePeople;
+        QPeople people = QPeople.people;
+        QMovieGenre movieGenre = QMovieGenre.movieGenre;
+        QGenre genre = QGenre.genre;
 
-    @Override
-    public <S extends Movie> S saveAndFlush(S entity) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'saveAndFlush'");
-    }
+        // Fetch Movie
+        Movie movieResult = from(movie)
+                .where(movie.id.eq(id))
+                .fetchOne();
 
-    @Override
-    public <S extends Movie> List<S> saveAllAndFlush(Iterable<S> entities) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'saveAllAndFlush'");
-    }
+        // Fetch MoviePeople
+        List<MoviePeople> moviePeopleList = from(moviePeople)
+                .where(moviePeople.movie.id.eq(id))
+                .fetch();
 
-    @Override
-    public void deleteAllInBatch(Iterable<Movie> entities) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteAllInBatch'");
-    }
+        // Fetch People
+        List<People> peopleList = from(people)
+                .join(moviePeople).on(moviePeople.people.id.eq(people.id))
+                .where(moviePeople.movie.id.eq(id))
+                .fetch();
 
-    @Override
-    public void deleteAllByIdInBatch(Iterable<Long> ids) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteAllByIdInBatch'");
-    }
+        // Fetch Genres
+        List<Genre> genreList = from(genre)
+                .join(movieGenre).on(movieGenre.genre.id.eq(genre.id))
+                .where(movieGenre.movie.id.eq(id))
+                .fetch();
 
-    @Override
-    public void deleteAllInBatch() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteAllInBatch'");
-    }
-
-    @Override
-    public Movie getOne(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getOne'");
-    }
-
-    @Override
-    public Movie getById(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getById'");
-    }
-
-    @Override
-    public Movie getReferenceById(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getReferenceById'");
-    }
-
-    @Override
-    public <S extends Movie> List<S> findAll(Example<S> example) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findAll'");
-    }
-
-    @Override
-    public <S extends Movie> List<S> findAll(Example<S> example, Sort sort) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findAll'");
-    }
-
-    @Override
-    public <S extends Movie> List<S> saveAll(Iterable<S> entities) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'saveAll'");
-    }
-
-    @Override
-    public List<Movie> findAll() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findAll'");
-    }
-
-    @Override
-    public List<Movie> findAllById(Iterable<Long> ids) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findAllById'");
-    }
-
-    @Override
-    public <S extends Movie> S save(S entity) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'save'");
-    }
-
-    @Override
-    public Optional<Movie> findById(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findById'");
-    }
-
-    @Override
-    public boolean existsById(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'existsById'");
-    }
-
-    @Override
-    public long count() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'count'");
-    }
-
-    @Override
-    public void deleteById(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteById'");
-    }
-
-    @Override
-    public void delete(Movie entity) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'delete'");
-    }
-
-    @Override
-    public void deleteAllById(Iterable<? extends Long> ids) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteAllById'");
-    }
-
-    @Override
-    public void deleteAll(Iterable<? extends Movie> entities) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteAll'");
-    }
-
-    @Override
-    public void deleteAll() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteAll'");
-    }
-
-    @Override
-    public List<Movie> findAll(Sort sort) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findAll'");
-    }
-
-    @Override
-    public Page<Movie> findAll(Pageable pageable) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findAll'");
-    }
-
-    @Override
-    public <S extends Movie> Optional<S> findOne(Example<S> example) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findOne'");
-    }
-
-    @Override
-    public <S extends Movie> Page<S> findAll(Example<S> example, Pageable pageable) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findAll'");
-    }
-
-    @Override
-    public <S extends Movie> long count(Example<S> example) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'count'");
-    }
-
-    @Override
-    public <S extends Movie> boolean exists(Example<S> example) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'exists'");
-    }
-
-    @Override
-    public <S extends Movie, R> R findBy(Example<S> example, Function<FetchableFluentQuery<S>, R> queryFunction) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findBy'");
+        // Combine results into Object[]
+        return new Object[] { movieResult, moviePeopleList, peopleList, genreList };
     }
 
 }

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorate="~{/admin/layouts/layout}">
+  <th:block layout:fragment="css">
+    <link rel="stylesheet" th:href="@{/admin/css/select.css}">
+  </th:block>
+  <div layout:fragment="content">
+    <div class="row">
+      <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+          <form th:action="@{/admin/page/movieAdd}" method="post" th:object="${theaterDto}">
+          <div class="card-body">
+            <p class="card-title">
+              영화관 등록 <button href="" class="btn btn-outline-primary"> 등록 </button>
+            </p>
+
+            <div class="row">
+              <div class="col-12">
+                <div class="table-responsive">
+                  <table
+                    id="example"
+                    class="display expandable-table"
+                    style="width: 100%"
+                  >
+                    <thead>
+                      <tr>
+                        <th>지역</th>
+                        <th>지역 일치확인</th>
+                        <th>영화관명</th>
+                        <th>영화관 주소</th>
+                    
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td><select class="form-select" name="sno">
+                          <option value="" selected>----------</option>
+                          <option th:each="state : ${states}" th:value="${state.sno}" th:text="${state.state}"></option>
+                        </select></td>
+                        <!-- <p th:if="${#fields.hasErrors('sno')}" th:errors="*{state}"></p> -->
+                        <td><input type="text" name="theaterState" /></td>
+                        <!-- <p th:if="${#fields.hasErrors('theaterState')}" th:errors="*{theaterState}"></p> -->
+                        <td><input type="text" name="theaterName" /></td>
+                          <!-- <p th:if="${#fields.hasErrors('theaterName')}" th:errors="*{theaterName}"></p> -->
+                        <td><input type="text" name="theaterAdd"  /></td>
+                          <!-- <p th:if="${#fields.hasErrors('theaterAdd')}" th:errors="*{theaterAdd}"></p> -->
+                      
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <th:block layout:fragment="js">
+    <script th:src="@{/admin/js/select.js}"></script>
+  </th:block>
+</html>

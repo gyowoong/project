@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>문의 수정</title>
+    <link rel="stylesheet" th:href="@{/css/email.css}" />
+  </head>
+  <body>
+    <h2>문의 수정</h2>
+    <form action="/center/email/update" method="post">
+      <input type="hidden" name="id" th:value="${inquiry.id}" />
+      <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
+      <div>
+        <label for="name">이름:</label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          th:value="${inquiry.name}"
+          required
+        />
+      </div>
+      <div>
+        <label for="email">이메일:</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          th:value="${inquiry.email}"
+          required
+        />
+      </div>
+      <div>
+        <label for="content">문의 내용:</label>
+        <textarea
+          id="content"
+          name="content"
+          required
+          th:text="${inquiry.content}"
+        ></textarea>
+      </div>
+      <button type="submit">저장</button>
+      <a href="/center/email">취소</a>
+    </form>
+  </body>
+</html>

@@ -1,0 +1,194 @@
+.table {
+  table-layout: fixed;
+  width: 100%;
+  max-height: 400px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+th {
+  text-align: center;
+}
+
+tbody td {
+  vertical-align: top;
+  max-height: 400px;
+}
+
+.fw-bold.clicked {
+  background-color: #e9ecef;
+}
+
+.fw-semibold {
+  color: black;
+}
+
+.fw-semibold.clicked {
+  color: red;
+}
+
+.theater-scroll {
+  text-align: left !important;
+  font-weight: bold;
+  color: black;
+  max-height: 400px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.theater-scroll::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.theater-scroll::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 4px;
+}
+
+.movie-item {
+  padding: 10px 0;
+  cursor: pointer;
+  transition: border 0.3s ease, background-color 0.3s ease;
+}
+
+.movie-item.clicked {
+  border: 2px solid black;
+}
+
+.date-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  text-align: center;
+  position: relative;
+  margin: 3px;
+}
+
+.date-btn strong {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.date-btn em {
+  font-size: 12px;
+  font-style: normal;
+}
+
+.date-btn input[type="radio"] {
+  display: none;
+}
+
+.date-btn.clicked {
+  background-color: #797171 !important;
+  color: white;
+}
+
+.hour-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: none;
+  background: #fff;
+}
+
+.hour-btn span {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.hour-btn div {
+  margin-left: auto;
+  text-align: right;
+}
+.select_tit {
+  margin: 20px 0 5px 0;
+  font-weight: bold;
+}
+
+.theaterCate {
+  font-size: 14px;
+  font-weight: bold;
+  line-height: 2;
+}
+
+.timelist-container {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-start;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.timelist .button {
+  display: block;
+  padding: 3px 8px;
+  text-align: center;
+  text-decoration: none;
+  color: #333;
+  background-color: #ffffff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+}
+
+.timelist .button:hover {
+  border-color: black;
+}
+
+.timelist .button.clicked {
+  border-width: 2px;
+  border-color: black;
+  transition: border-width 0.1s ease, border-color 0.1s ease;
+}
+
+.timelist div {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+}
+
+.timelist span {
+  margin: 3px 0;
+  font-weight: bold;
+}
+
+.button-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.time {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 3px;
+}
+
+.seat-hall {
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+  font-size: 12px;
+}
+
+.select-info {
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  height: 100px;
+  font-size: 20px;
+  justify-content: flex-end;
+  background-color: #b8b2b2;
+  color: #000;
+}
+
+tfoot td {
+  height: 60px; /* 영역 높이 설정 */
+  vertical-align: middle; /* 기본 세로 정렬 */
+}
