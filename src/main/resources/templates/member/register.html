@@ -254,23 +254,12 @@
         }
       }
 
-      function formatPhoneNumber(input) {
-        let value = input.value.replace(/[^0-9]/g, ""); // 숫자만 허용
-        if (value.length > 3 && value.length <= 7) {
-          input.value = `${value.slice(0, 3)}-${value.slice(3)}`;
-        } else if (value.length > 7) {
-          input.value = `${value.slice(0, 3)}-${value.slice(
-            3,
-            7
-          )}-${value.slice(7, 11)}`;
-        } else {
-          input.value = value;
-        }
-      }
-
       function validateForm() {
         let phone = document.getElementById("phone").value;
+        let password = document.getElementById("password").value;
+        let passwordCheck = document.getElementById("passwordCheck").value;
         let phoneError = document.getElementById("phoneError");
+        let passwordError = document.getElementById("passwordError");
 
         // 전화번호 형식 확인
         const phoneRegex = /^010-\d{4}-\d{4}$/;
@@ -278,27 +267,28 @@
           phoneError.textContent =
             "전화번호는 010으로 시작해서 형식에 맞게 입력해주세요.";
           return false;
+        } else {
+          phoneError.textContent = ""; // 오류 없으면 메시지 초기화
         }
 
-        // 전화번호 중복 확인
-        let isPhoneUnique = false;
-        const xhr = new XMLHttpRequest();
-        xhr.open("POST", "/check-phone", false); // 동기 요청
-        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-        xhr.onreadystatechange = function () {
-          if (xhr.readyState === 4 && xhr.status === 200) {
-            isPhoneUnique = xhr.responseText === "true";
-          }
-        };
-        xhr.send(JSON.stringify({ phone: phone }));
+        // 비밀번호 형식 확인: 숫자 5자리 이상 및 특수기호 포함
+        const passwordRegex = /^(?=.*\d{5,})(?=.*[!@#$%^&*(),.?":{}|<>]).+$/;
+        if (!passwordRegex.test(password)) {
+          passwordError.textContent =
+            "비밀번호는 숫자 5자리 이상 및 특수기호를 포함해야 합니다.";
+          return false;
+        } else {
+          passwordError.textContent = ""; // 오류 없으면 메시지 초기화
+        }
 
-        if (!isPhoneUnique) {
-          phoneError.textContent = "이미 사용 중인 전화번호입니다.";
+        // 비밀번호와 비밀번호 재확인 일치 여부 확인
+        if (password !== passwordCheck) {
+          passwordError.textContent =
+            "비밀번호와 비밀번호 확인이 일치하지 않습니다.";
           return false;
         }
 
-        phoneError.textContent = ""; // 오류 없으면 초기화
-        return true;
+        return true; // 모든 유효성 검사가 통과하면 true 반환
       }
     </script>
   </th:block>

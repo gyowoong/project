@@ -50,4 +50,9 @@ public class MemberRepositoryTest {
         memberRepository.save(member);
         // 저장 확인
     }
+
+    @Test
+    public void isLogin() {
+        System.out.println(memberRepository.findByMemberId("user1"));
+    }
 }

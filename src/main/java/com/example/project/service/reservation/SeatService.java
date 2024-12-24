@@ -2,7 +2,7 @@ package com.example.project.service.reservation;
 
 import java.util.List;
 
-import com.example.project.dto.SeatDto;
+import com.example.project.dto.reserve.SeatDto;
 import com.example.project.entity.reserve.Auditorium;
 import com.example.project.entity.reserve.Seat;
 

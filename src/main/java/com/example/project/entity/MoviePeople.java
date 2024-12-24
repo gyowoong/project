@@ -17,7 +17,7 @@ import lombok.ToString;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
+@ToString(exclude = { "movie", "people" })
 @Setter
 @Getter
 @Entity
@@ -37,5 +37,7 @@ public class MoviePeople {
 
     @Column(length = 500)
     private String character;
+
+    private String role;
 
 }

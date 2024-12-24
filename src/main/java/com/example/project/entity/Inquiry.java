@@ -1,10 +1,24 @@
 package com.example.project.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
+@Setter
+@Getter
 @Entity
 public class Inquiry {
 
@@ -12,20 +26,19 @@ public class Inquiry {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "이름은 필수 항목입니다.")
+    @Column(nullable = false)
     private String name;
+
+    @NotBlank(message = "이메일은 필수 항목입니다.")
+    @Column(nullable = false)
     private String email;
-    private String message;
 
-    // 기본 생성자, getter, setter
-    public Inquiry() {
-    }
+    @NotBlank(message = "문의 내용은 필수 항목입니다.")
+    @Column(nullable = false)
+    private String content;
 
-    public Inquiry(String name, String email, String message) {
-        this.name = name;
-        this.email = email;
-        this.message = message;
-    }
-
+    // Getters Setters
     public Long getId() {
         return id;
     }
@@ -50,11 +63,12 @@ public class Inquiry {
         this.email = email;
     }
 
-    public String getMessage() {
-        return message;
+    public String getContent() {
+        return content;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setContent(String content) {
+        this.content = content;
     }
+
 }

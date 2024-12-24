@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.Map;
 
 import com.example.project.dto.MovieDto;
-import com.example.project.dto.ReserveDto;
-import com.example.project.dto.TheaterDto;
+import com.example.project.dto.reserve.ReserveDto;
+import com.example.project.dto.reserve.TheaterDto;
 import com.example.project.entity.Member;
 import com.example.project.entity.Movie;
 import com.example.project.entity.reserve.Auditorium;

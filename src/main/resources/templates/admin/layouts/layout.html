@@ -40,6 +40,7 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
+    <th:block layout:fragment="css"></th:block>
     <body>
       <!-- Page Preloder -->
       <!-- <div id="preloder">
@@ -68,7 +69,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">
+              <a class="nav-link" th:href="@{/admin/page/movie}">
                 <span class="menu-title">영화관 관리</span>
               </a>
             </li>
@@ -78,7 +79,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="index.html">
+              <a class="nav-link" href="#">
                 <span class="menu-title">게시물 관리</span>
               </a>
             </li>
@@ -95,6 +96,6 @@
         </div>
       </div>
     </body>
-    <th:block layout:fragment="css"></th:block>
+    <th:block layout:fragment="js"></th:block>
   </head>
 </html>

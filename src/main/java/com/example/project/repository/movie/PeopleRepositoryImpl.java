@@ -1,19 +1,16 @@
 package com.example.project.repository.movie;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.function.Function;
 
-import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
-import org.springframework.data.repository.query.FluentQuery.FetchableFluentQuery;
 
 import com.example.project.entity.Movie;
 import com.example.project.entity.People;
+import com.example.project.entity.QMovie;
 import com.example.project.entity.QMoviePeople;
 import com.example.project.entity.QPeople;
 import com.querydsl.core.BooleanBuilder;
@@ -25,7 +22,7 @@ import com.querydsl.jpa.JPQLQuery;
 import lombok.extern.log4j.Log4j2;
 
 @Log4j2
-public class PeopleRepositoryImpl extends QuerydslRepositorySupport implements PeopleRepository {
+public class PeopleRepositoryImpl extends QuerydslRepositorySupport implements PeopleCustomRepository {
 
     public PeopleRepositoryImpl() {
         super(People.class);
@@ -74,183 +71,25 @@ public class PeopleRepositoryImpl extends QuerydslRepositorySupport implements P
     }
 
     @Override
-    public void flush() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'flush'");
-    }
+    public List<People> getDirectorListByMovieId(Long id) {
+        QPeople people = QPeople.people;
+        QMoviePeople moviePeople = QMoviePeople.moviePeople;
+        QMovie movie = QMovie.movie;
 
-    @Override
-    public <S extends People> S saveAndFlush(S entity) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'saveAndFlush'");
-    }
+        JPQLQuery<People> query = from(people).leftJoin(moviePeople).on(people.id.eq(moviePeople.people.id))
+                .leftJoin(moviePeople).on(moviePeople.movie.id.eq(movie.id));
 
-    @Override
-    public <S extends People> List<S> saveAllAndFlush(Iterable<S> entities) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'saveAllAndFlush'");
-    }
+        // 기본 조건: movie.id > 0
+        BooleanBuilder builder = new BooleanBuilder();
+        builder.and(movie.id.gt(0L));
 
-    @Override
-    public void deleteAllInBatch(Iterable<People> entities) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteAllInBatch'");
-    }
+        builder.and(movie.id.eq(id)).and(moviePeople.role.eq("Director"));
 
-    @Override
-    public void deleteAllByIdInBatch(Iterable<Long> ids) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteAllByIdInBatch'");
-    }
+        query.where(builder);
 
-    @Override
-    public void deleteAllInBatch() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteAllInBatch'");
-    }
+        List<People> result = query.fetch();
 
-    @Override
-    public People getOne(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getOne'");
-    }
-
-    @Override
-    public People getById(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getById'");
-    }
-
-    @Override
-    public People getReferenceById(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getReferenceById'");
-    }
-
-    @Override
-    public <S extends People> List<S> findAll(Example<S> example) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findAll'");
-    }
-
-    @Override
-    public <S extends People> List<S> findAll(Example<S> example, Sort sort) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findAll'");
-    }
-
-    @Override
-    public <S extends People> List<S> saveAll(Iterable<S> entities) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'saveAll'");
-    }
-
-    @Override
-    public List<People> findAll() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findAll'");
-    }
-
-    @Override
-    public List<People> findAllById(Iterable<Long> ids) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findAllById'");
-    }
-
-    @Override
-    public <S extends People> S save(S entity) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'save'");
-    }
-
-    @Override
-    public Optional<People> findById(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findById'");
-    }
-
-    @Override
-    public boolean existsById(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'existsById'");
-    }
-
-    @Override
-    public long count() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'count'");
-    }
-
-    @Override
-    public void deleteById(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteById'");
-    }
-
-    @Override
-    public void delete(People entity) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'delete'");
-    }
-
-    @Override
-    public void deleteAllById(Iterable<? extends Long> ids) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteAllById'");
-    }
-
-    @Override
-    public void deleteAll(Iterable<? extends People> entities) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteAll'");
-    }
-
-    @Override
-    public void deleteAll() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteAll'");
-    }
-
-    @Override
-    public List<People> findAll(Sort sort) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findAll'");
-    }
-
-    @Override
-    public Page<People> findAll(Pageable pageable) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findAll'");
-    }
-
-    @Override
-    public <S extends People> Optional<S> findOne(Example<S> example) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findOne'");
-    }
-
-    @Override
-    public <S extends People> Page<S> findAll(Example<S> example, Pageable pageable) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findAll'");
-    }
-
-    @Override
-    public <S extends People> long count(Example<S> example) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'count'");
-    }
-
-    @Override
-    public <S extends People> boolean exists(Example<S> example) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'exists'");
-    }
-
-    @Override
-    public <S extends People, R> R findBy(Example<S> example, Function<FetchableFluentQuery<S>, R> queryFunction) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findBy'");
+        return result;
     }
 
 }

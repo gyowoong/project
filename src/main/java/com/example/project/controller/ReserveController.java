@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.project.dto.MovieDto;
-import com.example.project.dto.TheaterDto;
+import com.example.project.dto.reserve.TheaterDto;
 import com.example.project.entity.Movie;
 import com.example.project.entity.reserve.Screening;
 import com.example.project.entity.reserve.Theater;

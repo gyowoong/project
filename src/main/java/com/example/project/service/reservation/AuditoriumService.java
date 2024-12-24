@@ -1,6 +1,6 @@
 package com.example.project.service.reservation;
 
-import com.example.project.dto.AuditoriumDto;
+import com.example.project.dto.reserve.AuditoriumDto;
 import com.example.project.entity.reserve.Auditorium;
 import com.example.project.entity.reserve.Theater;
 

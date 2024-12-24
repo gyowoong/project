@@ -1,5 +1,6 @@
 package com.example.project.dto;
 
+import java.util.List;
 import java.util.Set;
 
 import com.example.project.entity.MoviePeople;
@@ -17,10 +18,10 @@ public class PeopleDto {
     private Long id;
 
     private Long gender;
-    private String knownForDepartment;
+    private String job;
     private String name;
     private Double popularity;
     private String profilePath;
 
-    private Set<MoviePeople> moviePeople;
+    private List<MoviePeopleDto> moviePeople;
 }

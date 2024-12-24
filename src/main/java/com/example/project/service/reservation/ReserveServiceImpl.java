@@ -8,8 +8,8 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import com.example.project.dto.MovieDto;
-import com.example.project.dto.ReserveDto;
-import com.example.project.dto.TheaterDto;
+import com.example.project.dto.reserve.ReserveDto;
+import com.example.project.dto.reserve.TheaterDto;
 import com.example.project.entity.Movie;
 import com.example.project.entity.reserve.Reserve;
 import com.example.project.entity.reserve.Screening;

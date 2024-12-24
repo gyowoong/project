@@ -1,6 +1,4 @@
-package com.example.project.dto;
-
-import com.example.project.entity.constant.SeatStatusEnum;
+package com.example.project.dto.reserve;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,11 +9,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @Data
-public class SeatStatusDto {
-    private Long seatStatusId;
+public class SeatDto {
     private Long seatId;
     private String rowNum;
     private Long seatNum;
-    private SeatStatusEnum status;
+    private Long auditoriumNo;
     private String auditoriumName;
 }
