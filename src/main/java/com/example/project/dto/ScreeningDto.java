@@ -1,5 +1,6 @@
 package com.example.project.dto;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import lombok.AllArgsConstructor;
@@ -13,15 +14,15 @@ import lombok.NoArgsConstructor;
 @Data
 public class ScreeningDto {
     private Long screeningId;
-    private LocalDateTime startTime;
-    private LocalDateTime endTime;
+    private String startTime;
 
-    private Long theaterId;
-    private String theaterName;
+    private String movieTitle;
+    private String runtime;
+
+    private LocalDate openDate;
+    private LocalDate closeDate;
+
     private Long auditoriumNo;
     private String auditoriumName;
 
-    private Long movieId;
-    private String movieTitle;
-    private Long runtime;
 }
