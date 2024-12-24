@@ -1,7 +1,6 @@
 package com.example.project.controller;
 
 import java.security.Principal;
-import java.util.List;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -12,7 +11,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,9 +18,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.project.dto.MemberDto;
-import com.example.project.entity.Reservation;
+
 import com.example.project.service.MemberService;
-import com.example.project.service.ReservationService;
 
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -35,7 +32,6 @@ import lombok.extern.log4j.Log4j2;
 @RequiredArgsConstructor // Lombok 자동 생성자 주입
 public class MemberController {
 
-    private final ReservationService reservationService;
     private final MemberService memberService;
 
     @GetMapping("/login")
@@ -79,13 +75,6 @@ public class MemberController {
         memberService.registerMember(memberDto);
         redirectAttributes.addFlashAttribute("success", "회원가입이 완료되었습니다.");
         return "redirect:/member/login";
-    }
-
-    @GetMapping("/reservations/{memberId}")
-    public String getReservations(@PathVariable Long memberId, Model model) {
-        List<Reservation> reservations = reservationService.getReservationsByMemberId(memberId);
-        model.addAttribute("reservations", reservations);
-        return "reservation/list"; // 예약 내역 템플릿
     }
 
     @GetMapping("/mypage")
