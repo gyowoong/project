@@ -1,6 +1,7 @@
 package com.example.project.controller;
 
 import java.security.Principal;
+import java.util.List;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -18,7 +19,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.project.dto.MemberDto;
-
+import com.example.project.dto.MovieDto;
+import com.example.project.service.FavoriteService;
 import com.example.project.service.MemberService;
 
 import jakarta.servlet.http.HttpSession;
@@ -33,6 +35,7 @@ import lombok.extern.log4j.Log4j2;
 public class MemberController {
 
     private final MemberService memberService;
+    private final FavoriteService favoriteService;
 
     @GetMapping("/login")
     public void loginRedirect() {
@@ -77,28 +80,18 @@ public class MemberController {
         return "redirect:/member/login";
     }
 
-    // @PostMapping("/login")
-    // public String login(@ModelAttribute("memberDto") MemberDto memberDto,
-    // HttpSession session, Model model) {
-    // boolean isValidUser = memberService.validateMember(memberDto.getMemberId(),
-    // memberDto.getPassword());
-
-    // if (!isValidUser) {
-    // model.addAttribute("error", "아이디 또는 비밀번호가 잘못되었습니다.");
-    // return "member/login";
-    // }
-    // session.setAttribute("memberId", memberDto.getMemberId());
-    // return "redirect:/"; // 로그인 성공 시 메인 페이지로 이동
-    // }
-
     @GetMapping("/mypage")
-    public String getMypage(Principal principal, Model model) {
-        // 인증된 사용자의 아이디 가져오기
+    public String getMypage(Model model, Principal principal) {
+        // 현재 로그인한 사용자 ID 가져오기
         String memberId = principal.getName();
 
-        // 회원 정보 조회
+        // 회원정보 가져오기
         MemberDto memberDto = memberService.getMemberById(memberId);
         model.addAttribute("member", memberDto);
+
+        // 찜 목록 가져오기
+        List<MovieDto> favorites = favoriteService.getFavorites(memberId);
+        model.addAttribute("favorites", favorites);
 
         return "member/mypage"; // mypage.html 반환
     }

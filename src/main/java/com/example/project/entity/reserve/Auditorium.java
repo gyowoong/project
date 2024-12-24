@@ -45,9 +45,6 @@ public class Auditorium {
     private Theater theater;
 
     @OneToMany(mappedBy = "auditorium", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<SeatStatus> seatStatuses = new ArrayList<>();
-
-    @OneToMany(mappedBy = "auditorium", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Seat> seats = new ArrayList<>();
 
 }
