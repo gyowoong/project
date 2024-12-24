@@ -6,5 +6,5 @@ import com.example.project.dto.ReviewDto;
 import com.example.project.entity.Review;
 
 public interface ReviewService {
-
+    void saveReview(String content, Long movieId, String username);
 }

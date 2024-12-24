@@ -64,7 +64,10 @@ public class Member extends BaseEntity {
     private String phone; // 전화번호 필드 추가
 
     @Column(nullable = false)
-    private String address; // 주소 필드 추가
+    private String city; // 주소 필드 추가
+
+    @Column(nullable = false)
+    private String district;
 
     @Enumerated(EnumType.STRING)
     private MemberRole role;

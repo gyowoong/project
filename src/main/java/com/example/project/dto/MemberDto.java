@@ -43,9 +43,12 @@ public class MemberDto {
     private String phone;
 
     @NotBlank(message = "주소를 입력해주세요.")
-    private String address;
+    private String city;
 
-    private int point = 0;
+    @NotBlank(message = "주소를 입력해주세요.")
+    private String district;
+
+    private int point;
 
     @Enumerated(EnumType.STRING)
     private MemberRole role; // Enum을 String으로 변환하여 전송
