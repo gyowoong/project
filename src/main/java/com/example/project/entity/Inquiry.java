@@ -44,10 +44,6 @@ public class Inquiry {
         return counselingType;
     }
 
-<<<<<<< HEAD
-    public void setCounselingType(String counselingType) {
-        this.counselingType = counselingType;
-=======
     public void setId(Long id) {
         this.id = id;
     }
@@ -74,7 +70,6 @@ public class Inquiry {
 
     public void setContent(String content) {
         this.content = content;
->>>>>>> 560831b48a02e4345a2370324d58d0c8cdf674ab
     }
 
 }
