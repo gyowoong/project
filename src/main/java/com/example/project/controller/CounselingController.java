@@ -49,13 +49,13 @@ public class CounselingController {
         return "/center/counselingHistory";
     }
 
-    @GetMapping("/center/counseling")
+    @GetMapping("/list")
     public String showCounselingPage(Model model) {
         Inquiry counseling = new Inquiry();
         counseling.setCounselingType("Type A"); // set the counseling type
         model.addAttribute("counseling", counseling);
 
-        return "center/counselingPage";
+        return "center/counselingList";
     }
 
 }
