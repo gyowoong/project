@@ -4,6 +4,10 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+<<<<<<< HEAD
+=======
+import jakarta.persistence.OneToOne;
+>>>>>>> 560831b48a02e4345a2370324d58d0c8cdf674ab
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -27,6 +31,12 @@ public class EmailInquiry {
     private String email;
     private String content;
 
+<<<<<<< HEAD
+=======
+    @OneToOne(mappedBy = "emailInquiry")
+    private Counseling counseling;  // 상담과 1:1 관계
+
+>>>>>>> 560831b48a02e4345a2370324d58d0c8cdf674ab
     // 생성자 (선택 사항)
     public EmailInquiry(String name, String email, String content) {
         this.name = name;

@@ -44,8 +44,37 @@ public class Inquiry {
         return counselingType;
     }
 
+<<<<<<< HEAD
     public void setCounselingType(String counselingType) {
         this.counselingType = counselingType;
+=======
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+>>>>>>> 560831b48a02e4345a2370324d58d0c8cdf674ab
     }
 
 }

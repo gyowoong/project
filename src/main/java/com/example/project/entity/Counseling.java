@@ -28,6 +28,7 @@ public class Counseling {
     @ManyToOne
     @JoinColumn(name = "email_inquiry_id")
     private EmailInquiry emailInquiry;
+<<<<<<< HEAD
 
     // Getter와 Setter
     public Long getUserId() {
@@ -40,6 +41,28 @@ public class Counseling {
 
     public Long getId() {
         return id;
+=======
+
+    // Getter와 Setter
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getCounselingType() {
+        return counselingType;
+>>>>>>> 560831b48a02e4345a2370324d58d0c8cdf674ab
     }
 
     public void setId(Long id) {
