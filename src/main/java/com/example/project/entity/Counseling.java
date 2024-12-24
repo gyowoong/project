@@ -1,13 +1,11 @@
 package com.example.project.entity;
 
-import java.time.LocalDateTime;
-
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Lob;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Table(name = "Counseling")
@@ -18,26 +16,19 @@ public class Counseling {
     @GeneratedValue(strategy = GenerationType.IDENTITY) // MySQL의 경우 AUTO_INCREMENT 설정
     private Long id;
 
-    @Column(name = "user_id", nullable = false)
     private Long userId;
-
-    @Column(name = "counseling_type", length = 255)
     private String counselingType;
-
-    @Lob
-    @Column(name = "content")
     private String content;
-
-    @Column(name = "status", length = 50)
     private String status;
 
-    @Column(name = "created_at", updatable = false)
-    private LocalDateTime createdAt;
+    // Getter와 Setter
+    public Long getUserId() {
+        return userId;
+    }
 
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
-
-    // Getters and Setters
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
 
     public Long getId() {
         return id;
@@ -45,14 +36,6 @@ public class Counseling {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
     }
 
     public String getCounselingType() {
@@ -79,19 +62,7 @@ public class Counseling {
         this.status = status;
     }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
-    }
+    @OneToOne
+    @JoinColumn(name = "email_inquiry_id") // 외래 키
+    private EmailInquiry emailInquiry;
 }

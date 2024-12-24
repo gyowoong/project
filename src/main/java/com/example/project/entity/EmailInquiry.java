@@ -1,11 +1,10 @@
 package com.example.project.entity;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,35 +12,36 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
-@ToString
-@Setter
-@Getter
 @Entity
-public class Inquiry {
-
-    private String counselingType;
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class EmailInquiry {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long id; // 이메일 문의 ID
 
-    @NotBlank(message = "이름은 필수 항목입니다.")
-    @Column(nullable = false)
     private String name;
-
-    @NotBlank(message = "이메일은 필수 항목입니다.")
-    @Column(nullable = false)
     private String email;
-
-    @NotBlank(message = "문의 내용은 필수 항목입니다.")
-    @Column(nullable = false)
     private String content;
 
-    public String getCounselingType() {
-        return counselingType;
+    @OneToOne(mappedBy = "emailInquiry")
+    private Counseling counseling; // 상담과 1:1 관계
+
+    // 생성자 (선택 사항)
+    public EmailInquiry(String name, String email, String content) {
+        this.name = name;
+        this.email = email;
+        this.content = content;
+    }
+
+    // Getter, Setter
+    public Long getId() {
+        return id;
     }
 
     public void setId(Long id) {
@@ -71,5 +71,4 @@ public class Inquiry {
     public void setContent(String content) {
         this.content = content;
     }
-
 }
