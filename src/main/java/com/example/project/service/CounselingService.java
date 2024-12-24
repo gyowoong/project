@@ -1,16 +1,12 @@
 package com.example.project.service;
 
+import java.util.List;
 import java.util.Optional;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.example.project.entity.Counseling;
 import com.example.project.repository.CounselingRepository;
-
-import jakarta.transaction.Transactional;
 
 @Service
 public class CounselingService {
@@ -21,27 +17,25 @@ public class CounselingService {
         this.counselingRepository = counselingRepository;
     }
 
-    // 상담 내역 목록 조회
-    public Page<Counseling> getCounselings(int page) {
-        Pageable pageable = PageRequest.of(page - 1, 10); // 페이지 시작은 0부터
-        return counselingRepository.findAll(pageable);
+    // 모든 상담 내역 가져오기
+    public List<Counseling> findAll() {
+        return counselingRepository.findAll();
     }
 
-    // 상담 저장 및 수정
-    @Transactional
-    public Counseling saveCounseling(Counseling counseling) {
+    // 특정 ID로 상담 내역 찾기
+    public Counseling findById(Long id) {
+        Optional<Counseling> counseling = counselingRepository.findById(id);
+        return counseling.orElseThrow(() -> new IllegalArgumentException("Invalid counseling ID: " + id));
+    }
+
+    // 상담 내역 저장
+    public Counseling save(Counseling counseling) {
         return counselingRepository.save(counseling);
     }
 
-    // 상담 삭제
-    @Transactional
-    public void deleteCounseling(Long id) {
+    // 상담 내역 삭제
+    public void deleteById(Long id) {
         counselingRepository.deleteById(id);
     }
 
-    // 상담 상세 조회
-    public Counseling getCounseling(Long id) {
-        Optional<Counseling> counseling = counselingRepository.findById(id);
-        return counseling.orElseThrow(() -> new IllegalArgumentException("상담을 찾을 수 없습니다."));
-    }
 }

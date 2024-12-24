@@ -1,6 +1,8 @@
 package com.example.project.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -27,6 +29,19 @@ public class InquiryController {
 
         inquiryService.save(inquiry); // 저장 로직
         return "redirect:/center/email"; // 저장 후 게시판으로 리다이렉트
+    }
+
+    @GetMapping("/center/email/modify")
+    public String ModifyForm(@RequestParam Long id, Model model) {
+        Inquiry inquiry = inquiryService.getInquiryById(id);
+        model.addAttribute("inquiry", inquiry);
+        return "modify";
+    }
+
+    @PostMapping("/center/email/update")
+    public String updateInquiry(Inquiry inquiry) {
+        inquiryService.update(inquiry);
+        return "redirect:/center/email";
     }
 
 }
