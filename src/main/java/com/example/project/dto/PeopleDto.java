@@ -1,5 +1,6 @@
 package com.example.project.dto;
 
+import java.util.List;
 import java.util.Set;
 
 import com.example.project.entity.MoviePeople;
@@ -22,5 +23,5 @@ public class PeopleDto {
     private Double popularity;
     private String profilePath;
 
-    private Set<MoviePeople> moviePeople;
+    private List<MoviePeopleDto> moviePeople;
 }

@@ -95,7 +95,7 @@
                   <li th:each="dto : ${genreDtos}">
                     <a
                       class="dropdown-item"
-                      th:href="@{movieList(movieList=popular,page=1,size=${requestDto.size},type=${requestDto.type},keyword=${requestDto.keyword},genre=${dto.id},sort=${requestDto.sort})}"
+                      th:href="@{movieList(movieList=popular,page=1,size=${requestDto.size},type=,keyword=,genre=${dto.id},sort=${requestDto.sort})}"
                       >[[${dto.name}]]</a
                     >
                   </li>
@@ -136,7 +136,7 @@
               th:if="${requestDto.type != 'p'}"
             >
               <div class="d-flex sub-head">
-                <h3 class="text-white">영화 건</h3>
+                <h3 class="text-white">영화 [[${movies.totalElements}]] 건</h3>
                 <a
                   th:href="@{movieList(movieList=popular,page=1,size=${requestDto.size},type='m',keyword=${requestDto.keyword},genre='',sort=${requestDto.sort})}"
                   class="btn btn-outline-danger"
@@ -177,12 +177,13 @@
               </div>
               <div class="mt-4"></div>
             </div>
+            <!-- 인물 리스트 -->
             <div
               class="row trending__people-row"
               th:if="${requestDto.type != 'm' and requestDto.type != ''}"
             >
               <div class="d-flex sub-head">
-                <h3 class="text-white">인물 건</h3>
+                <h3 class="text-white">인물 [[${people.totalElements}]] 건</h3>
                 <a
                   th:href="@{movieList(movieList=popular,page=1,size=${requestDto.size},type='p',keyword=${requestDto.keyword},genre='',sort=${requestDto.sort})}"
                   class="btn btn-outline-danger"
@@ -306,6 +307,6 @@
   </div>
   <th:block layout:fragment="js">
     <!-- <script th:src="@{/js/movie.js}"></script> -->
-    <script th:src="@{/js/movietest.js}"></script>
+    <!-- <script th:src="@{/js/movietest.js}"></script> -->
   </th:block>
 </html>

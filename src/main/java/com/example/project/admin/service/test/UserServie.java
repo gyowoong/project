@@ -3,6 +3,7 @@ package com.example.project.admin.service.test;
 import java.util.List;
 
 import com.example.project.admin.Entity.MovieState;
+// import com.example.project.dto.MovieDetailsDTO;
 import com.example.project.dto.MovieDto;
 import com.example.project.dto.PageRequestDTO;
 import com.example.project.dto.PageResultDTO;

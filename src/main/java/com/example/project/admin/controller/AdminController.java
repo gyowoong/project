@@ -12,6 +12,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.example.project.admin.dto.test.MovieStateDto;
 import com.example.project.admin.dto.test.UserDto;
 import com.example.project.admin.service.test.UserServie;
+// import com.example.project.dto.MovieDetailsDTO;
 import com.example.project.dto.reserve.TheaterDto;
 import com.example.project.entity.test.UserEntity;
 
@@ -42,6 +43,16 @@ public class AdminController {
         model.addAttribute("list", list);
 
     }
+
+    // @GetMapping("/create")
+    // public void getCreate(Model model) {
+    // log.info("create 폼 요청");
+    // // 서비스 호출
+    // List<MovieDetailsDTO> movieDetails = userServie.getMovieDetails();
+
+    // // 모델에 데이터 추가
+    // model.addAttribute("movieDetails", movieDetails);
+    // }
 
     @GetMapping("/join")
     public void getJoin() {

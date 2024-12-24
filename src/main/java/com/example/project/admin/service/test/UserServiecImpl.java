@@ -14,6 +14,7 @@ import com.example.project.admin.repository.AdminMovieRepository;
 import com.example.project.admin.repository.MovieAddRepository;
 import com.example.project.admin.repository.MovieStateRepository;
 import com.example.project.admin.repository.UserRepository;
+// import com.example.project.dto.MovieDetailsDTO;
 import com.example.project.dto.reserve.TheaterDto;
 import com.example.project.entity.Movie;
 import com.example.project.entity.reserve.Theater;
