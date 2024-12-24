@@ -1,7 +1,14 @@
 package com.example.project.entity.test;
 
+import java.time.LocalDateTime;
+
+import com.example.project.admin.Entity.constant.AdminRole;
+import com.example.project.entity.BaseEntity;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
@@ -18,10 +25,10 @@ import lombok.ToString;
 @Getter
 @Setter
 @Entity
-public class UserEntity {
+public class UserEntity extends BaseEntity {
     @Id
     @Column(nullable = false, unique = true)
-    private String userid;
+    private String userId;
 
     @Column(nullable = false)
     private String password;
@@ -43,8 +50,11 @@ public class UserEntity {
     private boolean reser;
 
     private int gender;
-    @Column(nullable = false)
-    private int age;
 
     private String brith;
+
+    private LocalDateTime lastLogin;
+
+    @Enumerated(EnumType.STRING)
+    private AdminRole adminRole;
 }

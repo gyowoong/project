@@ -1,5 +1,6 @@
 package com.example.project.admin.service.test;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -12,12 +13,12 @@ import com.example.project.admin.dto.test.UserDto;
 import com.example.project.admin.repository.AdminMovieRepository;
 import com.example.project.admin.repository.MovieAddRepository;
 import com.example.project.admin.repository.MovieStateRepository;
+import com.example.project.admin.repository.UserRepository;
 // import com.example.project.dto.MovieDetailsDTO;
 import com.example.project.dto.reserve.TheaterDto;
 import com.example.project.entity.Movie;
 import com.example.project.entity.reserve.Theater;
 import com.example.project.entity.test.UserEntity;
-import com.example.project.repository.test.UserRepository;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;

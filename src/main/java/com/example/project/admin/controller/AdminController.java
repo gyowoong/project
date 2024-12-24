@@ -73,18 +73,19 @@ public class AdminController {
     }
 
     @PostMapping("/movieAdd")
-    public String postMovieAdd(@Valid TheaterDto aDto, BindingResult result, Model model) {
+    public String postMovieAdd(@Valid TheaterDto aDto, BindingResult result, Model model, RedirectAttributes rttr,
+            String theaterState) {
         log.info("영화관등록 폼 요청 {} ", aDto);
         if (result.hasErrors()) {
-            return "/admin/page/movieAdd";
+            return "redirect:/admin/page/movieAdd";
         }
 
         Long add = userServie.addMovie(aDto);
-        // List<MovieStateDto> state = userServie.getAllStates();
-        model.addAttribute("add", add);
-        // model.addAttribute("state", state);
 
-        return "redirect:/admin/page/movie";
+        model.addAttribute("add", add);
+        rttr.addAttribute("state", theaterState);
+        return "redirect:/admin/page/movie?";
+
     }
 
     // @PostMapping("/remove")
