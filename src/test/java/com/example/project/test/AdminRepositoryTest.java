@@ -136,24 +136,51 @@ public class AdminRepositoryTest {
     // });
     // });
 
-    // @Transactional
-    // @Test
-    // public void getGenres() {
-    // List<Object[]> result = adminMovieRepository.getMovieDetails();
+    // 영화 제목 , 장르 ,개봉일
+    @Transactional
+    @Test
+    public void getGenres() {
 
-    // for (Object[] objects : result) {
+        movieRepository.findAll().forEach(movie -> {
+            System.out.println(movie);
 
-    // System.out.println(Arrays.toString(objects));
+            movie.getMoviePeople().forEach(people -> System.out.println(people.getPeople().getName()));
 
-    // // String title = (String) objects[0];
-    // // String releaseDate = (String) objects[1];
-    // // String genres = (String) objects[2];
-    // // System.out.println(title);
-    // // System.out.println(releaseDate);
-    // // System.out.println(genres);
+            movie.getMovieGenres().forEach(genre -> System.out.println(genre.getGenre().getName()));
+        });
+        ;
 
-    // }
-    // }
+        // List<Object[]> result = adminMovieRepository.getMovieDetails();
+
+        // for (Object[] objects : result) {
+
+        // System.out.println(Arrays.toString(objects));
+
+        // // String title = (String) objects[0];
+        // // String releaseDate = (String) objects[1];
+        // // String genres = (String) objects[2];
+        // // System.out.println(title);
+        // // System.out.println(releaseDate);
+        // // System.out.println(genres);
+
+        // }
+    }
+
+    // 영화 배우
+    @Transactional
+    @Test
+    public void getActers() {
+        List<Object[]> result = adminMovieRepository.movieActers();
+
+        for (Object[] objects : result) {
+
+            // System.out.println(Arrays.toString(objects));
+
+            String name = (String) objects[1];
+            System.out.println(name);
+
+        }
+    }
 
     @Commit
     @Transactional

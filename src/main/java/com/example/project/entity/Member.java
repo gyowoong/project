@@ -69,6 +69,8 @@ public class Member extends BaseEntity {
     @Column(nullable = false)
     private String district;
 
+    private LocalDateTime lastLogin;
+
     @Enumerated(EnumType.STRING)
     private MemberRole role;
 }
