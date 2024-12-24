@@ -1,5 +1,6 @@
 package com.example.project.service;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,6 +13,7 @@ import com.example.project.dto.AuthMemberDto;
 import com.example.project.dto.MemberDto;
 import com.example.project.entity.Member;
 import com.example.project.entity.constant.MemberRole;
+import com.example.project.entity.test.UserEntity;
 import com.example.project.repository.MemberRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -39,6 +41,9 @@ public class MemberLoginServiceImpl implements UserDetailsService {
         // 이메일이 존재한다면 entity => dto 변경
         Member member = result.get();
 
+        // 최종 로그인 날짜 수정
+        accessLogin(member);
+
         MemberDto memberDto = MemberDto.builder()
                 .memberId(member.getMemberId())
                 .password(member.getPassword())
@@ -54,5 +59,11 @@ public class MemberLoginServiceImpl implements UserDetailsService {
                 .build();
 
         return new AuthMemberDto(memberDto);
+    }
+
+    private void accessLogin(Member member) {
+
+        member.setLastLogin(LocalDateTime.now());
+        memberRepository.save(member);
     }
 }
