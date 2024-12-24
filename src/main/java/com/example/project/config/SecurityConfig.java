@@ -60,25 +60,26 @@ public class SecurityConfig {
         // // CSRF 설정
         // .csrf(csrf -> csrf.disable()); // 필요에 따라 CSRF 비활성화
 
-        http.authorizeHttpRequests(authorize -> authorize
-                .requestMatchers("/", "/admin/css/**",
-                        "/admin/js/**", "/admin/fonts/**")
-                .permitAll()
-                .requestMatchers("/admin/page/**").hasRole("ADMIN")
-                // .anyRequest().permitAll()
-                // .requestMatchers("/admin/page/user").permitAll()
-                .anyRequest().authenticated());
+        // http.authorizeHttpRequests(authorize -> authorize
+        // .requestMatchers("/", "/admin/css/**",
+        // "/admin/js/**", "/admin/fonts/**")
+        // .permitAll()
+        // .requestMatchers("/admin/page/**").hasRole("ADMIN")
+        // // .anyRequest().permitAll()
+        // // .requestMatchers("/admin/page/user").permitAll()
+        // .anyRequest().authenticated());
 
-        http.formLogin(login -> login.loginPage("/admin/login")
-                .defaultSuccessUrl("/admin/page/index", true).permitAll());
+        // http.formLogin(login -> login.loginPage("/admin/login")
+        // .defaultSuccessUrl("/admin/page/index", true).permitAll());
 
-        http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.ALWAYS));
+        // http.sessionManagement(session ->
+        // session.sessionCreationPolicy(SessionCreationPolicy.ALWAYS));
 
-        http.logout(logout -> logout
-                .logoutRequestMatcher(new AntPathRequestMatcher("/admin/logout"))
-                .logoutSuccessUrl("/"));
+        // http.logout(logout -> logout
+        // .logoutRequestMatcher(new AntPathRequestMatcher("/admin/logout"))
+        // .logoutSuccessUrl("/"));
 
-        http.csrf(csrf -> csrf.disable());
+        // http.csrf(csrf -> csrf.disable());
         return http.build();
     }
 
