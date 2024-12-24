@@ -17,6 +17,7 @@ import com.example.project.admin.repository.AdminMovieRepository;
 import com.example.project.admin.repository.AdminRepository;
 import com.example.project.admin.repository.MovieAddRepository;
 import com.example.project.admin.repository.MovieStateRepository;
+import com.example.project.admin.repository.UserRepository;
 import com.example.project.entity.Genre;
 import com.example.project.entity.Movie;
 import com.example.project.entity.MovieGenre;
@@ -25,7 +26,7 @@ import com.example.project.entity.test.UserEntity;
 import com.example.project.repository.movie.GenreRepository;
 import com.example.project.repository.movie.MovieGenreRepository;
 import com.example.project.repository.movie.MovieRepository;
-import com.example.project.repository.test.UserRepository;
+
 import com.example.project.service.MovieService;
 import com.querydsl.core.types.Predicate;
 
@@ -56,7 +57,6 @@ public class AdminRepositoryTest {
     @Autowired
     private MovieStateRepository movieStateRepository;
 
-    @Transactional
     @Test
     public void insertAdmin() {
         Admin admin = Admin.builder().userId("user1").password(passwordEncoder.encode("1111"))
@@ -68,19 +68,18 @@ public class AdminRepositoryTest {
     public void userInsert() {
         LongStream.rangeClosed(1, 50).forEach(i -> {
             int re = ((int) (Math.random() * 2));
-            int age = ((int) (Math.random() * 50) + 10);
             int year = ((int) (Math.random() * 50) + 1980);
             int month = ((int) (Math.random() * 12) + 1);
             int day = ((int) (Math.random() * 31) + 1);
             UserEntity userEntity = UserEntity.builder()
-                    .userid("user" + i)
+                    .userId("userId" + i)
                     .password(passwordEncoder.encode("1111"))
                     .name("name" + i)
                     .email("usermeil" + i + "@gmail.com")
-                    .age(age)
                     .gender(re)
                     .brith(year + "/" + month + "/" + day)
                     .telNo("010-0000-0000")
+                    .adminRole(AdminRole.USER)
                     .build();
 
             userRepository.save(userEntity);
@@ -90,7 +89,7 @@ public class AdminRepositoryTest {
     @Test
     public void userList() {
         userRepository.findAll().forEach(u -> {
-            System.out.println(u.getUserid());
+            System.out.println(u.getUserId());
             System.out.println(u.getName());
             System.out.println(u.getEmail());
             System.out.println(u.getGender());
@@ -137,24 +136,24 @@ public class AdminRepositoryTest {
     // });
     // });
 
-    @Transactional
-    @Test
-    public void getGenres() {
-        List<Object[]> result = adminMovieRepository.getMovieDetails();
+    // @Transactional
+    // @Test
+    // public void getGenres() {
+    // List<Object[]> result = adminMovieRepository.getMovieDetails();
 
-        for (Object[] objects : result) {
+    // for (Object[] objects : result) {
 
-            System.out.println(Arrays.toString(objects));
+    // System.out.println(Arrays.toString(objects));
 
-            // String title = (String) objects[0];
-            // String releaseDate = (String) objects[1];
-            // String genres = (String) objects[2];
-            // System.out.println(title);
-            // System.out.println(releaseDate);
-            // System.out.println(genres);
+    // // String title = (String) objects[0];
+    // // String releaseDate = (String) objects[1];
+    // // String genres = (String) objects[2];
+    // // System.out.println(title);
+    // // System.out.println(releaseDate);
+    // // System.out.println(genres);
 
-        }
-    }
+    // }
+    // }
 
     @Commit
     @Transactional
@@ -245,7 +244,8 @@ public class AdminRepositoryTest {
 
     @Test
     public void deleteTest() {
-        movieAddRepository.deleteById(302L);
+        movieAddRepository.deleteById(3051L);
+
     }
 
 }

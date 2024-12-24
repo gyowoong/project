@@ -12,7 +12,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.example.project.admin.dto.test.MovieStateDto;
 import com.example.project.admin.dto.test.UserDto;
 import com.example.project.admin.service.test.UserServie;
-import com.example.project.dto.MovieDetailsDTO;
 import com.example.project.dto.reserve.TheaterDto;
 import com.example.project.entity.test.UserEntity;
 
@@ -44,16 +43,6 @@ public class AdminController {
 
     }
 
-    @GetMapping("/create")
-    public void getCreate(Model model) {
-        log.info("create 폼 요청");
-        // 서비스 호출
-        List<MovieDetailsDTO> movieDetails = userServie.getMovieDetails();
-
-        // 모델에 데이터 추가
-        model.addAttribute("movieDetails", movieDetails);
-    }
-
     @GetMapping("/join")
     public void getJoin() {
         log.info("join 폼 요청");
@@ -73,18 +62,19 @@ public class AdminController {
     }
 
     @PostMapping("/movieAdd")
-    public String postMovieAdd(@Valid TheaterDto aDto, BindingResult result, Model model) {
+    public String postMovieAdd(@Valid TheaterDto aDto, BindingResult result, Model model, RedirectAttributes rttr,
+            String theaterState) {
         log.info("영화관등록 폼 요청 {} ", aDto);
         if (result.hasErrors()) {
-            return "/admin/page/movieAdd";
+            return "redirect:/admin/page/movieAdd";
         }
 
         Long add = userServie.addMovie(aDto);
-        // List<MovieStateDto> state = userServie.getAllStates();
-        model.addAttribute("add", add);
-        // model.addAttribute("state", state);
 
-        return "redirect:/admin/page/movie";
+        model.addAttribute("add", add);
+        rttr.addAttribute("state", theaterState);
+        return "redirect:/admin/page/movie?";
+
     }
 
     // @PostMapping("/remove")

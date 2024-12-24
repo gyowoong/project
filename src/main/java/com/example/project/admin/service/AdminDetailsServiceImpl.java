@@ -18,9 +18,10 @@ import lombok.extern.log4j.Log4j2;
 @RequiredArgsConstructor
 @Log4j2
 @Service
-public class AdminDetailsServiceImpl implements UserDetailsService{
+public class AdminDetailsServiceImpl implements UserDetailsService {
 
     private final AdminRepository adminRepository;
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         log.info("Service username : {}", username);
@@ -35,12 +36,12 @@ public class AdminDetailsServiceImpl implements UserDetailsService{
         Admin admin = result.get();
 
         AdminDto adminDto = AdminDto.builder()
-        .ano(admin.getAno())
-        .userId(admin.getUserId())
-        .password(admin.getPassword())
-        .role(admin.getAdminRole())
-        .build();
+                .ano(admin.getAno())
+                .userId(admin.getUserId())
+                .password(admin.getPassword())
+                .role(admin.getAdminRole())
+                .build();
         return new AuthAdminDto(adminDto);
     }
-    
+
 }

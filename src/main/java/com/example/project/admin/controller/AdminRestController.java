@@ -11,6 +11,7 @@ import com.example.project.admin.service.test.UserServie;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.web.bind.annotation.GetMapping;
 
 @RequiredArgsConstructor
 @RestController
@@ -19,6 +20,11 @@ import lombok.extern.log4j.Log4j2;
 public class AdminRestController {
 
     private final UserServie userServie;
+
+    @GetMapping("/{theaterId}")
+    public Long getMethodName(@PathVariable Long theaterId) {
+        return theaterId;
+    }
 
     @DeleteMapping("/{theaterId}")
     public Long postRemove(@PathVariable Long theaterId) {
