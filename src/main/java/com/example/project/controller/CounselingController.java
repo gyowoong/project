@@ -10,7 +10,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.project.entity.Counseling;
@@ -19,7 +18,6 @@ import com.example.project.repository.CounselingRepository;
 import com.example.project.repository.InquiryRepository;
 
 @Controller
-@RequestMapping("/center")
 public class CounselingController {
 
     @Autowired
@@ -27,11 +25,6 @@ public class CounselingController {
 
     @Autowired
     private InquiryRepository inquiryRepository;
-
-    @GetMapping("/counseling")
-    public String counselingPage() {
-        return "center/counseling";
-    }
 
     @GetMapping("/center/counseling/history")
     public String getCounselingHistory(@RequestParam(defaultValue = "1") int page, Model model) {
