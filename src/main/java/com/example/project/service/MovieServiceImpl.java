@@ -1,10 +1,8 @@
 package com.example.project.service;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,8 +14,8 @@ import com.example.project.dto.PageRequestDTO;
 import com.example.project.dto.PageResultDTO;
 import com.example.project.entity.Genre;
 import com.example.project.entity.Movie;
-import com.example.project.entity.MoviePeople;
-import com.example.project.entity.People;
+import com.example.project.entity.MoviePerson;
+import com.example.project.entity.Person;
 import com.example.project.repository.movie.MovieRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -39,8 +37,8 @@ public class MovieServiceImpl implements MovieService {
                 requestDto.getMovieList(),
                 requestDto.getGenre(), pageable);
         Function<Object[], MovieDto> function = (en -> entityToDto((Movie) en[0],
-                (List<MoviePeople>) en[1],
-                (List<People>) en[2],
+                (List<MoviePerson>) en[1],
+                (List<Person>) en[2],
                 (List<Genre>) en[3]));
 
         return new PageResultDTO<>(movies, function);
@@ -71,7 +69,7 @@ public class MovieServiceImpl implements MovieService {
     public List<MovieDto> getMovieListByPersonId(Long id) {
         List<MovieDto> movieDtos = new ArrayList<>();
         movieRepository.getMovieListByPersonId(id).stream().forEach(movie -> {
-            // movieDtos.add(entityToDto(movie));
+            movieDtos.add(entityToDto(movie, null, null, null));
         });
         return movieDtos;
     }
@@ -80,8 +78,8 @@ public class MovieServiceImpl implements MovieService {
     public MovieDto getMovieDetail(Long id) {
         Object[] result = movieRepository.getMovieDetailById(id);
         return entityToDto((Movie) result[0],
-                (List<MoviePeople>) result[1],
-                (List<People>) result[2],
+                (List<MoviePerson>) result[1],
+                (List<Person>) result[2],
                 (List<Genre>) result[3]);
     }
 

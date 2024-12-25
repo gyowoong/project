@@ -1,5 +1,6 @@
 package com.example.project.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -17,12 +18,12 @@ import lombok.ToString;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString(exclude = { "movie", "genre" })
+@ToString(exclude = { "movie", "person" })
 @Setter
 @Getter
-@Table(name = "movie_genre")
+@Table(name = "movie_person")
 @Entity
-public class MovieGenre extends BaseEntity {
+public class MoviePerson extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,7 +34,12 @@ public class MovieGenre extends BaseEntity {
     private Movie movie;
 
     @ManyToOne
-    @JoinColumn(name = "genre_id")
-    private Genre genre;
+    @JoinColumn(name = "person_id")
+    private Person person;
+
+    @Column(length = 500)
+    private String character;
+
+    private String role;
 
 }
