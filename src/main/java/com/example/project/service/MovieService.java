@@ -30,6 +30,12 @@ public interface MovieService {
 
         MovieDto getMovieDetail(Long id);
 
+        List<MovieDto> getFavoriteMoviesByMemberId(Long memberId);
+
+        List<MovieDto> recommendMovies(Long memberId);
+
+        Long findMostFrequentDirector(Long memberId);
+
         public default MovieDto entityToDto(Movie movie, List<MoviePerson> moviepeople, List<Person> people,
                         List<Genre> genres) {
                 // MovieDto 생성
