@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class MoviePeopleDto {
+public class MoviePersonDto {
 
     private Long id;
 
@@ -17,7 +17,7 @@ public class MoviePeopleDto {
 
     private String role;
 
-    private Long peopleId;
+    private Long personId;
 
     private Long movieId;
 

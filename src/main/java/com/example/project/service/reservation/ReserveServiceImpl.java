@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import com.example.project.dto.MovieDto;
+import com.example.project.dto.ScreeningDto;
 import com.example.project.dto.reserve.ReserveDto;
 import com.example.project.dto.reserve.TheaterDto;
 import com.example.project.entity.Movie;
@@ -88,22 +89,24 @@ public class ReserveServiceImpl implements ReserveService {
 
     }
 
-    // public List<MovieDto> getMoviesByTheaterId(Long theaterId) {
-    // List<Movie> movies = screeningRepository.findMoviesByTheaterId(theaterId);
-    // return movies.stream()
-    // .map(movie -> MovieDto.builder()
-    // .movieId(movie.getId())
-    // .title(movie.getTitle())
-    // .releaseDate(movie.getReleaseDate())
-    // .posterPath(movie.getPosterPath())
-    // .build())
-    // .collect(Collectors.toList());
-    // }
+    @Override
+    public List<String> getMoviesByTheaterId(Long theaterId) {
+        return screeningRepository.findMoviesByTheaterId(theaterId);
+    }
 
     @Override
-    public List<Screening> getScreenings(Long theaterId, Long movieId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getScreenings'");
+    public List<ScreeningDto> getScreeningsByMovieTitle(String movieTitle) {
+        List<Screening> screenings = screeningRepository.findScreeningsByMovieTitle(movieTitle);
+        return screenings.stream()
+                .map(screening -> ScreeningDto.builder()
+                        .screeningId(screening.getScreeningId())
+                        .movieTitle(screening.getMovieTitle())
+                        .startTime(screening.getStartTime())
+                        .runtime(screening.getRuntime())
+                        .openDate(screening.getOpenDate())
+                        .closeDate(screening.getCloseDate())
+                        .build())
+                .collect(Collectors.toList());
     }
 
 }

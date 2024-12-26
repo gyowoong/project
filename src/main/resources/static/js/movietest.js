@@ -1,3 +1,21 @@
+function isExistFavorite() {
+  if (isExist === "true") {
+    document.querySelector(".follow-btn").innerHTML = "찜 제거";
+  } else {
+    document.querySelector(".follow-btn").innerHTML = "찜 추가";
+  }
+}
+isExistFavorite();
+document.querySelector(".follow-btn").addEventListener("click", () => {
+  console.log("찜 버튼 클릭");
+  if (isExist === "true") {
+    isExist = "false";
+  } else {
+    isExist = "true";
+  }
+  isExistFavorite();
+});
+
 fetch(`/rest/movieDetail/${movieId}`)
   .then((response) => {
     if (!response.ok) throw new Error("에러");
@@ -38,15 +56,15 @@ fetch(`/rest/movieDetail/${movieId}`)
       const directorList = new Set();
       const actorList = new Set();
 
-      data.peopleDtos.forEach((peopleDto) => {
-        peopleDto.moviePeople.forEach((moviePeopleDto) => {
+      data.personDtos.forEach((personDto) => {
+        personDto.moviePersonDtos.forEach((moviePersonDto) => {
           // Director 역할이 있는 사람은 directorList에 추가
-          if (moviePeopleDto.role && moviePeopleDto.role === "Director") {
-            directorList.add(peopleDto);
+          if (moviePersonDto.role && moviePersonDto.role === "Director") {
+            directorList.add(personDto);
           }
           // role이 null인 사람은 actorList에 추가
-          if (!moviePeopleDto.role) {
-            actorList.add(peopleDto);
+          if (!moviePersonDto.role) {
+            actorList.add(personDto);
           }
         });
       });
@@ -83,8 +101,8 @@ fetch(`/rest/movieDetail/${movieId}`)
         str += `<div class="product__item__text mx-4">`;
         str += `<h5><a href="personDetail?id=${actor.id}">${actor.name}</a></h5>`;
         str += `<div class="text-white">`;
-        actor.moviePeople.forEach((moviePeople) => {
-          str += `${moviePeople.character} 역`;
+        actor.moviePersonDtos.forEach((moviePersonDto) => {
+          str += `${moviePersonDto.character} 역`;
         });
         str += `</div>`;
         str += `</div></div>`;
@@ -123,3 +141,25 @@ fetch(`/rest/movieDetail/${movieId}`)
       document.querySelector(".review_row").innerHTML = str;
     });
   });
+
+document.querySelector(".follow-btn").addEventListener("click", (e) => {
+  console.log("클릭");
+
+  fetch(`/rest/movieDetail/${movieId}`, {
+    method: "POST",
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Failed to add to favorites");
+      }
+      return response.text(); // 서버에서 전송된 텍스트 응답
+    })
+    .then((data) => {
+      alert(data); // 성공 메시지 표시
+      // button.textContent = "Added!"; // 버튼 텍스트 변경
+      // button.disabled = true; // 버튼 비활성화
+    })
+    .catch((error) => {
+      alert("Failed to add to favorites: " + error.message); // 오류 메시지
+    });
+});

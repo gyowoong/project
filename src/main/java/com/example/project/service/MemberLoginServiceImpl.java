@@ -44,6 +44,7 @@ public class MemberLoginServiceImpl implements UserDetailsService {
         accessLogin(member);
 
         MemberDto memberDto = MemberDto.builder()
+                .mid(member.getMid())
                 .memberId(member.getMemberId())
                 .password(member.getPassword())
                 .name(member.getName())

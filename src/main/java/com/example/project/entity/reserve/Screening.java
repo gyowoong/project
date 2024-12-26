@@ -1,6 +1,7 @@
 package com.example.project.entity.reserve;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,22 +34,18 @@ public class Screening {
     @Id
     private Long screeningId;
 
-    @Column(nullable = false)
-    private LocalDateTime startTime;
+    private String startTime;
 
-    private LocalDateTime endTime;
-
-    @Column(nullable = false)
     private String movieTitle;
-    @Column(nullable = false)
-    private Long runtime;
 
-    // @ManyToOne(fetch = FetchType.LAZY)
-    // @JoinColumn(name = "movie_id", nullable = false)
-    // private Movie movie;
+    private String runtime;
+
+    private LocalDate openDate;
+
+    private LocalDate closeDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "auditorium_id", nullable = false)
+    @JoinColumn(name = "auditorium_no", nullable = false)
     private Auditorium auditorium;
 
     @OneToMany(mappedBy = "screening", cascade = CascadeType.ALL, orphanRemoval = true)

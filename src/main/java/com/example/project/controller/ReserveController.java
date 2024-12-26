@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.project.dto.MovieDto;
+import com.example.project.dto.ScreeningDto;
 import com.example.project.dto.reserve.TheaterDto;
 import com.example.project.entity.Movie;
 import com.example.project.entity.reserve.Screening;
@@ -53,20 +54,18 @@ public class ReserveController {
         return ResponseEntity.ok(theaters);
     }
 
-    // @GetMapping("/movies")
-    // public ResponseEntity<List<MovieDto>> getMoviesByTheater(@RequestParam Long
-    // theaterId) {
-    // List<MovieDto> movies = reserveService.getMoviesByTheater(theaterId);
-    // return ResponseEntity.ok(movies);
-    // }
-
-    @GetMapping("/screenings")
-    public ResponseEntity<List<Screening>> getScreenings(@RequestParam Long theaterId, @RequestParam Long movieId) {
-        List<Screening> screenings = reserveService.getScreenings(theaterId, movieId);
-        if (screenings.isEmpty()) {
-            return ResponseEntity.noContent().build(); // 204 No Content
-        }
-        return ResponseEntity.ok(screenings); // 200 OK
+    @GetMapping("/movies")
+    public ResponseEntity<List<String>> getMoviesByTheater(@RequestParam Long theaterId) {
+        List<String> movies = reserveService.getMoviesByTheaterId(theaterId);
+        return ResponseEntity.ok(movies);
     }
+
+    // @GetMapping
+    // public ResponseEntity<List<ScreeningDto>>
+    // getScreeningsByMovieTitle(@RequestParam String movieTitle) {
+    // List<ScreeningDto> screenings =
+    // reserveService.getScreeningsByMovieTitle(movieTitle);
+    // return ResponseEntity.ok(screenings);
+    // }
 
 }

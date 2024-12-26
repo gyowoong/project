@@ -9,11 +9,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.example.project.admin.dto.test.MovieDetailsDTO;
 import com.example.project.admin.dto.test.MovieStateDto;
-import com.example.project.admin.dto.test.UserDto;
 import com.example.project.admin.service.test.UserServie;
-// import com.example.project.dto.MovieDetailsDTO;
+import com.example.project.dto.MemberDto;
 import com.example.project.dto.reserve.TheaterDto;
+import com.example.project.entity.Member;
 import com.example.project.entity.test.UserEntity;
 
 import jakarta.validation.Valid;
@@ -37,22 +38,24 @@ public class AdminController {
     }
 
     @GetMapping("/user")
-    public void getUser(UserDto userDto, Model model) {
+    public void getUser(MemberDto memberDto, Model model) {
         log.info("home 폼 요청");
-        List<UserEntity> list = userServie.allList(userDto);
+        List<Member> list = userServie.allList(memberDto);
         model.addAttribute("list", list);
 
     }
 
-    // @GetMapping("/create")
-    // public void getCreate(Model model) {
-    // log.info("create 폼 요청");
-    // // 서비스 호출
-    // List<MovieDetailsDTO> movieDetails = userServie.getMovieDetails();
+    @GetMapping("/create")
+    public void getCreate(Model model) {
+        log.info("create 폼 요청");
+        // 서비스 호출
+        List<MovieDetailsDTO> movieDetails = userServie.getMovieDetails();
+        List<MovieDetailsDTO> movieActers = userServie.movieActers();
 
-    // // 모델에 데이터 추가
-    // model.addAttribute("movieDetails", movieDetails);
-    // }
+        // 모델에 데이터 추가
+        model.addAttribute("movieList", movieDetails);
+        model.addAttribute("movieActers", movieActers);
+    }
 
     @GetMapping("/join")
     public void getJoin() {

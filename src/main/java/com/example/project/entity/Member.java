@@ -2,6 +2,7 @@ package com.example.project.entity;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.example.project.entity.constant.MemberRole;
@@ -29,7 +30,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @Builder
-@ToString
+@ToString(exclude = { "memberFavoriteMovies" })
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "MEMBER")
@@ -73,4 +74,7 @@ public class Member extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     private MemberRole role;
+
+    @OneToMany(mappedBy = "member")
+    private List<MemberFavoriteMovie> memberFavoriteMovies = new ArrayList<>();
 }

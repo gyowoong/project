@@ -115,7 +115,7 @@ document.querySelectorAll(".region-list").forEach((link) => {
 
         data.forEach((theater) => {
           const theaterElement = document.createElement("a");
-          theaterElement.className = "nav-link fw-semibold";
+          theaterElement.className = "nav-link fw-semibold theater-title";
           theaterElement.href = `#theater-${theater.theaterId}`;
           theaterElement.textContent = theater.theaterName;
 
@@ -127,39 +127,39 @@ document.querySelectorAll(".region-list").forEach((link) => {
   });
 });
 
-document.getElementById("theater-list").addEventListener("click", (e) => {
-  e.preventDefault();
+document.querySelectorAll(".theater-title").forEach((theaterLink) => {
+  theaterLink.addEventListener("click", (e) => {
+    e.preventDefault();
 
-  const theaterId = e.target.getAttribute("data-theater-id");
-  if (!theaterId) {
-    console.error("극장 ID가 없습니다.");
-    return;
-  }
+    const theaterId = theaterLink.getAttribute("data-theater-id");
+    if (!theaterId) {
+      console.error("Theater ID is missing");
+      return;
+    }
+    fetch(`/screenings/movies?theaterId=${theaterId}`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((movies) => {
+        const movieList = document.getElementById("movie-list");
+        movieList.innerHTML = "";
 
-  fetch(`/reservation/movies?theaterId=${theaterId}`)
-    .then((response) => response.json())
-    .then((data) => {
-      const movieList = document.getElementById("movie-list");
-      movieList.innerHTML = ""; // 기존 영화 목록 초기화
+        movies.forEach((movieTitle) => {
+          const listItem = document.createElement("li");
+          listItem.className = "list-group-item movie-item";
+          listItem.textContent = movieTitle;
+          listItem.addEventListener("click", () => {
+            console.log(`Selected movie: ${movieTitle}`);
+          });
 
-      data.forEach((movie) => {
-        const movieItem = document.createElement("li");
-        movieItem.className = "movie-item list-group-item";
-        movieItem.style.listStyle = "none";
-
-        const movieLink = document.createElement("a");
-        movieLink.href = "#";
-        movieLink.className = "text-dark fw-bold";
-        movieLink.textContent = movie.title;
-
-        movieItem.appendChild(movieLink);
-        movieList.appendChild(movieItem);
-      });
-
-      // 새로 생성된 영화 항목에 클릭 이벤트 추가
-      addClickHandler(".movie-item", "clicked");
-    })
-    .catch((error) => console.error("영화 목록 오류:", error));
+          movieList.appendChild(listItem);
+        });
+      })
+      .catch((error) => console.error("Error fetching movies:", error));
+  });
 });
 
 // 영화 선택 후 상영시간표 요청

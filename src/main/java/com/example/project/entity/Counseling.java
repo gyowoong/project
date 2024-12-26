@@ -4,6 +4,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Table(name = "Counseling")
@@ -59,4 +61,8 @@ public class Counseling {
     public void setStatus(String status) {
         this.status = status;
     }
+
+    @OneToOne
+    @JoinColumn(name = "email_inquiry_id") // 외래 키
+    private EmailInquiry emailInquiry;
 }

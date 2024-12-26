@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.example.project.dto.MovieDto;
+import com.example.project.dto.ScreeningDto;
 import com.example.project.dto.reserve.ReserveDto;
 import com.example.project.dto.reserve.TheaterDto;
 import com.example.project.entity.Member;
@@ -31,7 +32,9 @@ public interface ReserveService {
 
     List<TheaterDto> getTheatersByRegion(String region);
 
-    List<Screening> getScreenings(Long theaterId, Long movieId);
+    List<String> getMoviesByTheaterId(Long theaterId);
+
+    List<ScreeningDto> getScreeningsByMovieTitle(String movieTitle);
 
     default Reserve dtoToEntity(ReserveDto reserveDto) {
         return Reserve.builder()
