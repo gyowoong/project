@@ -53,12 +53,6 @@ public class MovieController {
 
     // }
 
-    @GetMapping("/reservation")
-    public void getReservation() {
-        log.info("home 폼 요청");
-
-    }
-
     @GetMapping("/movieList")
     public void getMovieList(@ModelAttribute("requestDto") PageRequestDTO requestDto,
             Model model) {
