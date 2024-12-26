@@ -68,7 +68,6 @@
         <button class="btn btn-outline-success" type="submit">Search</button>
       </div>
     </form>
-    <!-- Product Section Begin -->
     <section class="product spad">
       <div class="container">
         <div class="row">
@@ -127,13 +126,17 @@
                 >
               </li>
               <li class="nav-item">
-                <a class="nav-link text-white" href="#">MY</a>
+                <a
+                  class="nav-link text-white"
+                  th:href="@{movieList(movieList=my,page=1,size=${requestDto.size},type=,keyword=,genre=,sort=popularity)}"
+                  >MY</a
+                >
               </li>
             </ul>
             <!-- 영화 리스트 -->
             <div
               class="row trending__product-row"
-              th:if="${requestDto.type != 'p'}"
+              th:if="${requestDto.type != 'p' and requestDto.movieList != 'my'}"
             >
               <div class="d-flex sub-head">
                 <h3 class="text-white">영화 [[${movies.totalElements}]] 건</h3>
@@ -148,6 +151,89 @@
                 class="col-lg-3 col-md-4 col-sm-6 mb-3 product"
                 th:if="${requestDto.type == 'mp' and iterStat.index < 4 or requestDto.type != 'mp'}"
                 th:each="dto, iterStat : ${movies != null ? movies.dtoList : null}"
+              >
+                <div class="product__item mb-2">
+                  <a th:href="@{movieDetail(id=${dto.id})}"
+                    ><img
+                      th:src="'https://image.tmdb.org/t/p/w500/' + ${dto.posterPath}"
+                      alt=""
+                      class="product__item__pic set-bg"
+                  /></a>
+                </div>
+                <div class="product__item__text mx-4">
+                  <h5>
+                    <a
+                      th:href="@{movieDetail(id=${dto.id})}"
+                      th:text="${dto.title}"
+                      >타이틀</a
+                    >
+                  </h5>
+                  <ul>
+                    <li>예매율</li>
+                    31.8%
+                  </ul>
+                  <ul>
+                    <li>개봉일</li>
+                    [[${dto.releaseDate}]]
+                  </ul>
+                </div>
+              </div>
+              <div class="mt-4"></div>
+            </div>
+            <!-- MY -->
+            <div
+              class="row trending__product-row"
+              th:if="${requestDto.movieList == 'my' and recommendMovies.size() != 0}"
+            >
+              <div class="d-flex sub-head">
+                <h3 class="text-white">내 찜 목록과 비슷한 영화</h3>
+              </div>
+              <div
+                class="col-lg-3 col-md-4 col-sm-6 mb-3 product"
+                th:if="${iterStat.index < 4}"
+                th:each="dto, iterStat : ${recommendMovies != null ? recommendMovies : null}"
+              >
+                <div class="product__item mb-2">
+                  <a th:href="@{movieDetail(id=${dto.id})}"
+                    ><img
+                      th:src="'https://image.tmdb.org/t/p/w500/' + ${dto.posterPath}"
+                      alt=""
+                      class="product__item__pic set-bg"
+                  /></a>
+                </div>
+                <div class="product__item__text mx-4">
+                  <h5>
+                    <a
+                      th:href="@{movieDetail(id=${dto.id})}"
+                      th:text="${dto.title}"
+                      >타이틀</a
+                    >
+                  </h5>
+                  <ul>
+                    <li>예매율</li>
+                    31.8%
+                  </ul>
+                  <ul>
+                    <li>개봉일</li>
+                    [[${dto.releaseDate}]]
+                  </ul>
+                </div>
+              </div>
+              <div class="mt-4"></div>
+            </div>
+            <div
+              class="row trending__product-row"
+              th:if="${requestDto.movieList == 'my' and recommendMoviesByDirector.size() != 0}"
+            >
+              <div class="d-flex sub-head">
+                <h3 class="text-white">
+                  [[${directorDto.name}]] 감독의 다른 영화
+                </h3>
+              </div>
+              <div
+                class="col-lg-3 col-md-4 col-sm-6 mb-3 product"
+                th:if="${iterStat.index < 4}"
+                th:each="dto, iterStat : ${recommendMoviesByDirector != null ? recommendMoviesByDirector : null}"
               >
                 <div class="product__item mb-2">
                   <a th:href="@{movieDetail(id=${dto.id})}"
@@ -219,7 +305,10 @@
             </div>
           </div>
           <!-- 페이지 -->
-          <nav aria-label="..." th:if="${requestDto.type != 'mp'}">
+          <nav
+            aria-label="..."
+            th:if="${requestDto.type != 'mp' and requestDto.movieList != 'my'}"
+          >
             <ul class="pagination justify-content-center">
               <!-- Previous button -->
               <li
