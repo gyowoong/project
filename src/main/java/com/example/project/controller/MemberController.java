@@ -1,5 +1,12 @@
 package com.example.project.controller;
 
+import java.security.Principal;
+import java.util.List;
+
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -8,11 +15,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import org.springframework.web.bind.annotation.RequestMapping;
-
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.project.dto.MemberDto;
-
+import com.example.project.dto.MovieDto;
+import com.example.project.service.FavoriteService;
 import com.example.project.service.MemberService;
 
 import jakarta.servlet.http.HttpSession;
@@ -27,19 +35,12 @@ import lombok.extern.log4j.Log4j2;
 public class MemberController {
 
     private final MemberService memberService;
+    private final FavoriteService favoriteService;
 
     @GetMapping("/login")
-    public String loginRedirect(HttpSession session, Model model) {
-        String memberId = (String) session.getAttribute("memberId");
+    public void loginRedirect() {
+        log.info("로그인 폼 요청");
 
-        if (memberId != null) {
-            // 이미 로그인된 상태라면 마이페이지로 리다이렉트
-            return "redirect:/member/mypage";
-        }
-
-        // 로그인이 안 되어 있다면 로그인 페이지로 이동
-        model.addAttribute("memberDto", new MemberDto()); // 빈 객체 전달
-        return "member/login";
     }
 
     @GetMapping("/register")
@@ -53,6 +54,8 @@ public class MemberController {
             BindingResult bindingResult,
             RedirectAttributes redirectAttributes,
             Model model) {
+
+        log.info("회원가입 {}", memberDto);
 
         // 입력값 유효성 검사
         if (bindingResult.hasErrors()) {
@@ -77,45 +80,32 @@ public class MemberController {
         return "redirect:/member/login";
     }
 
-    @PostMapping("/login")
-    public String login(@ModelAttribute("memberDto") MemberDto memberDto, HttpSession session, Model model) {
-        boolean isValidUser = memberService.validateMember(memberDto.getMemberId(), memberDto.getPassword());
-
-        if (!isValidUser) {
-            model.addAttribute("error", "아이디 또는 비밀번호가 잘못되었습니다.");
-            return "member/login";
-        }
-        session.setAttribute("memberId", memberDto.getMemberId());
-        return "redirect:/"; // 로그인 성공 시 메인 페이지로 이동
-    }
-
     @GetMapping("/mypage")
-    public String getMypage(HttpSession session, Model model) {
-        // 세션에서 memberId 가져오기
-        String memberId = (String) session.getAttribute("memberId");
+    public String getMypage(Model model, Principal principal) {
+        // 현재 로그인한 사용자 ID 가져오기
+        String memberId = principal.getName();
 
-        if (memberId == null) {
-            return "redirect:/login"; // 로그인되지 않은 경우 로그인 페이지로 리다이렉트
-        }
-
-        // 회원 정보 조회
+        // 회원정보 가져오기
         MemberDto memberDto = memberService.getMemberById(memberId);
         model.addAttribute("member", memberDto);
 
+        // 찜 목록 가져오기
+        List<MovieDto> favorites = favoriteService.getFavorites(memberId);
+        model.addAttribute("favorites", favorites);
+
         return "member/mypage"; // mypage.html 반환
     }
-
-    @GetMapping("/logout")
-    public String logout(HttpSession session) {
-        // 세션 무효화 (로그아웃 처리)
-        session.invalidate();
-        return "member/login"; // 로그아웃 후 로그인 페이지로 리다이렉트
-    }
+    // @GetMapping("/logout")
+    // public String logout(HttpSession session) {
+    // // 세션 무효화 (로그아웃 처리)
+    // session.invalidate();
+    // return "member/login"; // 로그아웃 후 로그인 페이지로 리다이렉트
+    // }
 
     // 비밀번호 확인 페이지 렌더링
     @GetMapping("/verify-password")
-    public String verifyPasswordForm(HttpSession session, Model model) {
-        String memberId = (String) session.getAttribute("memberId");
+    public String verifyPasswordForm(Principal principal, Model model) {
+        String memberId = principal.getName();
 
         if (memberId == null) {
             return "redirect:/member/login"; // 로그인 안 되어 있으면 로그인 페이지로
@@ -127,8 +117,8 @@ public class MemberController {
 
     // 비밀번호 검증
     @PostMapping("/verify-password")
-    public String verifyPassword(HttpSession session, String password, Model model) {
-        String memberId = (String) session.getAttribute("memberId");
+    public String verifyPassword(Principal principal, String password, Model model) {
+        String memberId = principal.getName();
 
         if (memberId == null) {
             return "redirect:/member/login"; // 로그인 안 되어 있으면 로그인 페이지로
@@ -145,8 +135,8 @@ public class MemberController {
     }
 
     @GetMapping("/edit")
-    public String editMemberForm(HttpSession session, Model model) {
-        String memberId = (String) session.getAttribute("memberId");
+    public String editMemberForm(Principal principal, Model model) {
+        String memberId = principal.getName();
 
         if (memberId == null) {
             return "redirect:/member/login"; // 로그인 안 되어 있으면 로그인 페이지로
@@ -158,9 +148,9 @@ public class MemberController {
     }
 
     @PostMapping("/edit")
-    public String editMember(@ModelAttribute("member") MemberDto memberDto, HttpSession session, Model model) {
+    public String editMember(@ModelAttribute("member") MemberDto memberDto, Principal principal, Model model) {
         // 세션에서 현재 로그인된 사용자 확인
-        String memberId = (String) session.getAttribute("memberId");
+        String memberId = principal.getName();
         if (memberId == null) {
             return "redirect:/member/login"; // 로그인하지 않은 경우
         }
@@ -177,5 +167,16 @@ public class MemberController {
         }
 
         return "redirect:/member/mypage"; // 성공 시 마이페이지로 리다이렉트
+    }
+
+    // 개발자용 - Authentication 확인용
+    @PreAuthorize("isAuthenticated()")
+    @ResponseBody
+    @GetMapping("/auth")
+    public Authentication getAuthentication() {
+
+        SecurityContext context = SecurityContextHolder.getContext();
+        Authentication authentication = context.getAuthentication();
+        return authentication;
     }
 }

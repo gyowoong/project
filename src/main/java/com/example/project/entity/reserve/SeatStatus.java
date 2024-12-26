@@ -37,11 +37,11 @@ public class SeatStatus {
     private SeatStatusEnum seatStatusEnum;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "auditorium_id")
-    private Auditorium auditorium;
-
-    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "seat_id")
     private Seat seat;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "screening_id", nullable = false)
+    private Screening screening;
 
 }

@@ -7,17 +7,16 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import com.example.project.admin.Entity.MovieState;
+import com.example.project.admin.dto.test.MovieDetailsDTO;
 import com.example.project.admin.dto.test.MovieStateDto;
-import com.example.project.admin.dto.test.UserDto;
 import com.example.project.admin.repository.AdminMovieRepository;
 import com.example.project.admin.repository.MovieAddRepository;
 import com.example.project.admin.repository.MovieStateRepository;
-// import com.example.project.dto.MovieDetailsDTO;
+import com.example.project.dto.MemberDto;
 import com.example.project.dto.reserve.TheaterDto;
-import com.example.project.entity.Movie;
+import com.example.project.entity.Member;
 import com.example.project.entity.reserve.Theater;
-import com.example.project.entity.test.UserEntity;
-import com.example.project.repository.test.UserRepository;
+import com.example.project.repository.MemberRepository;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -28,14 +27,16 @@ import lombok.extern.log4j.Log4j2;
 @Service
 public class UserServiecImpl implements UserServie {
 
-    private final UserRepository userRepository;
+    // private final UserRepository userRepository;
     private final AdminMovieRepository adminMovieRepository;
+    private final MemberRepository memberRepository;
     private final MovieAddRepository movieAddRepository;
     private final MovieStateRepository movieStateRepository;
 
+    // 회원 정보 가져오기
     @Override
-    public List<UserEntity> allList(UserDto userDto) {
-        List<UserEntity> list = userRepository.findAll();
+    public List<Member> allList(MemberDto memberDto) {
+        List<Member> list = memberRepository.findAll();
         return list;
     }
 
@@ -59,23 +60,39 @@ public class UserServiecImpl implements UserServie {
     // return details; // 리스트 반환
     // }
 
-    // @Transactional
-    // @Override
-    // public List<MovieDetailsDTO> getMovieDetails() {
-    // List<Object[]> results = adminMovieRepository.getMovieDetails();
-    // List<MovieDetailsDTO> movieDetailsList = new ArrayList<>();
+    // 영화 리스트 출력
+    @Transactional
+    @Override
+    public List<MovieDetailsDTO> getMovieDetails() {
+        List<Object[]> results = adminMovieRepository.getMovieDetails();
+        List<MovieDetailsDTO> movieDetailsList = new ArrayList<>();
 
-    // for (Object[] result : results) {
-    // String title = (String) result[0];
-    // String genres = (String) result[1];
-    // String releaseDate = (String) result[2];
+        for (Object[] result : results) {
+            String title = (String) result[0];
+            String genres = (String) result[1];
+            String releaseDate = (String) result[2];
 
-    // movieDetailsList.add(new MovieDetailsDTO(title, releaseDate, genres));
-    // }
+            movieDetailsList.add(new MovieDetailsDTO(title, releaseDate, genres));
+        }
 
-    // return movieDetailsList;
-    // }
+        return movieDetailsList;
+    }
 
+    // 영화 배우리스트 출력
+    @Override
+    public List<MovieDetailsDTO> movieActers() {
+        List<Object[]> results = adminMovieRepository.movieActers();
+        List<MovieDetailsDTO> movieActorsList = new ArrayList<>();
+
+        for (Object[] result : results) {
+            String title = (String) result[0];
+            String name = (String) result[1];
+
+            movieActorsList.add(new MovieDetailsDTO(title, name));
+        }
+
+        return movieActorsList;
+    }
     // @Override
     // public List<MovieAddDto> addList() {
     // List<Object[]> addList = movieAddRepository.findByAddList();
@@ -93,6 +110,7 @@ public class UserServiecImpl implements UserServie {
     // return movieAdds;
     // }
 
+    // 영화관 지역 또는 관명으로 검색
     @Transactional
     @Override
     public List<TheaterDto> selectList(String state, String theaterName) {
@@ -107,6 +125,7 @@ public class UserServiecImpl implements UserServie {
                 .collect(Collectors.toList());
     }
 
+    // 영화관 지역 출력
     @Override
     public List<MovieStateDto> getAllStates() {
         return movieStateRepository.findAll()
@@ -115,6 +134,7 @@ public class UserServiecImpl implements UserServie {
                 .collect(Collectors.toList());
     }
 
+    // 영화관 리스트 출력
     @Transactional
     @Override
     public Long addMovie(TheaterDto aDto) {
@@ -130,6 +150,7 @@ public class UserServiecImpl implements UserServie {
         return movieAddRepository.save(theater).getTheaterId();
     }
 
+    // 영화관 정보 삭제
     @Override
     public void delete(Long theaterId) {
         movieAddRepository.deleteById(theaterId);

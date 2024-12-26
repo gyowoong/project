@@ -2,17 +2,22 @@ package com.example.project.service;
 
 import java.util.Optional;
 
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.example.project.dto.AuthMemberDto;
 import com.example.project.dto.MemberDto;
 import com.example.project.entity.Member;
 import com.example.project.entity.constant.MemberRole;
 import com.example.project.repository.MemberRepository;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 
+@Log4j2
 @Service
 @RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService {
@@ -30,7 +35,8 @@ public class MemberServiceImpl implements MemberService {
                 .birth(memberDto.getBirth())
                 .gender(memberDto.getGender())
                 .phone(memberDto.getPhone())
-                .address(memberDto.getAddress())
+                .city(memberDto.getCity())
+                .district(memberDto.getDistrict())
                 .role(MemberRole.MEMBER)
                 .point(0)
                 .build();
@@ -56,7 +62,8 @@ public class MemberServiceImpl implements MemberService {
                         .email(member.getEmail())
                         .phone(member.getPhone())
                         .point(member.getPoint())
-                        .address(member.getAddress())
+                        .city(member.getCity())
+                        .district(member.getDistrict())
                         .build())
                 .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
     }
@@ -75,7 +82,8 @@ public class MemberServiceImpl implements MemberService {
 
         member.setEmail(memberDto.getEmail());
         member.setPhone(memberDto.getPhone());
-        member.setAddress(memberDto.getAddress());
+        member.setCity(memberDto.getCity());
+        member.setDistrict(memberDto.getDistrict());
 
         // 비밀번호가 입력되었는지 확인하고 암호화 후 저장
         if (memberDto.getPassword() != null && !memberDto.getPassword().isEmpty()) {

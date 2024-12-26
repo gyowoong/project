@@ -25,12 +25,13 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
+                      <tr th:each="list : ${movieActers}">
+                        <!-- <td th:text="${list.title}"></td> -->
                         <td></td>
                         <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td th:text="${list.name}"></td>
+                        <!-- <td th:text="${list.genres}"></td> -->
+                        <!-- <td th:text="${list.releaseDate}"></td> -->
                       </tr>
                     </tbody>
                   </table>

@@ -22,6 +22,8 @@ import lombok.ToString;
 @Entity
 public class Inquiry {
 
+    private String counselingType;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -38,9 +40,8 @@ public class Inquiry {
     @Column(nullable = false)
     private String content;
 
-    // Getters Setters
-    public Long getId() {
-        return id;
+    public String getCounselingType() {
+        return counselingType;
     }
 
     public void setId(Long id) {
