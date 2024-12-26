@@ -4,6 +4,9 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.project.dto.AuthMemberDto;
 import com.example.project.dto.MovieDto;
 import com.example.project.dto.PageRequestDTO;
 import com.example.project.service.MemberFavoriteMovieService;
@@ -58,13 +62,13 @@ public class MovieRestController {
     @PostMapping("/movieDetail/{id}")
     public ResponseEntity<String> addMovieToFavorites(@PathVariable Long id) {
         log.info("rest 영화 찜하기 요청 {}", id);
-        log.info(memberFavoriteMoviesService.existsByMemberIdAndMovieId(1L, id));
-        if (!memberFavoriteMoviesService.existsByMemberIdAndMovieId(1L, id)) {
+        SecurityContext context = SecurityContextHolder.getContext();
+        Authentication authentication = context.getAuthentication();
+        AuthMemberDto authMemberDto = (AuthMemberDto) authentication.getPrincipal();
+        if (!memberFavoriteMoviesService.existsByMemberIdAndMovieId(authMemberDto.getMemberDto().getMid(), id)) {
             try {
-
                 memberFavoriteMoviesService.addFavoriteMovie(1L, id);
                 return ResponseEntity.ok("영화가 찜 목록에 추가되었습니다.");
-
             } catch (RuntimeException e) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
             }

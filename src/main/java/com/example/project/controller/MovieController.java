@@ -6,12 +6,16 @@ import lombok.extern.log4j.Log4j2;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.example.project.dto.AuthMemberDto;
 import com.example.project.dto.GenreDto;
 import com.example.project.dto.MovieDto;
 import com.example.project.dto.MoviePersonDto;
@@ -20,6 +24,7 @@ import com.example.project.dto.PageResultDTO;
 import com.example.project.dto.PersonDto;
 import com.example.project.entity.Movie;
 import com.example.project.entity.Person;
+import com.example.project.entity.constant.MemberRole;
 import com.example.project.service.GenreService;
 import com.example.project.service.MemberFavoriteMovieService;
 import com.example.project.service.MovieService;
@@ -103,8 +108,23 @@ public class MovieController {
         model.addAttribute("directorList", directorList);
         model.addAttribute("actorList", actorList);
 
-        List<Movie> favoriteMovies = memberFavoriteMovieService.getFavoriteMoviesByMemberId(2L);
-        model.addAttribute("favoriteMovies", favoriteMovies);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        // 로그인한 사용자인지 확인
+        if (authentication != null && authentication.isAuthenticated()
+                && !(authentication.getPrincipal() instanceof String)) {
+            // 로그인된 사용자일 때
+            AuthMemberDto authMemberDto = (AuthMemberDto) authentication.getPrincipal();
+            List<Movie> favoriteMovies = memberFavoriteMovieService
+                    .getFavoriteMoviesByMemberId(authMemberDto.getMemberDto().getMid());
+            model.addAttribute("favoriteMovies", favoriteMovies);
+            model.addAttribute("isExist",
+                    memberFavoriteMovieService.existsByMemberIdAndMovieId(authMemberDto.getMemberDto().getMid(), id));
+        } else {
+            // 로그인하지 않은 사용자일 때 (익명 사용자)
+            model.addAttribute("favoriteMovies", new ArrayList<>());
+            model.addAttribute("isExist", false);
+        }
     }
 
     @GetMapping("/personDetail")

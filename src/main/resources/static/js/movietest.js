@@ -1,3 +1,21 @@
+function isExistFavorite() {
+  if (isExist === "true") {
+    document.querySelector(".follow-btn").innerHTML = "찜 제거";
+  } else {
+    document.querySelector(".follow-btn").innerHTML = "찜 추가";
+  }
+}
+isExistFavorite();
+document.querySelector(".follow-btn").addEventListener("click", () => {
+  console.log("찜 버튼 클릭");
+  if (isExist === "true") {
+    isExist = "false";
+  } else {
+    isExist = "true";
+  }
+  isExistFavorite();
+});
+
 fetch(`/rest/movieDetail/${movieId}`)
   .then((response) => {
     if (!response.ok) throw new Error("에러");
@@ -124,24 +142,24 @@ fetch(`/rest/movieDetail/${movieId}`)
     });
   });
 
-  document.querySelector(".follow-btn").addEventListener("click",(e)=>{
-    console.log("클릭");
+document.querySelector(".follow-btn").addEventListener("click", (e) => {
+  console.log("클릭");
 
-    fetch(`/rest/movieDetail/${movieId}`, {
-      method: 'POST',
+  fetch(`/rest/movieDetail/${movieId}`, {
+    method: "POST",
   })
-  .then(response => {
+    .then((response) => {
       if (!response.ok) {
-          throw new Error('Failed to add to favorites');
+        throw new Error("Failed to add to favorites");
       }
       return response.text(); // 서버에서 전송된 텍스트 응답
-  })
-  .then(data => {
+    })
+    .then((data) => {
       alert(data); // 성공 메시지 표시
       // button.textContent = "Added!"; // 버튼 텍스트 변경
       // button.disabled = true; // 버튼 비활성화
-  })
-  .catch(error => {
-      alert('Failed to add to favorites: ' + error.message); // 오류 메시지
-  });
-  })
+    })
+    .catch((error) => {
+      alert("Failed to add to favorites: " + error.message); // 오류 메시지
+    });
+});

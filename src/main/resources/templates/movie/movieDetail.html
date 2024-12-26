@@ -133,9 +133,9 @@
                   </div>
                 </div>
                 <div class="anime__details__btn">
-                  <button type="button" class="btn btn-danger follow-btn"
-                    ><i class="fa fa-heart-o"></i> 찜 하기</button
-                  >
+                  <button type="button" class="btn btn-danger follow-btn">
+                    <i class="fa fa-heart-o"></i><span></span>
+                  </button>
                   <a href="#" class="watch-btn"
                     ><span>빠른 예매</span> <i class="fa fa-angle-right"></i
                   ></a>
@@ -236,6 +236,8 @@
   <th:block layout:fragment="js">
     <script>
       const movieId = "[[${movieDto.id}]]";
+      let isExist = "[[${isExist}]]";
+      console.log(typeof Boolean(isExist), isExist);
     </script>
     <script th:src="@{/js/movietest.js}"></script>
   </th:block>
