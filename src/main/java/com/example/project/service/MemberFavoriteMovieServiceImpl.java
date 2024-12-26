@@ -24,8 +24,8 @@ public class MemberFavoriteMovieServiceImpl implements MemberFavoriteMovieServic
     private final MemberRepository MemberRepository;
     private final MovieRepository movieRepository;
 
-    public void addFavoriteMovie(Long mid, Long movieId) {
-        Member member = MemberRepository.findById(mid).get();
+    public void addFavoriteMovie(Long memberId, Long movieId) {
+        Member member = MemberRepository.findById(memberId).get();
         Movie movie = movieRepository.findById(movieId).get();
 
         MemberFavoriteMovie favorite = new MemberFavoriteMovie();
@@ -35,10 +35,20 @@ public class MemberFavoriteMovieServiceImpl implements MemberFavoriteMovieServic
         favoriteMoviesRepository.save(favorite);
     }
 
-    public List<Movie> getFavoriteMoviesByMemberId(Long mid) {
-        return favoriteMoviesRepository.findByMemberId(mid).stream()
+    public List<Movie> getFavoriteMoviesByMemberId(Long memberId) {
+        return favoriteMoviesRepository.findByMemberId(memberId).stream()
                 .map(MemberFavoriteMovie::getMovie)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public boolean existsByMemberIdAndMovieId(Long memberId, Long movieId) {
+        return favoriteMoviesRepository.existsByMemberMidAndMovieId(memberId, movieId);
+    }
+
+    @Override
+    public void deleteFavoriteMovie(Long memberId, Long movieId) {
+        favoriteMoviesRepository.deleteByMemberIdAndMovieId(memberId, movieId);
     }
 
 }

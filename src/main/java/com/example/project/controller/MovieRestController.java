@@ -58,11 +58,19 @@ public class MovieRestController {
     @PostMapping("/movieDetail/{id}")
     public ResponseEntity<String> addMovieToFavorites(@PathVariable Long id) {
         log.info("rest 영화 찜하기 요청 {}", id);
-        try {
-            memberFavoriteMoviesService.addFavoriteMovie(2L, id);
-            return ResponseEntity.ok("Movie added to favorites successfully");
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        log.info(memberFavoriteMoviesService.existsByMemberIdAndMovieId(1L, id));
+        if (!memberFavoriteMoviesService.existsByMemberIdAndMovieId(1L, id)) {
+            try {
+
+                memberFavoriteMoviesService.addFavoriteMovie(1L, id);
+                return ResponseEntity.ok("영화가 찜 목록에 추가되었습니다.");
+
+            } catch (RuntimeException e) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            }
+        } else {
+            memberFavoriteMoviesService.deleteFavoriteMovie(1L, id);
+            return ResponseEntity.ok("영화가 찜 목록에서 제거되었습니다.");
         }
     }
 }
