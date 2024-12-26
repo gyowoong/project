@@ -5,6 +5,7 @@ import java.util.Set;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,8 +19,9 @@ import lombok.ToString;
 @ToString(exclude = { "moviePeople" })
 @Setter
 @Getter
+@Table(name = "people")
 @Entity
-public class People {
+public class Person extends BaseEntity {
 
     @Id
     private Long id;
@@ -30,7 +32,7 @@ public class People {
     private Double popularity;
     private String profilePath;
 
-    @OneToMany(mappedBy = "people")
-    private Set<MoviePeople> moviePeople;
+    @OneToMany(mappedBy = "person")
+    private Set<MoviePerson> moviePeople;
 
 }

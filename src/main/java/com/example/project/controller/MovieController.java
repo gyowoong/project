@@ -14,15 +14,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.project.dto.GenreDto;
 import com.example.project.dto.MovieDto;
-import com.example.project.dto.MoviePeopleDto;
+import com.example.project.dto.MoviePersonDto;
 import com.example.project.dto.PageRequestDTO;
 import com.example.project.dto.PageResultDTO;
-import com.example.project.dto.PeopleDto;
+import com.example.project.dto.PersonDto;
 import com.example.project.entity.Movie;
-import com.example.project.entity.People;
+import com.example.project.entity.Person;
 import com.example.project.service.GenreService;
+import com.example.project.service.MemberFavoriteMovieService;
 import com.example.project.service.MovieService;
-import com.example.project.service.PeopleService;
+import com.example.project.service.PersonService;
 
 @RequiredArgsConstructor
 @Log4j2
@@ -32,7 +33,8 @@ public class MovieController {
 
     private final MovieService movieService;
     private final GenreService genreService;
-    private final PeopleService peopleService;
+    private final PersonService peopleService;
+    private final MemberFavoriteMovieService memberFavoriteMovieService;
 
     @GetMapping("/main")
     public void getHome() {
@@ -64,7 +66,7 @@ public class MovieController {
             }
             if (requestDto.getType().contains("p")) {
 
-                PageResultDTO<PeopleDto, People> people = peopleService.getList(requestDto);
+                PageResultDTO<PersonDto, Person> people = peopleService.getList(requestDto);
                 log.info("토탈 {}", people.getTotalPage());
                 model.addAttribute("people", people);
 
@@ -86,10 +88,10 @@ public class MovieController {
         MovieDto movieDto = movieService.getMovieDetail(id);
         model.addAttribute("movieDto", movieDto);
 
-        List<PeopleDto> directorList = new ArrayList<>();
-        List<PeopleDto> actorList = new ArrayList<>();
-        for (PeopleDto peopleDto : movieDto.getPeopleDtos()) {
-            for (MoviePeopleDto moviePeopleDto : peopleDto.getMoviePeople()) {
+        List<PersonDto> directorList = new ArrayList<>();
+        List<PersonDto> actorList = new ArrayList<>();
+        for (PersonDto peopleDto : movieDto.getPersonDtos()) {
+            for (MoviePersonDto moviePeopleDto : peopleDto.getMoviePersonDtos()) {
                 if (moviePeopleDto.getRole() != null && moviePeopleDto.getRole().equals("Director")) {
                     directorList.add(peopleDto);
                 }
@@ -100,15 +102,18 @@ public class MovieController {
         }
         model.addAttribute("directorList", directorList);
         model.addAttribute("actorList", actorList);
+
+        List<Movie> favoriteMovies = memberFavoriteMovieService.getFavoriteMoviesByMemberId(2L);
+        model.addAttribute("favoriteMovies", favoriteMovies);
     }
 
     @GetMapping("/personDetail")
     public void getPersonDetail(Long id, @ModelAttribute("requestDto") PageRequestDTO requestDto,
             Model model) {
         log.info("personDetail 폼 요청 {}", id);
-        PeopleDto peopleDto = peopleService.read(id);
-        List<MovieDto> movieDtos = movieService.getMovieListByPersonId(id);
+        PersonDto peopleDto = peopleService.read(id);
+        // List<MovieDto> movieDtoList = movieService.getMovieListByPersonId(id);
         model.addAttribute("peopleDto", peopleDto);
-        model.addAttribute("movieDtos", movieDtos);
+        // model.addAttribute("movieDtoList", movieDtoList);
     }
 }

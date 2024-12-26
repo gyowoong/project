@@ -17,13 +17,13 @@ import org.springframework.web.client.RestTemplate;
 import com.example.project.entity.Genre;
 import com.example.project.entity.Movie;
 import com.example.project.entity.MovieGenre;
-import com.example.project.entity.MoviePeople;
-import com.example.project.entity.People;
+import com.example.project.entity.MoviePerson;
+import com.example.project.entity.Person;
 import com.example.project.repository.movie.GenreRepository;
 import com.example.project.repository.movie.MovieGenreRepository;
-import com.example.project.repository.movie.MoviePeopleRepository;
+import com.example.project.repository.movie.MoviePersonRepository;
 import com.example.project.repository.movie.MovieRepository;
-import com.example.project.repository.movie.PeopleRepository;
+import com.example.project.repository.movie.PersonRepository;
 
 import jakarta.transaction.Transactional;
 
@@ -40,10 +40,10 @@ public class MovieRepositoryTest {
         private MovieGenreRepository movieGenreRepository;
 
         @Autowired
-        private PeopleRepository peopleRepository;
+        private PersonRepository peopleRepository;
 
         @Autowired
-        private MoviePeopleRepository moviePeopleRepository;
+        private MoviePersonRepository moviePeopleRepository;
 
         // 영화와 그 영화의 장르와 그 영화의 인물들을 한번에 테이블에 담기(가져오는 수 많으면 오래 걸림 + 렉 주의)
 
@@ -163,7 +163,7 @@ public class MovieRepositoryTest {
                                                 String knownForDepartment = (String) p.get("known_for_department");
 
                                                 // People 객체에 담기
-                                                People people = People.builder()
+                                                Person people = Person.builder()
                                                                 .id(id)
                                                                 .gender(gender)
                                                                 .job(knownForDepartment)
@@ -175,12 +175,12 @@ public class MovieRepositoryTest {
                                                 peopleRepository.save(people);
 
                                                 // MoviePeople 객체에 담기 (중복 체크)
-                                                if (!moviePeopleRepository.existsByMovieIdAndPeopleId(movie.getId(),
+                                                if (!moviePeopleRepository.existsByMovieIdAndPersonId(movie.getId(),
                                                                 id)) {
-                                                        MoviePeople moviePeople = MoviePeople.builder()
+                                                        MoviePerson moviePeople = MoviePerson.builder()
                                                                         .movie(Movie.builder().id(movie.getId())
                                                                                         .build())
-                                                                        .people(People.builder().id(id).build())
+                                                                        .person(Person.builder().id(id).build())
                                                                         .role(job)
                                                                         .build();
                                                         moviePeopleRepository.save(moviePeople); // 중복되지 않으면 저장
@@ -203,7 +203,7 @@ public class MovieRepositoryTest {
                                                 String character = (String) p.get("character");
 
                                                 // People 객체에 담기
-                                                People people = People.builder()
+                                                Person people = Person.builder()
                                                                 .id(id)
                                                                 .gender(gender)
                                                                 .job("Acting")
@@ -215,12 +215,12 @@ public class MovieRepositoryTest {
                                                 peopleRepository.save(people);
 
                                                 // MoviePeople 객체에 담기 (중복 체크)
-                                                if (!moviePeopleRepository.existsByMovieIdAndPeopleId(movie.getId(),
+                                                if (!moviePeopleRepository.existsByMovieIdAndPersonId(movie.getId(),
                                                                 id)) {
-                                                        MoviePeople moviePeople = MoviePeople.builder()
+                                                        MoviePerson moviePeople = MoviePerson.builder()
                                                                         .movie(Movie.builder().id(movie.getId())
                                                                                         .build())
-                                                                        .people(People.builder().id(id).build())
+                                                                        .person(Person.builder().id(id).build())
                                                                         .character(character)
                                                                         .build();
                                                         moviePeopleRepository.save(moviePeople); // 중복되지 않으면 저장

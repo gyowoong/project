@@ -115,7 +115,7 @@
                           <span>장르:</span>
                           <!-- 리스트의 모든 감독 이름을 출력 -->
                           <span
-                            th:each="genre, iterStat : ${movieDto.genresDtos}"
+                            th:each="genre, iterStat : ${movieDto.genreDtos}"
                           >
                             <span th:text="${genre.name}"></span
                             ><span th:if="${!iterStat.last}">,&nbsp</span>
@@ -133,8 +133,8 @@
                   </div>
                 </div>
                 <div class="anime__details__btn">
-                  <a href="#" class="follow-btn"
-                    ><i class="fa fa-heart-o"></i> 찜 하기</a
+                  <button type="button" class="btn btn-danger follow-btn"
+                    ><i class="fa fa-heart-o"></i> 찜 하기</button
                   >
                   <a href="#" class="watch-btn"
                     ><span>빠른 예매</span> <i class="fa fa-angle-right"></i

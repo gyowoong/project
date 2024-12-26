@@ -7,17 +7,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.project.dto.MovieDto;
 import com.example.project.dto.PageRequestDTO;
-import com.example.project.dto.PageResultDTO;
-import com.example.project.dto.PeopleDto;
-import com.example.project.entity.Movie;
+import com.example.project.service.MemberFavoriteMovieService;
 import com.example.project.service.MovieService;
-import com.example.project.service.PeopleService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -29,7 +27,7 @@ import lombok.extern.log4j.Log4j2;
 public class MovieRestController {
 
     private final MovieService movieService;
-    private final PeopleService peopleService;
+    private final MemberFavoriteMovieService memberFavoriteMoviesService;
 
     // @GetMapping("/movieList")
     // public ResponseEntity<PageResultDTO<MovieDto, Movie>> getList(
@@ -47,4 +45,32 @@ public class MovieRestController {
         return new ResponseEntity<>(movieDto, HttpStatus.OK);
     }
 
+    @GetMapping("/personDetail/{id}")
+    public ResponseEntity<List<MovieDto>> getPersonDetail(@PathVariable Long id,
+            @ModelAttribute("requestDto") @RequestBody PageRequestDTO requestDto) {
+        log.info("rest 영화 전체 목록 요청 {}", id);
+        List<MovieDto> movieDtoList = movieService.getMovieListByPersonId(id);
+        log.info("rest 영화 전체 목록 요청 {}", movieDtoList);
+
+        return new ResponseEntity<>(movieDtoList, HttpStatus.OK);
+    }
+
+    @PostMapping("/movieDetail/{id}")
+    public ResponseEntity<String> addMovieToFavorites(@PathVariable Long id) {
+        log.info("rest 영화 찜하기 요청 {}", id);
+        log.info(memberFavoriteMoviesService.existsByMemberIdAndMovieId(1L, id));
+        if (!memberFavoriteMoviesService.existsByMemberIdAndMovieId(1L, id)) {
+            try {
+
+                memberFavoriteMoviesService.addFavoriteMovie(1L, id);
+                return ResponseEntity.ok("영화가 찜 목록에 추가되었습니다.");
+
+            } catch (RuntimeException e) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            }
+        } else {
+            memberFavoriteMoviesService.deleteFavoriteMovie(1L, id);
+            return ResponseEntity.ok("영화가 찜 목록에서 제거되었습니다.");
+        }
+    }
 }
