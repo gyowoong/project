@@ -19,6 +19,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class MemberDto {
+    private Long mid;
 
     @NotBlank(message = "아이디를 입력해주세요.")
     private String memberId;
